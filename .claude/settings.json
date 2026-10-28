@@ -1,0 +1,56 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun run check)",
+      "Bash(bun run compile)",
+      "Bash(bun run lint)",
+      "Bash(bun run lint:check)",
+      "Bash(bun run test)",
+      "Bash(bun run test *)",
+      "Bash(bun run deps:check)",
+      "Bash(bun run doctor)",
+      "Bash(bun run gen)",
+      "Bash(bun run gen:*)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "ask": [
+      "Bash(bun add *)",
+      "Bash(bun remove *)",
+      "Bash(bunx expo install *)",
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.development)",
+      "Read(./.env.staging)",
+      "Read(./.env.production)",
+      "Edit(./android/**)",
+      "Edit(./ios/**)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(yarn *)",
+      "Bash(pnpm *)",
+      "Bash(bun test)",
+      "Bash(bun test *)",
+      "Bash(rm -rf *)",
+      "Bash(cat .env*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint-on-edit.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

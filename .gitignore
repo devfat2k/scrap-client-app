@@ -89,7 +89,9 @@ web-build/
 
 # Dependency Graph Visualizations
 app-dependency-graph.svg
-app-dependency-graph.png.expo/
+app-dependency-graph.png
+
 .expo/
+
 .claude/settings.local.json
 CLAUDE.local.md
