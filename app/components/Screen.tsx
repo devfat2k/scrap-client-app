@@ -10,7 +10,8 @@ import {
   ViewStyle,
 } from "react-native"
 import { useScrollToTop } from "@react-navigation/native"
-import { SystemBars, SystemBarsProps, SystemBarStyle } from "react-native-edge-to-edge"
+// import { SystemBars, SystemBarsProps, SystemBarStyle } from "react-native-edge-to-edge"
+import { StatusBar, type StatusBarProps, type StatusBarStyle } from "expo-status-bar"
 import {
   KeyboardAwareScrollView,
   type KeyboardAwareScrollViewRef,
@@ -46,7 +47,8 @@ interface BaseScreenProps {
   /**
    * System bar setting. Defaults to dark.
    */
-  systemBarStyle?: SystemBarStyle
+  // systemBarStyle?: SystemBarStyle
+  systemBarStyle?: StatusBarStyle
   /**
    * By how much should we offset the keyboard? Defaults to 0.
    */
@@ -58,7 +60,8 @@ interface BaseScreenProps {
   /**
    * Pass any additional props directly to the SystemBars component.
    */
-  SystemBarsProps?: SystemBarsProps
+  // SystemBarsProps?: SystemBarsProps
+  StatusBarProps?: StatusBarProps
   /**
    * Pass any additional props directly to the KeyboardAvoidingView component.
    */
@@ -250,7 +253,7 @@ export function Screen(props: ScreenProps) {
     KeyboardAvoidingViewProps,
     keyboardOffset = 0,
     safeAreaEdges,
-    SystemBarsProps,
+    StatusBarProps,
     systemBarStyle,
   } = props
 
@@ -264,9 +267,9 @@ export function Screen(props: ScreenProps) {
         $containerInsets,
       ]}
     >
-      <SystemBars
+      <StatusBar
         style={systemBarStyle || (themeContext === "dark" ? "light" : "dark")}
-        {...SystemBarsProps}
+        {...StatusBarProps}
       />
 
       <KeyboardAvoidingView
