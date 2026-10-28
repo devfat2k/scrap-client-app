@@ -9,9 +9,9 @@ import {
   View,
   ViewStyle,
 } from "react-native"
+import { StatusBar, type StatusBarProps, type StatusBarStyle } from "expo-status-bar"
 import { useScrollToTop } from "@react-navigation/native"
 // import { SystemBars, SystemBarsProps, SystemBarStyle } from "react-native-edge-to-edge"
-import { StatusBar, type StatusBarProps, type StatusBarStyle } from "expo-status-bar"
 import {
   KeyboardAwareScrollView,
   type KeyboardAwareScrollViewRef,
