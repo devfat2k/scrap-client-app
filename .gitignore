@@ -91,3 +91,5 @@ web-build/
 app-dependency-graph.svg
 app-dependency-graph.png.expo/
 .expo/
+.claude/settings.local.json
+CLAUDE.local.md
