@@ -20,7 +20,12 @@ export const WelcomeScreen: FC = function WelcomeScreen() {
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <View style={themed($topContainer)}>
-        <Image style={themed($welcomeLogo)} source={welcomeLogo} resizeMode="contain" />
+        <Image
+          style={themed($welcomeLogo)}
+          source={welcomeLogo}
+          resizeMode="contain"
+          accessibilityLabel="App logo"
+        />
         <Text
           testID="welcome-heading"
           style={themed($welcomeHeading)}
@@ -33,6 +38,7 @@ export const WelcomeScreen: FC = function WelcomeScreen() {
           source={welcomeFace}
           resizeMode="contain"
           tintColor={theme.colors.palette.neutral900}
+          accessibilityLabel="Welcome illustration"
         />
       </View>
 

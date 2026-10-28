@@ -5,39 +5,12 @@
 import { format } from "date-fns/format"
 import type { Locale } from "date-fns/locale"
 import { parseISO } from "date-fns/parseISO"
-import i18n from "i18next"
 
 type Options = Parameters<typeof format>[2]
 
 let dateFnsLocale: Locale
 export const loadDateFnsLocale = () => {
-  const primaryTag = i18n.language.split("-")[0]
-  switch (primaryTag) {
-    case "en":
-      dateFnsLocale = require("date-fns/locale/en-US").default
-      break
-    case "ar":
-      dateFnsLocale = require("date-fns/locale/ar").default
-      break
-    case "ko":
-      dateFnsLocale = require("date-fns/locale/ko").default
-      break
-    case "es":
-      dateFnsLocale = require("date-fns/locale/es").default
-      break
-    case "fr":
-      dateFnsLocale = require("date-fns/locale/fr").default
-      break
-    case "hi":
-      dateFnsLocale = require("date-fns/locale/hi").default
-      break
-    case "ja":
-      dateFnsLocale = require("date-fns/locale/ja").default
-      break
-    default:
-      dateFnsLocale = require("date-fns/locale/en-US").default
-      break
-  }
+  dateFnsLocale = require("date-fns/locale/en-AU").default
 }
 
 export const formatDate = (date: string, dateFormat?: string, options?: Options) => {
@@ -45,5 +18,5 @@ export const formatDate = (date: string, dateFormat?: string, options?: Options)
     ...options,
     locale: dateFnsLocale,
   }
-  return format(parseISO(date), dateFormat ?? "MMM dd, yyyy", dateOptions)
+  return format(parseISO(date), dateFormat ?? "dd/MM/yyyy", dateOptions)
 }

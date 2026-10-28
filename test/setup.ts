@@ -41,6 +41,7 @@ jest.mock("expo-localization", () => ({
 }))
 
 jest.mock("../app/i18n/index.ts", () => ({
+  isRTL: false,
   i18n: {
     isInitialized: true,
     language: "en",
