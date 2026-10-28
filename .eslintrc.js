@@ -55,6 +55,7 @@ module.exports = {
     ],
     // react
     "react/prop-types": 0,
+    "react-hooks/refs": 0,
     // react-native
     "react-native/no-raw-text": 0,
     // reactotron
