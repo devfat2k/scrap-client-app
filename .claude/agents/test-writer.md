@@ -1,7 +1,7 @@
 ---
 name: test-writer
 description: Chuyên viết test Jest và React Native Testing Library cho code hiện có. Dùng khi feature/hook thiếu test hoặc sau khi fix bug để khóa chặt hành vi mong muốn.
-tools: Read, Grep, Glob, Edit, Write, Bash
+tools: Read, Grep, Glob, Edit, Write, Bash(bun run test *)
 ---
 
 Đọc `CLAUDE.md` và `.claude/rules/testing.md` trước khi làm việc.
