@@ -29,6 +29,14 @@ module.exports = {
     "@typescript-eslint/no-require-imports": 0,
     "@typescript-eslint/no-empty-object-type": 0,
     // eslint
+    "max-lines": [
+      "error",
+      {
+        max: 150,
+        skipBlankLines: true,
+        skipComments: true,
+      },
+    ],
     "no-use-before-define": 0,
     "no-restricted-imports": [
       "error",
@@ -103,4 +111,12 @@ module.exports = {
     ],
     "import/newline-after-import": 1,
   },
+  overrides: [
+    {
+      files: ["app/components/**"],
+      rules: {
+        "max-lines": "off", // Ignite shared boilerplate UI primitives
+      },
+    },
+  ],
 }
