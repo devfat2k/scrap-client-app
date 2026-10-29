@@ -1,3 +1,10 @@
+---
+paths:
+  - "app/services/**"
+  - "app/features/**"
+  - "app/utils/**"
+---
+
 # Security & Privacy Rules
 
 - **Dữ liệu cá nhân (PII)**: Ứng dụng xử lý thông tin cá nhân nhạy cảm (Họ tên, SĐT, địa chỉ nhà riêng, ảnh chụp khuôn viên/tài sản). Phải tuân thủ nghiêm ngặt theo đạo luật bảo vệ quyền riêng tư của Úc (Privacy Act).

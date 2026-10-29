@@ -28,31 +28,20 @@ Out of scope: in-app payment, price negotiation, maps, chat, web, the Driver/Col
 - Some product decisions are still OPEN (docs/product/open-questions.md). If a task depends on an OPEN item, STOP and ask the user. Do not guess.
 
 ## Coding rules
-- ≤ 150 lines per file. Split by boundary (UI / logic / data), not mechanically.
+- ≤ 150 lines per file (enforced by ESLint `max-lines`). Split by boundary (UI / logic / data), not mechanically.
 - No `any` — use `unknown` + type guard. No `console.log` — use Reactotron.
-- Names must be self-describing. No vague abbreviations.
 - Comment only "why", never "what".
 - Every screen/component must handle: loading, empty, error, offline states.
-- All text through i18n (`tx` prop or `translate()`). No literal strings. Language: English only; add others only when explicitly requested.
-- Theme tokens only — no hardcoded hex, no magic spacing numbers.
-- `accessibilityLabel` required on all touchables and images.
 - Mock data: 1 sample item or ternary fallback — no large fake arrays.
-- Reuse Ignite components and shared code before creating new ones.
-- Badge animation: one-time only (fade-in/scale-in) when a new status first appears. No blinking/looping. Must have a clear reason.
-- State: NO MobX-State-Tree. Use Context (current) → Zustand (when needed). TanStack Query for server state. Never mirror server data into Zustand.
-- API layer: Screen → Hook → API function → apisauce. Each layer clearly separated.
-
-## Structure
-app/features/<feature>/{screens,components,api,hooks,schemas,types.ts}; app/components (shared UI); app/services (api, realtime, push, storage); app/domain (shared enums/constants); app/theme; app/i18n (en); app/navigators.
-Detailed conventions live in .claude/rules/ and load when you work on matching files.
+- Status UI: CẤM tuyệt đối component Badge và hiệu ứng chớp nháy. Dùng Text thuần + Icon tiêu chuẩn.
+- Detailed conventions auto-load from `.claude/rules/` (api, architecture, domain, i18n, navigation, security-privacy, state, testing, ui).
 
 ## Workflow
 1. For complex tasks: use brainstorming → writing-plans (Superpowers). Specs and plans saved in `docs/superpowers/`. Wait for user approval before coding.
 2. Changes touching more than 3 files: write a short plan first and wait for approval.
-3. Follow existing Ignite conventions in the repo before inventing new ones.
-4. Small, focused diffs. Add or update tests with the change.
-5. Run `bun run check` and report the real result. Never claim success if anything fails.
-6. Conventional commits (feat:, fix:, chore:, refactor:, test:, docs:).
+3. Small, focused diffs. Add or update tests with the change.
+4. Run `bun run check` and report the real result. Never claim success if anything fails.
+5. Conventional commits (feat:, fix:, chore:, refactor:, test:, docs:).
 
 ## Read on demand (not auto-loaded)
 docs/product/client-app-scope.md, order-status.md, open-questions.md, decisions.md

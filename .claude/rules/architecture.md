@@ -11,7 +11,7 @@ paths:
 - **API Boundary**: Component không bao giờ gọi apisauce trực tiếp. Toàn bộ HTTP đi qua `app/services/api` và feature `api/`.
 - **Shared Domain**: Enum và hằng số dùng chung (order status, scrap categories, AU states) nằm ở `app/domain` làm single source of truth.
 - **Navigation**: React Navigation 7. Typed params trong `app/navigators/navigationTypes.ts`. Không dùng Expo Router.
-- **Giới hạn dòng code**: Tối đa 150 dòng/file. Chia nhỏ theo boundary kiến trúc, không chia cắt cơ học.
+- **Giới hạn dòng code**: Tối đa 150 dòng/file (ESLint `max-lines` bắt lỗi tự động). Chia nhỏ theo boundary kiến trúc, không chia cắt cơ học.
 - **Naming Conventions**: Components `PascalCase.tsx`, hooks `useThing.ts`, utils/services `camelCase.ts`. Một exported component mỗi file.
 - **Clean Code**: Không circular imports. Không barrel files re-export toàn bộ feature. Không dùng `any` (dùng `unknown` + type guard). Không `console.log` trong code commit (dùng Reactotron). Tên biến và hàm phải tự mô tả, không viết tắt mơ hồ.
 - **Generated Code**: Không chỉnh sửa file generated (`app/components/icons/generated/*`, `assets/images/generated/*`). Chạy `bun run gen`.
