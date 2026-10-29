@@ -1,7 +1,6 @@
 ---
 name: new-screen
-description: Tạo màn hình mới cho Scrap Client App (screen + navigation + i18n + states)
-disable-model-invocation: true
+description: Tạo màn hình mới cho Scrap Client App (screen + navigation + i18n + states). Dùng khi được yêu cầu tạo mới một màn hình hoặc UI screen.
 ---
 Tạo màn hình `$ARGUMENTS` theo các bước:
 1. Đọc 1 screen hiện có trong `app/screens/` hoặc `app/features/` làm mẫu về cấu trúc.

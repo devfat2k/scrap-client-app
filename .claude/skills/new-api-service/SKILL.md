@@ -1,7 +1,6 @@
 ---
 name: new-api-service
-description: Thêm service API + hook TanStack Query cho một domain mới
-disable-model-invocation: true
+description: Thêm service API và hook TanStack Query cho domain mới. Dùng khi tạo endpoint, API service hoặc custom hook data fetching.
 ---
 Thêm API cho `$ARGUMENTS`:
 1. Đọc `app/services/api/` và một service có sẵn để theo đúng pattern.
