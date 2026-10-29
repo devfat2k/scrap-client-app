@@ -25,14 +25,14 @@ Người dân tại Úc đặt lịch thu mua phế liệu tận nơi và theo d
 | C01 | Tạo yêu cầu thu mua | Chọn loại phế liệu, ước lượng thể tích, tối đa 3 ảnh, địa chỉ tách trường, giờ mong muốn | MVP |
 | C02 | Popup khách vãng lai | Nhập Họ tên + SĐT khi chưa đăng nhập | MVP |
 | C03 | Màn hình gửi thành công | Ẩn header, không nút Back, hiển thị thông tin tóm tắt và nút sang chi tiết đơn | MVP |
-| C04 | Chi tiết đơn: Chờ xử lý | Header xám, badge "Pending", đơn giá ghi "Chờ báo giá" | MVP |
-| C05 | Chi tiết đơn: Đã báo giá | Header xanh lá, badge "Quote ready" (animation nhẹ 1 lần, không chớp nháy), giá tạm tính, thể tích/giờ thu công ty chốt, kèm disclaimer | MVP |
+| C04 | Chi tiết đơn: Chờ xử lý | Header xám, text trạng thái "Pending" + icon, đơn giá ghi "Chờ báo giá" (cấm badge, không animation) | MVP |
+| C05 | Chi tiết đơn: Đã báo giá | Header xanh lá, text trạng thái "Quote ready" + icon (cấm badge, không animation), giá tạm tính, thể tích/giờ thu công ty chốt, kèm disclaimer | MVP |
 | C06 | Đăng nhập & giữ phiên | Xác thực JWT, lưu token an toàn | MVP |
 | C07 | Trung tâm thông báo | Lưu lịch sử thông báo, nhận realtime qua WebSocket/Push | MVP |
 | C08 | Ngôn ngữ | Tiếng Anh là ngôn ngữ chính duy nhất cho thị trường Úc | MVP |
 | C09 | Xử lý mất mạng | Thông báo mất kết nối, chặn gọi API, giữ nguyên dữ liệu form đã nhập | MVP |
 | C10 | Danh sách đơn của tôi | Danh sách đơn hàng theo trạng thái, xem lại lịch sử | MVP |
-| C11 | Theo dõi sau báo giá | Đã điều xe (Scheduled/Dispatched), hoàn tất | MVP |
+| C11 | Theo dõi sau báo giá | Đã điều xe (Scheduled/Dispatched), đang sắp xếp lại lịch (Rescheduling), hoàn tất (Completed) | MVP |
 | C12 | Xem biên nhận (Receipt) | Xem lại hóa đơn/phiếu thu sau khi hoàn tất | Giai đoạn 2 |
 | C13 | Xác nhận bán qua CTV | Khách hàng bấm xác nhận đã bán qua cộng tác viên | Khi có app CTV |
 | C14 | Phản ánh dịch vụ / CTV | Gửi ý kiến phản hồi | Khi có app CTV |

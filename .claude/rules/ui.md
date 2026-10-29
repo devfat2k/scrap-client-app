@@ -11,5 +11,5 @@ paths:
 - **Danh sách dài**: Dùng `FlatList` (kèm memoized item và stable keyExtractor), KHÔNG dùng `ScrollView` + `map()`.
 - **UI States**: Mọi màn hình/component chính phải xử lý đủ các trạng thái: Loading (skeleton/spinner), Error, Empty, Offline.
 - **A11y**: Bắt buộc có `accessibilityLabel` trên mọi phần tử tương tác (Button, Touchable, Switch) và hình ảnh.
-- **File Length**: Giới hạn tối đa 150 dòng/file.
-- **Badge Animation**: Cho phép animation nhẹ 1 lần (fade-in, scale-in) khi trạng thái mới xuất hiện. CẤM badge nhấp nháy/chớp nháy hoặc lặp liên tục.
+- **File Length**: Giới hạn tối đa 150 dòng/file (ESLint `max-lines` bắt lỗi tự động).
+- **Status UI**: CẤM tuyệt đối component Badge và mọi hiệu ứng chuyển động hay chớp nháy cho trạng thái đơn hàng. Dùng Text thuần kết hợp Icon tiêu chuẩn.

@@ -15,7 +15,7 @@ Ghi nhận các quyết định kỹ thuật quan trọng của dự án. File n
   - Phân tách theo boundary kiến trúc, không chia nhỏ cơ học.
   - Tuyệt đối không dùng magic numbers; toàn bộ kích thước, màu sắc phải lấy từ theme tokens hoặc domain constants.
   - Xử lý đầy đủ 4 trạng thái trên UI: Loading, Error, Empty, Offline.
-  - Không dùng badge chớp nháy/nhấp nháy; chỉ cho phép hiệu ứng xuất hiện nhẹ 1 lần (fade-in/scale-in) có kiểm soát cho trạng thái mới.
+  - Cấm tuyệt đối component Badge và mọi hiệu ứng animation, chớp nháy cho trạng thái đơn hàng. Trạng thái được thể hiện bằng Text thuần kết hợp Icon tiêu chuẩn.
   - Mock data tối thiểu: chỉ 1 item mẫu hoặc ternary fallback, không tạo mảng dữ liệu giả bừa bãi.
   - Không dùng `any` trong TypeScript; không dùng `console.log` trong production code.
   - Comment code giải thích "tại sao", không comment mô tả "làm gì".
@@ -32,3 +32,9 @@ Ghi nhận các quyết định kỹ thuật quan trọng của dự án. File n
   - Expo SDK 57 (RN 0.86) với Prebuild / CNG. Thư mục `android/` và `ios/` được sinh tự động, không can thiệp thủ công.
   - Bỏ `react-native-edge-to-edge` (deprecated từ SDK 54+); dùng `StatusBar` từ `expo-status-bar`.
   - Sử dụng React Navigation 7, không dùng Expo Router.
+
+- **2026-10-29: Đồng bộ Hạ tầng AI & Quy định Trạng thái Đơn hàng**
+  - Chốt Phương án A: Cấm hoàn toàn component Badge trên UI. Hiển thị trạng thái bằng Text thuần + Icon tiêu chuẩn trong Header, không animation.
+  - Giữ nguyên trạng thái `RESCHEDULING` (Đang sắp xếp lại lịch) trong enum domain và bổ sung luồng hiển thị trên UI.
+  - Đưa quy định ≤ 150 dòng/file lên Tầng 1 qua ESLint `max-lines`.
+  - Gán `paths` chặt chẽ cho toàn bộ rules trong `.claude/rules/` để tránh loãng ngữ cảnh.
