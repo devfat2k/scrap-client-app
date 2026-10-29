@@ -38,3 +38,7 @@ Ghi nhận các quyết định kỹ thuật quan trọng của dự án. File n
   - Giữ nguyên trạng thái `RESCHEDULING` (Đang sắp xếp lại lịch) trong enum domain và bổ sung luồng hiển thị trên UI.
   - Đưa quy định ≤ 150 dòng/file lên Tầng 1 qua ESLint `max-lines`.
   - Gán `paths` chặt chẽ cho toàn bộ rules trong `.claude/rules/` để tránh loãng ngữ cảnh.
+
+- **2026-10-29: Chuyển đổi Font chủ đạo sang Inter**
+  - Chuyển `typography.primary` từ `Space Grotesk` sang `Inter` (`@expo-google-fonts/inter`).
+  - Lý do: Tối ưu khả năng đọc (legibility & readability) cho giao diện nhập liệu/giao dịch (form đặt đơn, bảng giá AUD, biên lai) bằng tiếng Anh. Đảm bảo trải nghiệm native và metric đồng nhất trên cả iOS và Android.

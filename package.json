@@ -38,7 +38,7 @@
     "build:android:prod": "bunx eas-cli build --profile production --platform android --local"
   },
   "dependencies": {
-    "@expo-google-fonts/space-grotesk": "^0.4.0",
+    "@expo-google-fonts/inter": "^0.4.2",
     "@expo/metro-runtime": "~57.0.17",
     "@react-native-community/netinfo": "^12.0.1",
     "@react-navigation/bottom-tabs": "^7.2.0",
