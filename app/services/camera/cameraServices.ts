@@ -6,7 +6,7 @@ import { compressAndNormalizeImage } from "./imageCompressor"
 import { validateProcessedAsset, validateRawAsset } from "./imageValidator"
 
 const defaultOptions: ImagePicker.ImagePickerOptions = {
-  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  mediaTypes: ["images"],
   allowsEditing: false,
   quality: 0.9,
   exif: false,
