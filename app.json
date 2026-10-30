@@ -34,6 +34,13 @@
     "expo-localization",
     "expo-font",
     [
+      "expo-image-picker",
+      {
+        "photosPermission": "The app needs access to your photos to attach scrap images to pickup requests.",
+        "cameraPermission": "The app needs access to your camera to take scrap photos."
+      }
+    ],
+    [
       "expo-splash-screen",
       {
         "image": "./assets/images/app-icon-android-adaptive-foreground.png",
