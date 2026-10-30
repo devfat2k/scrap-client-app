@@ -14,57 +14,51 @@ const defaultOptions: ImagePicker.ImagePickerOptions = {
 }
 
 function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message
-  return String(error)
+  return error instanceof Error ? error.message : String(error)
 }
 
-/**
- * Open device system settings when permissions are permanently blocked
- */
 export async function openAppSettings(): Promise<void> {
   await Linking.openSettings()
 }
 
-/**
- * Processes, validates and normalizes raw assets selected by user
- */
 async function processSelectedAssets(
   rawAssets: ImagePicker.ImagePickerAsset[],
 ): Promise<PickerResult> {
   const processedAssets: ProcessedAsset[] = []
-
   for (const rawAsset of rawAssets) {
-    const rawValidation = validateRawAsset(rawAsset)
-    if (!rawValidation.valid) {
+    const rawVal = validateRawAsset(rawAsset)
+    if (!rawVal.valid) {
       return {
         canceled: false,
         assets: [],
-        errorCode: rawValidation.errorCode ?? "others",
-        errorMessage: rawValidation.errorMessage,
+        errorCode: rawVal.errorCode ?? "others",
+        errorMessage: rawVal.errorMessage,
       }
     }
-
-    const compressed = await compressAndNormalizeImage(rawAsset)
-
-    const processedValidation = validateProcessedAsset(compressed)
-    if (!processedValidation.valid) {
+    try {
+      const compressed = await compressAndNormalizeImage(rawAsset)
+      const postVal = validateProcessedAsset(compressed)
+      if (!postVal.valid) {
+        return {
+          canceled: false,
+          assets: [],
+          errorCode: postVal.errorCode ?? "others",
+          errorMessage: postVal.errorMessage,
+        }
+      }
+      processedAssets.push(compressed)
+    } catch (error: unknown) {
       return {
         canceled: false,
         assets: [],
-        errorCode: processedValidation.errorCode ?? "others",
-        errorMessage: processedValidation.errorMessage,
+        errorCode: "others",
+        errorMessage: getErrorMessage(error),
       }
     }
-
-    processedAssets.push(compressed)
   }
-
   return { canceled: false, assets: processedAssets }
 }
 
-/**
- * Pick a single image from the media library
- */
 export async function pickImage(
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
 ): Promise<PickerResult> {
@@ -78,7 +72,6 @@ export async function pickImage(
       canAskAgain: perm.canAskAgain,
     }
   }
-
   try {
     const res = await ImagePicker.launchImageLibraryAsync({
       ...defaultOptions,
@@ -97,9 +90,6 @@ export async function pickImage(
   }
 }
 
-/**
- * Pick multiple images from media library (defaults to max 3 for scrap pickup)
- */
 export async function pickImages(
   maxPhotos = 3,
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
@@ -114,7 +104,6 @@ export async function pickImages(
       canAskAgain: perm.canAskAgain,
     }
   }
-
   try {
     const res = await ImagePicker.launchImageLibraryAsync({
       ...defaultOptions,
@@ -123,7 +112,7 @@ export async function pickImages(
       ...overrides,
     })
     if (res.canceled) return { canceled: true, assets: [] }
-    return await processSelectedAssets(res.assets ?? [])
+    return await processSelectedAssets((res.assets ?? []).slice(0, maxPhotos))
   } catch (error: unknown) {
     return {
       canceled: false,
@@ -134,9 +123,6 @@ export async function pickImages(
   }
 }
 
-/**
- * Open camera to take a photo
- */
 export async function takePhoto(
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
 ): Promise<PickerResult> {
@@ -150,7 +136,6 @@ export async function takePhoto(
       canAskAgain: perm.canAskAgain,
     }
   }
-
   try {
     const res = await ImagePicker.launchCameraAsync({
       ...defaultOptions,
@@ -160,11 +145,13 @@ export async function takePhoto(
     if (res.canceled) return { canceled: true, assets: [] }
     return await processSelectedAssets(res.assets ?? [])
   } catch (error: unknown) {
+    const msg = getErrorMessage(error)
+    const isUnavailable = msg.toLowerCase().includes("camera not available")
     return {
       canceled: false,
       assets: [],
-      errorCode: "others",
-      errorMessage: getErrorMessage(error),
+      errorCode: isUnavailable ? "camera_unavailable" : "others",
+      errorMessage: msg,
     }
   }
 }

@@ -8,6 +8,14 @@ import {
   ValidationResult,
 } from "./cameraTypes"
 
+const ALLOWED_EXTENSIONS = [".jpg", ".jpeg", ".png", ".heic", ".heif", ".webp"]
+
+function hasAllowedExtension(pathOrName?: string): boolean {
+  if (!pathOrName) return true
+  const lower = pathOrName.toLowerCase()
+  return ALLOWED_EXTENSIONS.some((ext) => lower.endsWith(ext))
+}
+
 /**
  * Validate raw asset returned by ImagePicker before any heavy processing
  */
@@ -20,7 +28,15 @@ export function validateRawAsset(asset: ImagePicker.ImagePickerAsset): Validatio
     }
   }
 
-  if (asset.mimeType && !ALLOWED_MIME_TYPES.includes(asset.mimeType.toLowerCase())) {
+  if (asset.mimeType) {
+    if (!ALLOWED_MIME_TYPES.includes(asset.mimeType.toLowerCase())) {
+      return {
+        valid: false,
+        errorCode: "invalid_format",
+        errorMessage: "Unsupported format. Only JPG, PNG, HEIC, and WEBP are allowed.",
+      }
+    }
+  } else if (!hasAllowedExtension(asset.fileName ?? asset.uri)) {
     return {
       valid: false,
       errorCode: "invalid_format",
