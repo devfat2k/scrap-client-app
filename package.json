@@ -44,6 +44,7 @@
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
+    "@sentry/react-native": "~7.11.0",
     "@tanstack/query-async-storage-persister": "^5.105.0",
     "@tanstack/react-query": "^5.105.0",
     "@tanstack/react-query-persist-client": "^5.105.0",
@@ -110,6 +111,7 @@
     "tsx": "^4.20.3",
     "typescript": "~6.0.3"
   },
+  "trustedDependencies": ["@sentry/cli"],
   "engines": {
     "node": ">=20.0.0"
   }
