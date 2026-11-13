@@ -1,6 +1,6 @@
 import "@expo/metro-runtime" // this is for fast refresh on web w/o expo-router
-import * as Sentry from "@sentry/react-native"
 import { registerRootComponent } from "expo"
+import * as Sentry from "@sentry/react-native"
 
 import { App } from "@/app"
 import { initCrashReporting } from "@/utils/crashReporting"
