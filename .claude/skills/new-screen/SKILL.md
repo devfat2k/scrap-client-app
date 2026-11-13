@@ -3,6 +3,7 @@ name: new-screen
 description: Tạo màn hình mới cho Scrap Client App (screen + navigation + i18n + states). Dùng khi được yêu cầu tạo mới một màn hình hoặc UI screen.
 ---
 Tạo màn hình `$ARGUMENTS` theo các bước:
+0. TIỀN ĐIỀU KIỆN: Phải có Spec & Plan đã được user duyệt trong `docs/superpowers/`. Nếu chưa có, DỪNG LẠI và yêu cầu brainstorm/lập plan trước.
 1. Đọc 1 screen hiện có trong `app/screens/` hoặc `app/features/` làm mẫu về cấu trúc.
 2. Dùng generator của Ignite nếu phù hợp (kiểm tra bằng `bunx ignite-cli generate --help`).
 3. Dùng `Screen` + `useAppTheme()` + `translate()`; không import component UI thô từ `react-native`.

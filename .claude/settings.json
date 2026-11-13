@@ -48,20 +48,6 @@
           {
             "type": "command",
             "command": "bun \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint-on-edit.mjs"
-          },
-          {
-        "type": "command",
-        "command": "echo 'Nhắc quy trình: nếu đây là task thêm/sửa tính năng, màn hình hoặc API (không phải typo/đổi text), hãy dùng skill brainstorming, lưu spec vào docs/superpowers/ và chờ tôi duyệt trước khi viết code.'"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bun \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/verify-on-stop.mjs"
           }
         ]
       }
