@@ -23,7 +23,7 @@ MỌI task (thêm/sửa tính năng, màn hình, luồng nghiệp vụ, API, dom
 
 3. **Lập Plan (Implementation Plan):**
    - Dùng skill `superpowers:writing-plans` lập plan tại `docs/superpowers/plans/YYYY-MM-DD-<topic>.md`.
-   - Chia nhỏ thành từng bước cụ thể, file nào sửa gì, test ra sao.
+   - Chia nhỏ thành từng bước cụ thể, file nào sửa gì, cách verify ra sao (không tạo file .test).
 
 4. **CHỜ USER DUYỆT (HARD STOP):**
    - **CẤM tuyệt đối gọi `Edit`, `Write` hoặc sinh file TRƯỚC KHI người dùng xác nhận duyệt plan** (ví dụ: "ok", "tiến hành", "approved").
@@ -131,7 +131,7 @@ Local builds via `bun run build:<platform>:<profile>`. Profiles: `development`, 
 
 ## Quy chuẩn hoàn thành task
 1. Tuân thủ Hard Gate: Brainstorm → Spec → Plan → Duyệt → Code.
-2. Diffs nhỏ, tập trung. Luôn viết hoặc cập nhật unit tests đi kèm.
+2. Diffs nhỏ, tập trung. KHÔNG tạo file .test trong quá trình làm task (đã loại bỏ khỏi quy trình để tối ưu thời gian; chỉ viết test khi người dùng yêu cầu đích danh).
 3. Chạy `bun run check` (compile + lint:check + deps:check + test). Phải pass 100% trước khi thông báo hoàn thành.
 4. Conventional commits (feat:, fix:, chore:, refactor:, test:, docs:). Không bao giờ commit khi test hoặc lint lỗi.
 
