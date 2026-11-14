@@ -24,7 +24,9 @@ import * as Linking from "expo-linking"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { KeyboardProvider } from "react-native-keyboard-controller"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
+import Toast from "react-native-toast-message"
 
+import { toastConfig } from "./components/Toast"
 import { initI18n } from "./i18n"
 import { AppNavigator } from "./navigators/AppNavigator"
 import { useNavigationPersistence } from "./navigators/navigationUtilities"
@@ -99,6 +101,7 @@ export function App() {
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
+            <Toast config={toastConfig} />
           </ThemeProvider>
         </KeyboardProvider>
       </QueryClientProvider>
