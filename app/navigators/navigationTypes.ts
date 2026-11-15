@@ -1,9 +1,34 @@
 import { ComponentProps } from "react"
-import { NavigationContainer } from "@react-navigation/native"
+import { NavigationContainer, NavigatorScreenParams } from "@react-navigation/native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
+
+export type HomeStackParamList = {
+  HomeScreen: undefined
+}
+
+export type HistoryStackParamList = {
+  HistoryScreen: undefined
+}
+
+export type AccountStackParamList = {
+  AccountScreen: undefined
+}
+
+export type AuthStackParamList = {
+  SignInScreen: undefined
+}
+
+export type MainTabParamList = {
+  HomeTab: NavigatorScreenParams<HomeStackParamList> | undefined
+  HistoryTab: NavigatorScreenParams<HistoryStackParamList> | undefined
+  AccountTab: NavigatorScreenParams<AccountStackParamList> | undefined
+}
 
 // App Stack Navigator types
 export type AppStackParamList = {
+  Splash: undefined
+  MainTab: NavigatorScreenParams<MainTabParamList> | undefined
+  Auth: NavigatorScreenParams<AuthStackParamList> | undefined
   Welcome: undefined
   Login: undefined
   // 🔥 Your screens go here

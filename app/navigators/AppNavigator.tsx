@@ -10,12 +10,15 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import Config from "@/config"
+import { AuthStack } from "@/screens/Auth/stack/AuthStack"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
+import { SplashScreen } from "@/screens/Splash/SplashScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { routingInstrumentation } from "@/services/sentry/sentryIntegration"
 import { useAppTheme } from "@/theme/context"
 import { showToast } from "@/utils/toastService"
 
+import { MainTabNavigator } from "./MainTabNavigator"
 import type { AppStackParamList, NavigationProps } from "./navigationTypes"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -35,14 +38,20 @@ const AppStack = () => {
 
   return (
     <Stack.Navigator
+      initialRouteName="Splash"
       screenOptions={{
         headerShown: false,
         navigationBarColor: colors.background,
         contentStyle: {
           backgroundColor: colors.background,
         },
+        gestureEnabled: true,
+        animation: "slide_from_right",
       }}
     >
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="MainTab" component={MainTabNavigator} />
+      <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
     </Stack.Navigator>
   )
