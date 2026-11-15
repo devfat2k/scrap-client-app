@@ -9,9 +9,7 @@
   "updates": {
     "fallbackToCacheTimeout": 0
   },
-  "assetBundlePatterns": [
-    "**/*"
-  ],
+  "assetBundlePatterns": ["**/*"],
   "android": {
     "icon": "./assets/images/app-icon-android-legacy.png",
     "package": "com.scrapclientapp",
@@ -49,9 +47,15 @@
         "backgroundColor": "#191015"
       }
     ],
-    "expo-build-properties",
-    "expo-status-bar",
-    "@sentry/react-native" 
+    [
+      "expo-build-properties",
+      {
+        "ios": {
+          "enableSceneSupport": true
+        }
+      }
+    ],
+    "expo-status-bar"
   ],
   "experiments": {
     "tsconfigPaths": true
