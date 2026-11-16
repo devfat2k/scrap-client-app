@@ -1,42 +1,42 @@
 const palette = {
   neutral100: "#FFFFFF",
-  neutral200: "#F9FAFB", // gray-50: app background
-  neutral300: "#F3F4F6", // gray-100: card input bg
-  neutral400: "#E5E7EB", // gray-200: borders
-  neutral500: "#9CA3AF", // gray-400: muted/placeholder
-  neutral600: "#6B7280", // gray-500: secondary text
-  neutral700: "#374151", // gray-700: primary content
-  neutral800: "#1F2937", // gray-800: headings/titles
-  neutral900: "#111827", // gray-900: high contrast
+  neutral200: "#F8FAFC", // slate-50: nền app sáng thoáng hơn
+  neutral300: "#F1F5F9", // slate-100: nền ô nhập liệu / khối phụ
+  neutral400: "#E2E8F0", // slate-200: viền mảnh, sáng
+  neutral500: "#94A3B8", // slate-400: chữ gợi ý (placeholder)
+  neutral600: "#64748B", // slate-500: chữ phụ
+  neutral700: "#334155", // slate-700: nội dung chính
+  neutral800: "#1E293B", // slate-800: tiêu đề
+  neutral900: "#0F172A", // slate-900: tương phản cao
 
-  // Emerald green brand colors (HTML screens #10b981)
-  primary100: "#ECFDF5", // emerald-50: light green tint
-  primary200: "#D1FAE5", // emerald-100: badge/light border
-  primary300: "#6EE7B7", // emerald-300: accent border
-  primary400: "#34D399", // emerald-400: light tint
-  primary500: "#10B981", // emerald-500: primary action / header
-  primary600: "#059669", // emerald-600: active press
+  // Vibrant Eco Green (Tươi sáng, đồng điệu với nhóm green trong HTML)
+  primary100: "#F0FDF4", // green-50: nền xanh siêu nhạt
+  primary200: "#DCFCE7", // green-100: nền badge / viền nhạt
+  primary300: "#86EFAC", // green-300: viền nhấn
+  primary400: "#4ADE80", // green-400: xanh lá sáng
+  primary500: "#22C55E", // green-500: nút bấm chính / header tươi sáng
+  primary600: "#16A34A", // green-600: trạng thái nhấn (active/press)
 
-  // Status & secondary accents
-  secondary100: "#EFF6FF", // blue-50: dispatched / scheduled
-  secondary200: "#BFDBFE", // blue-200
-  secondary300: "#60A5FA", // blue-400
-  secondary400: "#3B82F6", // blue-500: link / active trip
-  secondary500: "#1D4ED8", // blue-700: scheduled text
+  // Secondary: Sky Blue tươi sáng (thay cho blue trầm)
+  secondary100: "#F0F9FF", // sky-50: nền trạng thái điều phối
+  secondary200: "#BAE6FD", // sky-200
+  secondary300: "#38BDF8", // sky-400
+  secondary400: "#0EA5E9", // sky-500: link / chuyến xe đang chạy
+  secondary500: "#0284C7", // sky-600: chữ lịch hẹn
 
-  // Warning & quotes (yellow/amber)
-  accent100: "#FEFCE8", // yellow-50
-  accent200: "#FEF08A", // yellow-200
-  accent300: "#FACC15", // yellow-400
-  accent400: "#EAB308", // yellow-500
-  accent500: "#CA8A04", // yellow-600
+  // Warning & quotes: Sunny Amber / Yellow tươi tắn
+  accent100: "#FEFCE8", // yellow-50: nền thông báo báo giá
+  accent200: "#FEF08A", // yellow-200: viền cảnh báo
+  accent300: "#FACC15", // yellow-400: chấm trạng thái
+  accent400: "#F59E0B", // amber-500: nhấn mạnh
+  accent500: "#D97706", // amber-600: chữ trạng thái báo giá rõ nét
 
-  // Error & cancellations
-  angry100: "#FEF2F2", // red-50: cancel button / alert bg
-  angry500: "#EF4444", // red-500: error / cancel action
+  // Error & cancellations: Coral / Rose Red hiện đại
+  angry100: "#FFF1F2", // rose-50: nền nút hủy đơn
+  angry500: "#F43F5E", // rose-500: chữ/icon hủy đơn & báo lỗi
 
-  overlay20: "rgba(17, 24, 39, 0.2)",
-  overlay50: "rgba(17, 24, 39, 0.5)",
+  overlay20: "rgba(15, 23, 42, 0.18)",
+  overlay50: "rgba(15, 23, 42, 0.45)",
 } as const
 
 export const colors = {

@@ -1,39 +1,42 @@
 const palette = {
   neutral900: "#FFFFFF",
-  neutral800: "#F9FAFB",
-  neutral700: "#E5E7EB",
-  neutral600: "#9CA3AF",
-  neutral500: "#6B7280",
-  neutral400: "#374151",
-  neutral300: "#1F2937",
-  neutral200: "#111827", // dark background
-  neutral100: "#0B0F19", // deep dark card
+  neutral800: "#F8FAFC",
+  neutral700: "#E2E8F0",
+  neutral600: "#94A3B8",
+  neutral500: "#64748B",
+  neutral400: "#334155", // viền sáng rõ hơn trên nền tối
+  neutral300: "#263548", // nền input / khối phụ
+  neutral200: "#0F172A", // nền chính (xanh đen dịu mắt, không bị tối đặc)
+  neutral100: "#1E293B", // nền card nổi bật, sáng hơn nền chính
 
-  // Emerald dark variants
-  primary600: "#ECFDF5",
-  primary500: "#34D399",
-  primary400: "#10B981",
-  primary300: "#059669",
-  primary200: "#047857",
-  primary100: "#064E3B",
+  // Vibrant Green biến thể phát sáng nhẹ trên nền tối
+  primary600: "#F0FDF4",
+  primary500: "#4ADE80", // xanh lá neon dịu, nổi bật trên nền tối
+  primary400: "#22C55E", // màu nhấn chính (tint)
+  primary300: "#16A34A",
+  primary200: "#15803D",
+  primary100: "#14532D",
 
-  secondary500: "#EFF6FF",
-  secondary400: "#60A5FA",
-  secondary300: "#3B82F6",
-  secondary200: "#1D4ED8",
-  secondary100: "#1E3A8A",
+  // Sky Blue sáng cho Dark Mode
+  secondary500: "#F0F9FF",
+  secondary400: "#38BDF8",
+  secondary300: "#0EA5E9",
+  secondary200: "#0284C7",
+  secondary100: "#0C4A6E",
 
+  // Sunny Yellow / Amber cho Dark Mode
   accent500: "#FEFCE8",
   accent400: "#FACC15",
-  accent300: "#EAB308",
-  accent200: "#CA8A04",
-  accent100: "#713F12",
+  accent300: "#F59E0B",
+  accent200: "#D97706",
+  accent100: "#78350F",
 
-  angry100: "#450A0A",
-  angry500: "#EF4444",
+  // Coral Rose cho Dark Mode
+  angry100: "#4C0519",
+  angry500: "#FB7185", // hồng đỏ sáng giúp dễ đọc trên nền tối
 
-  overlay20: "rgba(0, 0, 0, 0.4)",
-  overlay50: "rgba(0, 0, 0, 0.7)",
+  overlay20: "rgba(15, 23, 42, 0.4)",
+  overlay50: "rgba(15, 23, 42, 0.7)",
 } as const
 
 export const colors = {
