@@ -1,23 +1,23 @@
 // ⚠️ Auto-generated — DO NOT EDIT
 
-import Back from './Back';
-import Bell from './Bell';
-import Check from './Check';
-import ChevronDown from './ChevronDown';
-import ChevronUp from './ChevronUp';
-import Clock from './Clock';
-import Close from './Close';
-import Download from './Download';
-import Earth from './Earth';
-import Eye from './Eye';
-import History from './History';
-import Home from './Home';
-import Phone from './Phone';
-import Profile from './Profile';
-import Send from './Send';
-import Share from './Share';
-import SignIn from './SignIn';
-import User from './User';
+import Back from "./Back"
+import Bell from "./Bell"
+import Check from "./Check"
+import ChevronDown from "./ChevronDown"
+import ChevronUp from "./ChevronUp"
+import Clock from "./Clock"
+import Close from "./Close"
+import Download from "./Download"
+import Earth from "./Earth"
+import Eye from "./Eye"
+import History from "./History"
+import Home from "./Home"
+import Phone from "./Phone"
+import Profile from "./Profile"
+import Send from "./Send"
+import Share from "./Share"
+import SignIn from "./SignIn"
+import User from "./User"
 
 export const SvgType = {
   Back: Back,
@@ -38,8 +38,8 @@ export const SvgType = {
   Share: Share,
   SignIn: SignIn,
   User: User,
-} as const;
+} as const
 
-export type ISvgType = keyof typeof SvgType;
+export type ISvgType = keyof typeof SvgType
 
-export default SvgType;
+export default SvgType

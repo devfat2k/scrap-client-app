@@ -8,8 +8,9 @@ const ChevronDown = (props: SvgProps) => (
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      stroke={props.fill ?? 'black'} 
-     fillOpacity={0}/>
+      stroke={props.fill ?? "black"}
+      fillOpacity={0}
+    />
   </Svg>
 )
 export default ChevronDown
