@@ -7,7 +7,7 @@ import {
   useEffect,
   useMemo,
 } from "react"
-import { StyleProp, useColorScheme } from "react-native"
+import { StyleProp } from "react-native"
 import {
   DarkTheme as NavDarkTheme,
   DefaultTheme as NavDefaultTheme,
@@ -55,16 +55,14 @@ export const ThemeProvider: FC<PropsWithChildren<ThemeProviderProps>> = ({
   children,
   initialContext,
 }) => {
-  // The operating system theme:
-  const systemColorScheme = useColorScheme()
-  // Our saved theme context: can be "light", "dark", or undefined (system theme)
+  // Our saved theme context: can be "light", "dark", or undefined (app default)
   const [themeScheme, setThemeScheme] = useMMKVString("ignite.themeScheme", storage)
 
   /**
    * This function is used to set the theme context and is exported from the useAppTheme() hook.
-   *  - setThemeContextOverride("dark") sets the app theme to dark no matter what the system theme is.
-   *  - setThemeContextOverride("light") sets the app theme to light no matter what the system theme is.
-   *  - setThemeContextOverride(undefined) the app will follow the operating system theme.
+   *  - setThemeContextOverride("dark") sets the app theme to dark
+   *  - setThemeContextOverride("light") sets the app theme to light
+   *  - setThemeContextOverride(undefined) resets to the app default, which is light
    */
   const setThemeContextOverride = useCallback(
     (newTheme: ThemeContextModeT) => {
@@ -75,13 +73,12 @@ export const ThemeProvider: FC<PropsWithChildren<ThemeProviderProps>> = ({
 
   /**
    * initialContext is the theme context passed in from the app.tsx file and always takes precedence.
-   * themeScheme is the value from MMKV. If undefined, we fall back to the system theme
-   * systemColorScheme is the value from the device. If undefined, we fall back to "light"
+   * themeScheme is the value from MMKV. If undefined, we fall back to the app default: light.
    */
   const themeContext: ImmutableThemeContextModeT = useMemo(() => {
-    const t = initialContext || themeScheme || (!!systemColorScheme ? systemColorScheme : "light")
+    const t = initialContext || themeScheme || "light"
     return t === "dark" ? "dark" : "light"
-  }, [initialContext, themeScheme, systemColorScheme])
+  }, [initialContext, themeScheme])
 
   const navigationTheme: NavTheme = useMemo(() => {
     switch (themeContext) {

@@ -7,7 +7,7 @@ import { spacing as spacingDark } from "./spacingDark"
 import { timing } from "./timing"
 import { typography } from "./typography"
 
-// This supports "light" and "dark" themes by default. If undefined, it'll use the system theme
+// This supports "light" and "dark" themes. If undefined, it falls back to the app default: light.
 export type ImmutableThemeContextModeT = "light" | "dark"
 export type ThemeContextModeT = ImmutableThemeContextModeT | undefined
 
