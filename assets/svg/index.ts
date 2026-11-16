@@ -12,11 +12,13 @@ import Earth from "./Earth"
 import Eye from "./Eye"
 import History from "./History"
 import Home from "./Home"
+import Moon from "./Moon"
 import Phone from "./Phone"
 import Profile from "./Profile"
 import Send from "./Send"
 import Share from "./Share"
 import SignIn from "./SignIn"
+import Sun from "./Sun"
 import User from "./User"
 
 export const SvgType = {
@@ -32,11 +34,13 @@ export const SvgType = {
   Eye: Eye,
   History: History,
   Home: Home,
+  Moon: Moon,
   Phone: Phone,
   Profile: Profile,
   Send: Send,
   Share: Share,
   SignIn: SignIn,
+  Sun: Sun,
   User: User,
 } as const
 
