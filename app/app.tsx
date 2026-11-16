@@ -19,9 +19,12 @@ if (__DEV__) {
 import "./utils/gestureHandler"
 
 import { useEffect, useState } from "react"
+import type { ViewStyle } from "react-native"
 import { useFonts } from "expo-font"
 import * as Linking from "expo-linking"
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { QueryClientProvider } from "@tanstack/react-query"
+import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { KeyboardProvider } from "react-native-keyboard-controller"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
 import Toast from "react-native-toast-message"
@@ -38,6 +41,8 @@ import * as storage from "./utils/storage"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
+const $gestureRoot: ViewStyle = { flex: 1 }
+
 // Web linking configuration
 const prefix = Linking.createURL("/")
 const config = {
@@ -45,11 +50,21 @@ const config = {
     MainTab: {
       screens: {
         HomeTab: "home",
-        HistoryTab: "history",
+        HistoryTab: {
+          screens: {
+            HistoryScreen: "history",
+            OrderDetailScreen: "history/:orderId",
+          },
+        },
         AccountTab: "account",
       },
     },
     Auth: "auth",
+    Request: {
+      screens: {
+        CreateRequestScreen: "request/new",
+      },
+    },
     Welcome: "welcome",
   },
 }
@@ -98,18 +113,22 @@ export function App() {
   // otherwise, we're ready to render the app
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <QueryClientProvider client={queryClient}>
-        <KeyboardProvider>
-          <ThemeProvider>
-            <AppNavigator
-              linking={linking}
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-            <Toast config={toastConfig} />
-          </ThemeProvider>
-        </KeyboardProvider>
-      </QueryClientProvider>
+      <GestureHandlerRootView style={$gestureRoot}>
+        <QueryClientProvider client={queryClient}>
+          <KeyboardProvider>
+            <ThemeProvider>
+              <BottomSheetModalProvider>
+                <AppNavigator
+                  linking={linking}
+                  initialState={initialNavigationState}
+                  onStateChange={onNavigationStateChange}
+                />
+                <Toast config={toastConfig} />
+              </BottomSheetModalProvider>
+            </ThemeProvider>
+          </KeyboardProvider>
+        </QueryClientProvider>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   )
 }
