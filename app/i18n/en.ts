@@ -1,9 +1,18 @@
+import homeEn from "./en/home"
+import orderEn from "./en/order"
+import requestEn from "./en/request"
+
 const en = {
   common: {
     ok: "OK!",
     cancel: "Cancel",
+    done: "Done",
     back: "Back",
+    required: "Required",
   },
+  ...homeEn,
+  ...requestEn,
+  ...orderEn,
   welcomeScreen: {
     postscript:
       "psst  — This probably isn't what your app looks like. (Unless your designer handed you these screens, and in that case, ship it!)",
