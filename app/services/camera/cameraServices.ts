@@ -1,6 +1,11 @@
 import { Linking } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 
+import {
+  ensureCameraPermission,
+  ensureMediaLibraryPermission,
+  permissionDeniedResult,
+} from "./cameraPermissions"
 import { PickerResult, ProcessedAsset } from "./cameraTypes"
 import { compressAndNormalizeImage } from "./imageCompressor"
 import { validateProcessedAsset, validateRawAsset } from "./imageValidator"
@@ -59,19 +64,19 @@ async function processSelectedAssets(
   return { canceled: false, assets: processedAssets }
 }
 
+async function requestMediaLibraryPermissionQuietly(): Promise<ImagePicker.PermissionResponse | null> {
+  try {
+    return await ensureMediaLibraryPermission()
+  } catch {
+    // The system picker still works on iOS 14+ even when the permission API fails.
+    return null
+  }
+}
+
 export async function pickImage(
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
 ): Promise<PickerResult> {
-  const perm = await ImagePicker.requestMediaLibraryPermissionsAsync()
-  if (!perm.granted) {
-    return {
-      canceled: false,
-      assets: [],
-      errorCode: "permission_denied",
-      errorMessage: "Media library permission denied",
-      canAskAgain: perm.canAskAgain,
-    }
-  }
+  await requestMediaLibraryPermissionQuietly()
   try {
     const res = await ImagePicker.launchImageLibraryAsync({
       ...defaultOptions,
@@ -94,16 +99,7 @@ export async function pickImages(
   maxPhotos = 3,
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
 ): Promise<PickerResult> {
-  const perm = await ImagePicker.requestMediaLibraryPermissionsAsync()
-  if (!perm.granted) {
-    return {
-      canceled: false,
-      assets: [],
-      errorCode: "permission_denied",
-      errorMessage: "Media library permission denied",
-      canAskAgain: perm.canAskAgain,
-    }
-  }
+  await requestMediaLibraryPermissionQuietly()
   try {
     const res = await ImagePicker.launchImageLibraryAsync({
       ...defaultOptions,
@@ -126,16 +122,8 @@ export async function pickImages(
 export async function takePhoto(
   overrides: Partial<ImagePicker.ImagePickerOptions> = {},
 ): Promise<PickerResult> {
-  const perm = await ImagePicker.requestCameraPermissionsAsync()
-  if (!perm.granted) {
-    return {
-      canceled: false,
-      assets: [],
-      errorCode: "permission_denied",
-      errorMessage: "Camera permission denied",
-      canAskAgain: perm.canAskAgain,
-    }
-  }
+  const perm = await ensureCameraPermission()
+  if (!perm.granted) return permissionDeniedResult("camera", perm.canAskAgain)
   try {
     const res = await ImagePicker.launchCameraAsync({
       ...defaultOptions,

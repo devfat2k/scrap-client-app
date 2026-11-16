@@ -20,3 +20,15 @@ export const formatDate = (date: string, dateFormat?: string, options?: Options)
   }
   return format(parseISO(date), dateFormat ?? "dd/MM/yyyy", dateOptions)
 }
+
+/**
+ * Formats a Date for the create request form, e.g. `Mon, 16 Nov 2026 • 2:00 PM`.
+ */
+export const formatDateTime = (date: Date): string =>
+  format(date, "EEE, dd MMM yyyy • h:mm a", { locale: dateFnsLocale })
+
+/**
+ * Formats a Date without the time, e.g. `16 Nov 2026`.
+ */
+export const formatShortDate = (date: Date): string =>
+  format(date, "dd MMM yyyy", { locale: dateFnsLocale })

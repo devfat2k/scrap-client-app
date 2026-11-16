@@ -1,5 +1,6 @@
 import { ComponentType } from "react"
 import {
+  ActivityIndicator,
   Pressable,
   PressableProps,
   PressableStateCallbackType,
@@ -14,7 +15,7 @@ import type { ThemedStyle, ThemedStyleArray } from "@/theme/types"
 
 import { Text, TextProps } from "./Text"
 
-type Presets = "default" | "filled" | "reversed"
+type Presets = "default" | "filled" | "reversed" | "primary"
 
 export interface ButtonAccessoryProps {
   style: StyleProp<any>
@@ -80,6 +81,18 @@ export interface ButtonProps extends PressableProps {
    */
   disabled?: boolean
   /**
+   * Shows a spinner and prevents presses while an action is in flight.
+   */
+  loading?: boolean
+  /**
+   * Text to display while loading. Falls back to `tx`/`text` when omitted.
+   */
+  loadingText?: TextProps["text"]
+  /**
+   * Text looked up via i18n while loading. Falls back to `tx`/`text` when omitted.
+   */
+  loadingTx?: TextProps["tx"]
+  /**
    * An optional style override for the disabled state
    */
   disabledStyle?: StyleProp<ViewStyle>
@@ -113,13 +126,25 @@ export function Button(props: ButtonProps) {
     RightAccessory,
     LeftAccessory,
     disabled,
+    loading = false,
+    loadingText,
+    loadingTx,
     disabledStyle: $disabledViewStyleOverride,
     ...rest
   } = props
 
-  const { themed } = useAppTheme()
+  const {
+    themed,
+    theme: { colors },
+  } = useAppTheme()
 
   const preset: Presets = props.preset ?? "default"
+  const isDisabled = !!disabled || loading
+  const spinnerColor =
+    preset === "primary" || preset === "reversed" ? colors.palette.neutral100 : colors.text
+  const hasLoadingLabel = !!loadingTx || !!loadingText
+  const displayTx = loading && hasLoadingLabel ? loadingTx : tx
+  const displayText = loading && hasLoadingLabel ? loadingText : text
   /**
    * @param {PressableStateCallbackType} root0 - The root object containing the pressed state.
    * @param {boolean} root0.pressed - The pressed state.
@@ -130,7 +155,7 @@ export function Button(props: ButtonProps) {
       themed($viewPresets[preset]),
       $viewStyleOverride,
       !!pressed && themed([$pressedViewPresets[preset], $pressedViewStyleOverride]),
-      !!disabled && $disabledViewStyleOverride,
+      !!disabled && !loading && $disabledViewStyleOverride,
     ]
   }
   /**
@@ -151,25 +176,37 @@ export function Button(props: ButtonProps) {
     <Pressable
       style={$viewStyle}
       accessibilityRole="button"
-      accessibilityState={{ disabled: !!disabled }}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
       {...rest}
-      disabled={disabled}
+      disabled={isDisabled}
     >
       {(state) => (
         <>
           {!!LeftAccessory && (
-            <LeftAccessory style={$leftAccessoryStyle} pressableState={state} disabled={disabled} />
+            <LeftAccessory
+              style={$leftAccessoryStyle}
+              pressableState={state}
+              disabled={isDisabled}
+            />
           )}
 
-          <Text tx={tx} text={text} txOptions={txOptions} style={$textStyle(state)}>
-            {children}
+          {loading && (
+            <ActivityIndicator
+              size="small"
+              color={spinnerColor}
+              style={themed($loadingIndicator)}
+            />
+          )}
+
+          <Text tx={displayTx} text={displayText} txOptions={txOptions} style={$textStyle(state)}>
+            {loading ? null : children}
           </Text>
 
           {!!RightAccessory && (
             <RightAccessory
               style={$rightAccessoryStyle}
               pressableState={state}
-              disabled={disabled}
+              disabled={isDisabled}
             />
           )}
         </>
@@ -180,7 +217,7 @@ export function Button(props: ButtonProps) {
 
 const $baseViewStyle: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   minHeight: 56,
-  borderRadius: 4,
+  borderRadius: spacing.md,
   justifyContent: "center",
   alignItems: "center",
   paddingVertical: spacing.sm,
@@ -207,6 +244,11 @@ const $leftAccessoryStyle: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   zIndex: 1,
 })
 
+const $loadingIndicator: ThemedStyle<ViewStyle> = ({ spacing }) => ({
+  marginEnd: spacing.xs,
+  zIndex: 1,
+})
+
 const $viewPresets: Record<Presets, ThemedStyleArray<ViewStyle>> = {
   default: [
     $styles.row,
@@ -227,22 +269,28 @@ const $viewPresets: Record<Presets, ThemedStyleArray<ViewStyle>> = {
     $baseViewStyle,
     ({ colors }) => ({ backgroundColor: colors.palette.neutral800 }),
   ],
+  primary: [$styles.row, $baseViewStyle, ({ colors }) => ({ backgroundColor: colors.tint })],
 }
 
 const $textPresets: Record<Presets, ThemedStyleArray<TextStyle>> = {
   default: [$baseTextStyle],
   filled: [$baseTextStyle],
   reversed: [$baseTextStyle, ({ colors }) => ({ color: colors.palette.neutral100 })],
+  primary: [$baseTextStyle, ({ colors }) => ({ color: colors.palette.neutral100 })],
 }
 
 const $pressedViewPresets: Record<Presets, ThemedStyle<ViewStyle>> = {
   default: ({ colors }) => ({ backgroundColor: colors.palette.neutral200 }),
   filled: ({ colors }) => ({ backgroundColor: colors.palette.neutral400 }),
   reversed: ({ colors }) => ({ backgroundColor: colors.palette.neutral700 }),
+  primary: ({ colors, isDark }) => ({
+    backgroundColor: isDark ? colors.palette.primary300 : colors.palette.primary600,
+  }),
 }
 
 const $pressedTextPresets: Record<Presets, ThemedStyle<TextStyle>> = {
   default: () => ({ opacity: 0.9 }),
   filled: () => ({ opacity: 0.9 }),
   reversed: () => ({ opacity: 0.9 }),
+  primary: () => ({ opacity: 0.9 }),
 }

@@ -1,5 +1,6 @@
 import { ReactElement } from "react"
 import {
+  Pressable,
   StyleProp,
   TextStyle,
   TouchableOpacity,
@@ -8,6 +9,8 @@ import {
   ViewStyle,
 } from "react-native"
 
+import type { ISvgType } from "@assets/svg"
+
 import { isRTL } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
@@ -15,7 +18,7 @@ import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
 import { ExtendedEdge, useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
-import { IconTypes, PressableIcon } from "./Icon"
+import SvgIcon from "./SvgIcon"
 import { Text, TextProps } from "./Text"
 
 export interface HeaderProps {
@@ -23,8 +26,9 @@ export interface HeaderProps {
    * The layout of the title relative to the action components.
    * - `center` will force the title to always be centered relative to the header. If the title or the action buttons are too long, the title will be cut off.
    * - `flex` will attempt to center the title relative to the action buttons. If the action buttons are different widths, the title will be off-center relative to the header.
+   * - `left` keeps the title next to the left action and lets it use the remaining space.
    */
-  titleMode?: "center" | "flex"
+  titleMode?: "center" | "flex" | "left"
   /**
    * Optional title style override.
    */
@@ -62,11 +66,15 @@ export interface HeaderProps {
    * Icon that should appear on the left.
    * Can be used with `onLeftPress`.
    */
-  leftIcon?: IconTypes
+  leftIcon?: ISvgType
   /**
    * An optional tint color for the left icon
    */
   leftIconColor?: string
+  /**
+   * Accessibility label for an icon-only left action.
+   */
+  leftIconAccessibilityLabel?: string
   /**
    * Left action text to display if not using `leftTx`.
    * Can be used with `onLeftPress`. Overrides `leftIcon`.
@@ -95,11 +103,15 @@ export interface HeaderProps {
    * Icon that should appear on the right.
    * Can be used with `onRightPress`.
    */
-  rightIcon?: IconTypes
+  rightIcon?: ISvgType
   /**
    * An optional tint color for the right icon
    */
   rightIconColor?: string
+  /**
+   * Accessibility label for an icon-only right action.
+   */
+  rightIconAccessibilityLabel?: string
   /**
    * Right action text to display if not using `rightTx`.
    * Can be used with `onRightPress`. Overrides `rightIcon`.
@@ -132,8 +144,9 @@ export interface HeaderProps {
 
 interface HeaderActionProps {
   backgroundColor?: string
-  icon?: IconTypes
+  icon?: ISvgType
   iconColor?: string
+  accessibilityLabel?: string
   text?: TextProps["text"]
   tx?: TextProps["tx"]
   txOptions?: TextProps["txOptions"]
@@ -158,6 +171,7 @@ export function Header(props: HeaderProps) {
     LeftActionComponent,
     leftIcon,
     leftIconColor,
+    leftIconAccessibilityLabel,
     leftText,
     leftTx,
     leftTxOptions,
@@ -166,6 +180,7 @@ export function Header(props: HeaderProps) {
     RightActionComponent,
     rightIcon,
     rightIconColor,
+    rightIconAccessibilityLabel,
     rightText,
     rightTx,
     rightTxOptions,
@@ -192,6 +207,7 @@ export function Header(props: HeaderProps) {
           text={leftText}
           icon={leftIcon}
           iconColor={leftIconColor}
+          accessibilityLabel={leftIconAccessibilityLabel}
           onPress={onLeftPress}
           txOptions={leftTxOptions}
           backgroundColor={backgroundColor}
@@ -204,6 +220,7 @@ export function Header(props: HeaderProps) {
               $titleWrapperPointerEvents,
               titleMode === "center" && themed($titleWrapperCenter),
               titleMode === "flex" && $titleWrapperFlex,
+              titleMode === "left" && $titleWrapperLeft,
               $titleContainerStyleOverride,
             ]}
           >
@@ -211,7 +228,8 @@ export function Header(props: HeaderProps) {
               weight="medium"
               size="md"
               text={titleContent}
-              style={[$title, $titleStyleOverride]}
+              numberOfLines={1}
+              style={[$title, titleMode === "left" && $titleLeft, $titleStyleOverride]}
             />
           </View>
         )}
@@ -221,6 +239,7 @@ export function Header(props: HeaderProps) {
           text={rightText}
           icon={rightIcon}
           iconColor={rightIconColor}
+          accessibilityLabel={rightIconAccessibilityLabel}
           onPress={onRightPress}
           txOptions={rightTxOptions}
           backgroundColor={backgroundColor}
@@ -236,8 +255,18 @@ export function Header(props: HeaderProps) {
  * @returns {JSX.Element} The rendered `HeaderAction` component.
  */
 function HeaderAction(props: HeaderActionProps) {
-  const { backgroundColor, icon, text, tx, txOptions, onPress, ActionComponent, iconColor } = props
-  const { themed } = useAppTheme()
+  const {
+    backgroundColor,
+    icon,
+    text,
+    tx,
+    txOptions,
+    onPress,
+    ActionComponent,
+    iconColor,
+    accessibilityLabel,
+  } = props
+  const { themed, theme } = useAppTheme()
 
   const content = tx ? translate(tx, txOptions) : text
 
@@ -258,14 +287,20 @@ function HeaderAction(props: HeaderActionProps) {
 
   if (icon) {
     return (
-      <PressableIcon
-        size={24}
-        icon={icon}
-        color={iconColor}
+      <Pressable
         onPress={onPress}
-        containerStyle={themed([$actionIconContainer, { backgroundColor }])}
-        style={isRTL ? { transform: [{ rotate: "180deg" }] } : {}}
-      />
+        disabled={!onPress}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel}
+        style={themed([$actionIconContainer, { backgroundColor }])}
+      >
+        <SvgIcon
+          icon={icon}
+          size={48}
+          fill={iconColor ?? theme.colors.text}
+          style={isRTL ? $actionIconRtl : undefined}
+        />
+      </Pressable>
     )
   }
 
@@ -284,6 +319,10 @@ const $container: ViewStyle = {
 
 const $title: TextStyle = {
   textAlign: "center",
+}
+
+const $titleLeft: TextStyle = {
+  textAlign: "left",
 }
 
 const $actionTextContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
@@ -308,6 +347,10 @@ const $actionIconContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   zIndex: 2,
 })
 
+const $actionIconRtl: ViewStyle = {
+  transform: [{ rotate: "180deg" }],
+}
+
 const $actionFillerContainer: ViewStyle = {
   width: 16,
 }
@@ -329,4 +372,10 @@ const $titleWrapperCenter: ThemedStyle<ViewStyle> = ({ spacing }) => ({
 const $titleWrapperFlex: ViewStyle = {
   justifyContent: "center",
   flexGrow: 1,
+}
+
+const $titleWrapperLeft: ViewStyle = {
+  justifyContent: "center",
+  flexGrow: 1,
+  alignItems: "flex-start",
 }

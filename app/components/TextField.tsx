@@ -17,6 +17,7 @@ import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
 import type { ThemedStyle, ThemedStyleArray } from "@/theme/types"
 
+import { FieldLabel } from "./FormField"
 import { Text, TextProps } from "./Text"
 
 export interface TextFieldAccessoryProps {
@@ -44,6 +45,10 @@ export interface TextFieldProps extends Omit<TextInputProps, "ref"> {
    * as well as explicitly setting locale or translation fallbacks.
    */
   labelTxOptions?: TextProps["txOptions"]
+  /**
+   * Shows a required marker next to the label.
+   */
+  required?: boolean
   /**
    * Pass any additional props directly to the label Text component.
    */
@@ -115,6 +120,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     labelTx,
     label,
     labelTxOptions,
+    required = false,
     placeholderTx,
     placeholder,
     placeholderTxOptions,
@@ -145,8 +151,6 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
     : placeholder
 
   const $containerStyles = [$containerStyleOverride]
-
-  const $labelStyles = [$labelStyle, LabelTextProps?.style]
 
   const $inputWrapperStyles = [
     $styles.row,
@@ -191,13 +195,12 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
       accessibilityState={{ disabled }}
     >
       {!!(label || labelTx) && (
-        <Text
-          preset="formLabel"
-          text={label}
-          tx={labelTx}
-          txOptions={labelTxOptions}
-          {...LabelTextProps}
-          style={themed($labelStyles)}
+        <FieldLabel
+          label={label}
+          labelTx={labelTx}
+          labelTxOptions={labelTxOptions}
+          required={required}
+          TextProps={LabelTextProps}
         />
       )}
 
@@ -214,7 +217,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
         <TextInput
           ref={input}
           underlineColorAndroid={colors.transparent}
-          textAlignVertical="top"
+          textAlignVertical="center"
           placeholder={placeholderContent}
           placeholderTextColor={colors.textDim}
           {...TextInputProps}
@@ -246,17 +249,14 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
   )
 })
 
-const $labelStyle: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  marginBottom: spacing.xs,
-})
-
-const $inputWrapperStyle: ThemedStyle<ViewStyle> = ({ colors }) => ({
+const $inputWrapperStyle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   alignItems: "flex-start",
   borderWidth: 1,
-  borderRadius: 4,
+  borderRadius: spacing.xs,
   backgroundColor: colors.palette.neutral200,
   borderColor: colors.palette.neutral400,
   overflow: "hidden",
+  height: spacing.xxl,
 })
 
 const $inputStyle: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) => ({
@@ -264,9 +264,8 @@ const $inputStyle: ThemedStyle<TextStyle> = ({ colors, typography, spacing }) =>
   alignSelf: "stretch",
   fontFamily: typography.primary.normal,
   color: colors.text,
-  fontSize: 16,
-  height: 24,
-  // https://github.com/facebook/react-native/issues/21720#issuecomment-532642093
+  fontSize: spacing.md,
+  height: spacing.xl,
   paddingVertical: 0,
   paddingHorizontal: 0,
   marginVertical: spacing.xs,
