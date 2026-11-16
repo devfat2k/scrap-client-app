@@ -1,6 +1,7 @@
 import { FC } from "react"
 import { StyleSheet, View, type TextStyle, type ViewStyle } from "react-native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import SvgIcon, { type SvgIconProps } from "@/components/SvgIcon"
@@ -20,11 +21,11 @@ type TabBarIconProps = {
   size: number
 }
 
-const TabBarIcon = ({ name, focused, color, size }: TabBarIconProps) => {
+const TabBarIcon = ({ name, color, size }: TabBarIconProps) => {
   const { themed } = useAppTheme()
 
   return (
-    <View style={[themed($tabBarIcon), focused && themed($tabBarIconActive)]}>
+    <View style={themed($tabBarIcon)}>
       <SvgIcon name={name} size={size} fill={color} />
     </View>
   )
@@ -61,12 +62,16 @@ export const MainTabNavigator: FC = () => {
       <Tab.Screen
         name="HistoryTab"
         component={HistoryStack}
-        options={{
+        options={({ route }) => ({
           tabBarLabel: "History",
+          tabBarStyle:
+            getFocusedRouteNameFromRoute(route) === "OrderDetailScreen"
+              ? $hiddenTabBar
+              : [themed($tabBar), { bottom: insets.bottom + spacing.xs }],
           tabBarIcon: ({ color, focused, size }) => (
             <TabBarIcon name="History" focused={focused} color={color} size={size} />
           ),
-        }}
+        })}
       />
       <Tab.Screen
         name="AccountTab"
@@ -104,6 +109,10 @@ const $tabBar: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   shadowRadius: spacing.md,
 })
 
+const $hiddenTabBar: ViewStyle = {
+  display: "none",
+}
+
 const $tabBarLabel: ThemedStyle<TextStyle> = ({ spacing, typography }) => ({
   fontFamily: typography.primary.medium,
   fontSize: spacing.sm,
@@ -117,8 +126,4 @@ const $tabBarIcon: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   height: spacing.xl - spacing.xxs,
   minWidth: spacing.xl + spacing.xs,
   borderRadius: spacing.md,
-})
-
-const $tabBarIconActive: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  backgroundColor: colors.palette.primary100,
 })

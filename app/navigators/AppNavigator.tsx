@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import Config from "@/config"
 import { AuthStack } from "@/screens/Auth/stack/AuthStack"
 import { ErrorBoundary } from "@/screens/ErrorScreen/ErrorBoundary"
+import { RequestStack } from "@/screens/Request/stack/RequestStack"
 import { SplashScreen } from "@/screens/Splash/SplashScreen"
 import { WelcomeScreen } from "@/screens/WelcomeScreen"
 import { routingInstrumentation } from "@/services/sentry/sentryIntegration"
@@ -20,7 +21,13 @@ import { showToast } from "@/utils/toastService"
 
 import { MainTabNavigator } from "./MainTabNavigator"
 import type { AppStackParamList, NavigationProps } from "./navigationTypes"
-import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { getActiveRouteName, navigationRef, useBackButtonHandler } from "./navigationUtilities"
+
+/**
+ * Android: pressing back on these tab roots asks twice before exiting the app.
+ * Nested screens (e.g. request detail) pop normally instead.
+ */
+const TAB_ROOT_ROUTES = ["MainTab", "HomeScreen", "HistoryScreen", "AccountScreen"]
 
 /**
  * This is a list of all the route names that will exit the app if the back button
@@ -52,6 +59,7 @@ const AppStack = () => {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="MainTab" component={MainTabNavigator} />
       <Stack.Screen name="Auth" component={AuthStack} />
+      <Stack.Screen name="Request" component={RequestStack} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
     </Stack.Navigator>
   )
@@ -72,9 +80,9 @@ export const AppNavigator = (props: NavigationProps) => {
       }
 
       const state = navigationRef.getRootState()
-      const currentRoute = state?.routes[state.index]?.name
+      const currentRoute = state ? getActiveRouteName(state) : undefined
 
-      if (currentRoute === "MainTab") {
+      if (currentRoute && TAB_ROOT_ROUTES.includes(currentRoute)) {
         backPressCount++
 
         if (backPressCount === 2) {

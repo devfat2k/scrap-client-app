@@ -8,6 +8,7 @@ export type HomeStackParamList = {
 
 export type HistoryStackParamList = {
   HistoryScreen: undefined
+  OrderDetailScreen: { orderId: string }
 }
 
 export type AccountStackParamList = {
@@ -16,6 +17,11 @@ export type AccountStackParamList = {
 
 export type AuthStackParamList = {
   SignInScreen: undefined
+}
+
+export type RequestStackParamList = {
+  CreateRequestScreen: undefined
+  RequestSuccessScreen: { requestId: string }
 }
 
 export type MainTabParamList = {
@@ -29,6 +35,7 @@ export type AppStackParamList = {
   Splash: undefined
   MainTab: NavigatorScreenParams<MainTabParamList> | undefined
   Auth: NavigatorScreenParams<AuthStackParamList> | undefined
+  Request: NavigatorScreenParams<RequestStackParamList> | undefined
   Welcome: undefined
   Login: undefined
   // 🔥 Your screens go here
