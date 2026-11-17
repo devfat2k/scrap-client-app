@@ -1,11 +1,11 @@
 ---
 name: new-api-service
-description: Thêm service API và hook TanStack Query cho domain mới. Dùng khi tạo endpoint, API service hoặc custom hook data fetching.
+description: Thêm domain API service và TanStack Query hook khi task đã duyệt có tích hợp API.
 ---
-Thêm API cho `$ARGUMENTS`:
-0. TIỀN ĐIỀU KIỆN: Phải có Spec & Plan đã được user duyệt trong `docs/superpowers/`. Nếu chưa có, DỪNG LẠI và yêu cầu brainstorm/lập plan trước.
-1. Đọc `app/services/api/` và tài liệu `docs/tanstack-query-guide.md` để theo đúng pattern 5 tầng.
-2. Tạo service riêng inject `api.apisauce`, map lỗi qua `apiProblem`. KHÔNG thêm method vào class `Api`.
-3. Tạo hook TanStack Query (query key rõ ràng theo array factory, có invalidate sau mutation).
-4. Không lưu dữ liệu server vào global UI state hay useState.
-5. Chạy `bun run compile` + `bun run lint:check`.
+Read `docs/ai/workflow.md`, the active phase and `docs/ai/rules/api.md`. Do not use this skill to invent endpoints for an approved mock-only flow.
+
+1. Confirm approved spec/plan and backend contract; do not ask again for authorization already given.
+2. Inspect an existing domain service and relevant query infrastructure.
+3. Inject `api.apisauce`, follow envelope/error conventions and register query keys/invalidation; no direct component HTTP calls.
+4. Apply `docs/ai/rules/security-privacy.md` and `docs/ai/rules/state.md`.
+5. Verify using `docs/ai/rules/testing.md`; no new tests without request, no automatic commit.

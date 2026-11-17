@@ -97,4 +97,25 @@ app-dependency-graph.png
 .claude/settings.local.json
 CLAUDE.local.md
 
-*docs
+# Historical documentation remains opt-in; share only agent setup and phase records.
+/docs/*
+!/docs/ai/
+!/docs/product/
+!/docs/superpowers/
+/docs/ai/*
+!/docs/ai/workflow.md
+!/docs/ai/skills.md
+!/docs/ai/design-guidelines.md
+!/docs/ai/superpowers.lock.json
+!/docs/ai/rules/
+!/docs/ai/vendor/
+/docs/product/*
+!/docs/product/current-phase.md
+!/docs/product/phases/
+/docs/superpowers/*
+!/docs/superpowers/specs/
+!/docs/superpowers/plans/
+/docs/superpowers/specs/*
+/docs/superpowers/plans/*
+!/docs/superpowers/specs/2026-11-17-codex-claude-workflow-design.md
+!/docs/superpowers/plans/2026-11-17-codex-claude-workflow.md

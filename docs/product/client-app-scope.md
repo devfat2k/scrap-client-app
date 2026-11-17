@@ -1,3 +1,5 @@
+> **Phạm vi sản phẩm / roadmap:** các nhãn MVP bên dưới là kế hoạch lịch sử, không phải tiêu chí cố định cho mọi giai đoạn. Đánh giá task hiện tại theo [giai đoạn active](current-phase.md) và spec đã duyệt. Auth/API có thể được hoãn theo phase mà không bị loại khỏi sản phẩm dài hạn.
+
 # Phạm vi App Khách hàng (Client App Scope)
 
 Nguồn: Báo cáo App Client (27/10/2026), SRS Client + Reception flow, SRS tổng thể.

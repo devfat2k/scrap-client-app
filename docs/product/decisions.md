@@ -42,3 +42,15 @@ Ghi nhận các quyết định kỹ thuật quan trọng của dự án. File n
 - **2026-10-29: Chuyển đổi Font chủ đạo sang Inter**
   - Chuyển `typography.primary` từ `Space Grotesk` sang `Inter` (`@expo-google-fonts/inter`).
   - Lý do: Tối ưu khả năng đọc (legibility & readability) cho giao diện nhập liệu/giao dịch (form đặt đơn, bảng giá AUD, biên lai) bằng tiếng Anh. Đảm bảo trải nghiệm native và metric đồng nhất trên cả iOS và Android.
+
+
+## 2026-11-17: Shared Codex / Claude workflow and phase lifecycle
+
+- Người dùng duyệt triển khai setup theo spec `2026-11-17-codex-claude-workflow-design.md`.
+- `docs/ai/` là nguồn quy tắc chung; `AGENTS.md`, `CLAUDE.md` và `.claude/rules/` định tuyến tới đó. Thay thế hướng dẫn tool-specific trùng/mâu thuẫn, không thay đổi quyền runtime.
+- Phase active: `2026-11-mock-flow-mvp`; [current-phase.md](current-phase.md) là con trỏ. Mock, Auth không bắt buộc và chưa tích hợp API là giới hạn giai đoạn, không phải giới hạn sản phẩm vĩnh viễn.
+- Đối chất → spec duyệt → plan duyệt → implementation. Lệnh triển khai rõ ràng cho setup đã mô tả là ủy quyền, không yêu cầu duyệt lại cùng phạm vi.
+- Chạy kiểm tra có sẵn; chỉ tạo test mới khi người dùng yêu cầu. Thay thế quy định cũ bắt buộc tạo test mới cho mọi hook/validation.
+- Commit theo Conventional Commits khi được yêu cầu; không tự commit. Lịch sử commit ngắn không phải quy chuẩn bắt buộc.
+- Superpowers pin theo nguồn/hash trong `docs/ai/superpowers.lock.json`, cài theo repo cho Codex. Claude giữ plugin/config/hook hiện có; hai công cụ áp dụng ngoại lệ repository.
+- Chuyển phase cần người dùng chốt, hồ sơ mới, cập nhật con trỏ và quyết định; giữ lịch sử phase cũ.

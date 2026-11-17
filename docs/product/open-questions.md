@@ -1,6 +1,6 @@
 # Các câu hỏi còn mở (Open Questions)
 
-Quy tắc cho Claude Code: Nếu một tác vụ phụ thuộc vào bất kỳ mục nào có trạng thái `OPEN` bên dưới, **DỪNG LẠI và hỏi người dùng**. Tuyệt đối không tự ý suy đoán logic nghiệp vụ.
+Quy tắc dùng chung cho Codex và Claude: chỉ làm rõ mục OPEN thực sự ảnh hưởng task trong [giai đoạn active](current-phase.md). Không hỏi lại quyết định người dùng đã chốt trong phiên; không tự suy đoán nghiệp vụ. Auth/API đang hoãn theo phase không đồng nghĩa các lựa chọn dài hạn dưới đây đã được giải quyết. Xem [workflow](../ai/workflow.md).
 
 | # | Câu hỏi | Khu vực ảnh hưởng | Trạng thái | Quyết định đã chốt |
 |---|---|---|---|---|

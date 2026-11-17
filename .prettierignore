@@ -7,3 +7,5 @@ ignite/ignite.json
 package.json
 .eslintignore
 *.ejs
+# Vendored agent resources are not application source.
+.agents/skills/

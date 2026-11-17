@@ -4,12 +4,7 @@ paths:
   - "app/components/**"
   - "app/features/**"
 ---
-# UI & Component Rules
 
-- **Theme**: Dùng `useAppTheme()` để lấy colors/spacing; hỗ trợ dark mode, tuyệt đối không hardcode màu hex/rgb hay magic numbers.
-- **i18n**: Ngôn ngữ chính duy nhất là tiếng Anh (`en.ts`). Dùng `tx` prop hoặc `translate()`. Tuyệt đối không hardcode text trực tiếp.
-- **Danh sách dài**: Dùng `FlatList` (kèm memoized item và stable keyExtractor), KHÔNG dùng `ScrollView` + `map()`.
-- **UI States**: Mọi màn hình/component chính phải xử lý đủ các trạng thái: Loading (skeleton/spinner), Error, Empty, Offline.
-- **A11y**: Bắt buộc có `accessibilityLabel` trên mọi phần tử tương tác (Button, Touchable, Switch) và hình ảnh.
-- **File Length**: Giới hạn tối đa 150 dòng/file (ESLint `max-lines` bắt lỗi tự động).
-- **Status UI**: CẤM tuyệt đối component Badge và mọi hiệu ứng chuyển động hay chớp nháy cho trạng thái đơn hàng. Dùng Text thuần kết hợp Icon tiêu chuẩn.
+# Ui Rules
+
+Read and follow the canonical rules in [docs/ai/rules/ui.md](../../docs/ai/rules/ui.md). Resolve conflicts through [shared workflow](../../docs/ai/workflow.md), not duplicated tool-specific policy.
