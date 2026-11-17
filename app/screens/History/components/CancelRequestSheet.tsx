@@ -6,7 +6,6 @@ import {
   BottomSheetScrollView,
   type BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Button } from "@/components/Button"
 import { Text } from "@/components/Text"
@@ -41,7 +40,6 @@ export interface CancelRequestSheetProps {
 export function CancelRequestSheet(props: CancelRequestSheetProps) {
   const { visible, onClose, onConfirm } = props
   const { themed, theme } = useAppTheme()
-  const insets = useSafeAreaInsets()
   const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
   const [reason, setReason] = useState<CancelReason | null>(null)
@@ -90,7 +88,6 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
       enablePanDownToClose
       enableDynamicSizing={false}
       snapPoints={snapPoints}
-      bottomInset={insets.bottom}
       onDismiss={handleSheetDismiss}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={themed(styles.$handle)}

@@ -11,6 +11,7 @@ export const styles = {
     marginTop: spacing.sm,
     borderColor: colors.error,
     backgroundColor: colors.errorBackground,
+    gap: spacing.xs,
   })) as ThemedStyle<ViewStyle>,
 
   $cancelButtonPressed: (({ colors }) => ({

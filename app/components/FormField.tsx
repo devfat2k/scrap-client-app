@@ -125,7 +125,7 @@ export function FieldError(props: FieldErrorProps) {
 const $labelRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
   flexDirection: "row",
   alignItems: "center",
-  marginBottom: spacing.xs,
+  marginBottom: spacing.xxs,
 })
 
 const $label: ThemedStyle<TextStyle> = () => ({

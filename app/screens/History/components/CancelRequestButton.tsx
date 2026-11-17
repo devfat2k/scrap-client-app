@@ -18,7 +18,7 @@ export interface CancelRequestButtonProps {
 function CancelIcon() {
   const { theme } = useAppTheme()
 
-  return <SvgIcon icon="Close" size={16} fill={theme.colors.error} />
+  return <SvgIcon icon="Close" size={12} fill={theme.colors.error} />
 }
 
 /**

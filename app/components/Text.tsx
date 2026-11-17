@@ -2,6 +2,7 @@ import { ReactNode, forwardRef, ForwardedRef } from "react"
 // eslint-disable-next-line no-restricted-imports
 import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
 import { TOptions } from "i18next"
+import { useTranslation } from "react-i18next"
 
 import { isRTL, TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
@@ -57,6 +58,7 @@ export interface TextProps extends RNTextProps {
  * @returns {JSX.Element} The rendered `Text` component.
  */
 export const Text = forwardRef(function Text(props: TextProps, ref: ForwardedRef<RNText>) {
+  useTranslation()
   const { weight, size, tx, txOptions, text, children, style: $styleOverride, ...rest } = props
   const { themed } = useAppTheme()
 

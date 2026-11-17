@@ -1,5 +1,4 @@
 import { ScrollView, View } from "react-native"
-import { StatusBar } from "expo-status-bar"
 import { useNavigation } from "@react-navigation/native"
 import type {
   NativeStackNavigationProp,
@@ -26,7 +25,7 @@ type MainTabName = "HomeTab" | "HistoryTab"
  */
 export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
   const { requestId } = route.params
-  const { themed, theme, themeContext } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const containerInsets = useSafeAreaInsetsStyle(["top", "bottom"])
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
@@ -40,7 +39,6 @@ export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
 
   return (
     <View style={[themed(styles.$container), containerInsets]}>
-      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={themed(styles.$content)}

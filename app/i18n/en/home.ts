@@ -6,6 +6,9 @@ const homeEn = {
     greeting: "Hello there",
     greetingSubtitle: "Ready to turn your scrap into value?",
     themeAction: "Change theme",
+    languageAction: "Change language",
+    language: { title: "Language", english: "English", vietnamese: "Tiếng Việt" },
+    tabs: { home: "Home", history: "History", account: "Account" },
     notificationsAction: "Notifications",
     quickActions: {
       myRequests: "My requests",

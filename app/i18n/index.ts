@@ -4,10 +4,11 @@ import { initReactI18next } from "react-i18next"
 import "intl-pluralrules"
 
 import en, { Translations } from "./en"
+import vi from "./vi"
 
 const fallbackLocale = "en-US"
 
-const resources = { en }
+const resources = { en, vi }
 
 export const isRTL = false
 I18nManager.allowRTL(false)

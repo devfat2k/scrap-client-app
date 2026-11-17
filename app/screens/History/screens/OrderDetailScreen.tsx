@@ -1,10 +1,9 @@
 import { useRef, useState } from "react"
 import { ScrollView, View } from "react-native"
-import { StatusBar } from "expo-status-bar"
 import { useScrollToTop } from "@react-navigation/native"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
 
-import { Header, type HeaderProps } from "@/components/Header"
+import { Header } from "@/components/Header"
 import { Text } from "@/components/Text"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
@@ -13,7 +12,6 @@ import { useNetworkStatus } from "@/services/network"
 import { useAppTheme } from "@/theme/context"
 import { formatShortDate } from "@/utils/formatDate"
 import { showToast } from "@/utils/toastService"
-import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { CancelRequestButton } from "../components/CancelRequestButton"
 import { CancelRequestSheet } from "../components/CancelRequestSheet"
@@ -21,10 +19,9 @@ import { OfflineNotice } from "../components/OfflineNotice"
 import { OrderCollectionCard } from "../components/OrderCollectionCard"
 import { OrderItemsCard } from "../components/OrderItemsCard"
 import { OrderNotFoundState } from "../components/OrderNotFoundState"
-import { OrderStatusLabel } from "../components/OrderStatusLabel"
 import { getMockOrder } from "../mocks/historyOrders"
 import { styles } from "../styles/orderDetailScreenStyles"
-import { getHeaderBackground, getHeaderForeground } from "../utils/orderDetail"
+import { getHeaderBackground } from "../utils/orderDetail"
 
 type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "OrderDetailScreen">
 
@@ -34,7 +31,6 @@ type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "Ord
 export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps) {
   const scrollRef = useRef<ScrollView>(null)
   useScrollToTop(scrollRef)
-  const containerInsets = useSafeAreaInsetsStyle(["bottom"])
   const { orderId } = route.params
   const order = getMockOrder(orderId)
   const { themed, theme } = useAppTheme()
@@ -56,27 +52,10 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
     })
   }
 
-  const foreground = getHeaderForeground(theme)
-  const headerProps: Omit<HeaderProps, "backgroundColor" | "title" | "RightActionComponent"> = {
-    safeAreaEdges: ["top"],
-    titleMode: "left",
-    titleStyle: [themed(styles.$headerTitle), { color: foreground }],
-    leftIcon: "Back",
-    leftIconColor: foreground,
-    leftIconAccessibilityLabel: translate("common:back"),
-    onLeftPress: handleBack,
-    containerStyle: themed(styles.$header),
-  }
-
   if (!order) {
     return (
-      <View style={[themed(styles.$screen), containerInsets]}>
-        <StatusBar style="light" />
-        <Header
-          {...headerProps}
-          backgroundColor={getHeaderBackground(theme, undefined)}
-          title={`#${orderId}`}
-        />
+      <View style={themed(styles.$screen)}>
+        <Header backgroundColor={getHeaderBackground(theme, undefined)} title={`#${orderId}`} />
         <OrderNotFoundState onBack={handleBack} />
       </View>
     )
@@ -86,17 +65,8 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
   const canCancel = currentStatus === ORDER_STATUS.NEW
 
   return (
-    <View style={[themed(styles.$screen), containerInsets]}>
-      <Header
-        {...headerProps}
-        backgroundColor={getHeaderBackground(theme, currentStatus)}
-        title={`#${order.id}`}
-        RightActionComponent={
-          <View style={themed(styles.$headerStatus)}>
-            <OrderStatusLabel status={currentStatus} color={foreground} iconSize={16} />
-          </View>
-        }
-      />
+    <View style={themed(styles.$screen)}>
+      <Header leftIcon="Back" title={`#${order.id}`} />
 
       <ScrollView
         ref={scrollRef}

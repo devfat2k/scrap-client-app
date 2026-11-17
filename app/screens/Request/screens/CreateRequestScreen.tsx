@@ -1,5 +1,5 @@
-import { KeyboardAvoidingView, Platform, View } from "react-native"
-import { StatusBar } from "expo-status-bar"
+import { useState } from "react"
+import { View } from "react-native"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller"
 
@@ -13,6 +13,7 @@ import { showToast } from "@/utils/toastService"
 
 import { AddressFields } from "../components/AddressFields"
 import { CollectionTimeField } from "../components/CollectionTimeField"
+import { ContactDetailsSheet } from "../components/ContactDetailsSheet"
 import { FormSection } from "../components/FormSection"
 import { ScrapItemsSection } from "../components/ScrapItemsSection"
 import { SubmitBar } from "../components/SubmitBar"
@@ -25,8 +26,9 @@ type CreateRequestScreenProps = NativeStackScreenProps<RequestStackParamList, "C
  * Pickup request form: scrap items, collection address, and preferred time.
  */
 export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
-  const { themed, theme, themeContext } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const { isOnline } = useNetworkStatus()
+  const [isContactSheetVisible, setContactSheetVisible] = useState(false)
   const {
     draft,
     errors,
@@ -36,6 +38,7 @@ export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
     removeItem,
     updateAddress,
     setProposedAt,
+    validate,
     submit,
   } = useCreateRequestForm()
 
@@ -49,6 +52,10 @@ export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
       return
     }
 
+    if (validate()) setContactSheetVisible(true)
+  }
+
+  async function handleContactConfirm() {
     const requestId = await submit()
 
     if (!requestId) {
@@ -64,71 +71,68 @@ export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
 
   return (
     <View style={themed(styles.$formScreen)}>
-      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
       <Header
-        titleMode="left"
         titleTx="request:title"
         leftIcon="Back"
         leftIconColor={theme.colors.text}
         leftIconAccessibilityLabel={translate("common:back")}
         onLeftPress={() => navigation.goBack()}
-        backgroundColor={theme.colors.background}
         containerStyle={themed(styles.$header)}
       />
 
-      <KeyboardAvoidingView
-        style={styles.$flex}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <KeyboardAwareScrollView
+        bottomOffset={50}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={themed(styles.$formContent)}
       >
-        <KeyboardAwareScrollView
-          bottomOffset={50}
-          keyboardShouldPersistTaps="handled"
-          keyboardDismissMode="on-drag"
-          contentContainerStyle={themed(styles.$formContent)}
-        >
-          {!isOnline && (
-            <View style={themed(styles.$offlineBanner)}>
-              <Text preset="bold" tx="request:offlineTitle" style={themed(styles.$offlineTitle)} />
-              <Text
-                preset="formHelper"
-                tx="request:offlineMessage"
-                style={themed(styles.$offlineText)}
-              />
-            </View>
-          )}
-
-          <FormSection step={1} titleTx="request:sectionScrap">
-            <ScrapItemsSection
-              items={draft.items}
-              errors={errors.items}
-              onChangeItem={updateItem}
-              onRemoveItem={removeItem}
-              onAddItem={addItem}
+        {!isOnline && (
+          <View style={themed(styles.$offlineBanner)}>
+            <Text preset="bold" tx="request:offlineTitle" style={themed(styles.$offlineTitle)} />
+            <Text
+              preset="formHelper"
+              tx="request:offlineMessage"
+              style={themed(styles.$offlineText)}
             />
-          </FormSection>
+          </View>
+        )}
 
-          <FormSection step={2} titleTx="request:sectionCollection">
-            <AddressFields
-              address={draft.address}
-              errors={errors.address}
-              onChange={updateAddress}
-              disabled={isSubmitting}
-            />
+        <FormSection step={1} titleTx="request:sectionScrap">
+          <ScrapItemsSection
+            items={draft.items}
+            errors={errors.items}
+            onChangeItem={updateItem}
+            onRemoveItem={removeItem}
+            onAddItem={addItem}
+          />
+        </FormSection>
 
-            <CollectionTimeField
-              value={draft.proposedAt}
-              onChange={setProposedAt}
-              labelTx="request:proposedAtLabel"
-              required
-              placeholderTx="request:proposedAtPlaceholder"
-              errorTx={errors.proposedAt}
-              disabled={isSubmitting}
-            />
-          </FormSection>
-        </KeyboardAwareScrollView>
-      </KeyboardAvoidingView>
+        <FormSection step={2} titleTx="request:sectionCollection">
+          <AddressFields
+            address={draft.address}
+            errors={errors.address}
+            onChange={updateAddress}
+            disabled={isSubmitting}
+          />
+
+          <CollectionTimeField
+            value={draft.proposedAt}
+            onChange={setProposedAt}
+            labelTx="request:proposedAtLabel"
+            required
+            placeholderTx="request:proposedAtPlaceholder"
+            errorTx={errors.proposedAt}
+            disabled={isSubmitting}
+          />
+        </FormSection>
+      </KeyboardAwareScrollView>
 
       <SubmitBar isSubmitting={isSubmitting} isOffline={!isOnline} onSubmit={handleSubmit} />
+      <ContactDetailsSheet
+        visible={isContactSheetVisible}
+        isSubmitting={isSubmitting}
+        onClose={() => setContactSheetVisible(false)}
+        onConfirm={handleContactConfirm}
+      />
     </View>
   )
 }

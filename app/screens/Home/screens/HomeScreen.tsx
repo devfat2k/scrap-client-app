@@ -1,6 +1,5 @@
 import { FC, useRef, useState } from "react"
 import { ScrollView, View } from "react-native"
-import { StatusBar } from "expo-status-bar"
 import { useNavigation, useScrollToTop } from "@react-navigation/native"
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
@@ -13,6 +12,7 @@ import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { HomeTopBar } from "../components/HomeTopBar"
 import { HowItWorksSheet } from "../components/HowItWorksSheet"
+import { LanguageSheet } from "../components/LanguageSheet"
 import { NotificationsSheet } from "../components/NotificationsSheet"
 import { QuickActions } from "../components/QuickActions"
 import { RecentRequestCard } from "../components/RecentRequestCard"
@@ -22,12 +22,13 @@ import { styles as cardStyles } from "../styles/homeCardsStyles"
 import { styles } from "../styles/homeScreenStyles"
 
 export const HomeScreen: FC = () => {
-  const { themed, theme, themeContext } = useAppTheme()
+  const { themed, theme } = useAppTheme()
   const containerInsets = useSafeAreaInsetsStyle(["top"])
   const scrollRef = useRef<ScrollView>(null)
   useScrollToTop(scrollRef)
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
   const [themeSheetVisible, setThemeSheetVisible] = useState(false)
+  const [languageSheetVisible, setLanguageSheetVisible] = useState(false)
   const [notificationsVisible, setNotificationsVisible] = useState(false)
   const [howItWorksVisible, setHowItWorksVisible] = useState(false)
 
@@ -49,13 +50,13 @@ export const HomeScreen: FC = () => {
 
   return (
     <View style={[themed(styles.$container), containerInsets]}>
-      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
       <ScrollView
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={themed(styles.$content)}
       >
         <HomeTopBar
+          onPressLanguage={() => setLanguageSheetVisible(true)}
           onPressTheme={() => setThemeSheetVisible(true)}
           onPressNotifications={() => setNotificationsVisible(true)}
         />
@@ -93,6 +94,10 @@ export const HomeScreen: FC = () => {
         )}
       </ScrollView>
       <ThemeSheet visible={themeSheetVisible} onClose={() => setThemeSheetVisible(false)} />
+      <LanguageSheet
+        visible={languageSheetVisible}
+        onClose={() => setLanguageSheetVisible(false)}
+      />
       <NotificationsSheet
         visible={notificationsVisible}
         onClose={() => setNotificationsVisible(false)}

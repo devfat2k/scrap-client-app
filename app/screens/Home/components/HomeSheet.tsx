@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect } from "react"
-import { BackHandler, useWindowDimensions } from "react-native"
+import { BackHandler } from "react-native"
 import type { TextStyle, ViewStyle } from "react-native"
 import {
   BottomSheetBackdrop,
@@ -7,15 +7,12 @@ import {
   BottomSheetScrollView,
   type BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
-
-const SHEET_MAX_HEIGHT_RATIO = 0.8
 
 export interface HomeSheetProps {
   /**
@@ -42,8 +39,6 @@ export interface HomeSheetProps {
 export function HomeSheet(props: HomeSheetProps) {
   const { visible, onClose, titleTx, children } = props
   const { themed } = useAppTheme()
-  const insets = useSafeAreaInsets()
-  const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
 
   useEffect(() => {
@@ -74,8 +69,6 @@ export function HomeSheet(props: HomeSheetProps) {
       ref={sheetRef}
       enablePanDownToClose
       keyboardBlurBehavior="none"
-      maxDynamicContentSize={windowHeight * SHEET_MAX_HEIGHT_RATIO}
-      bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={themed(styles.$handle)}

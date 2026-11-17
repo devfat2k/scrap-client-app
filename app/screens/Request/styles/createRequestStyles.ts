@@ -111,7 +111,7 @@ export const styles = {
    */
   $scrapCard: (({ colors, spacing }) => ({
     backgroundColor: colors.card,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.border,
     borderRadius: spacing.xs,
     padding: spacing.md,

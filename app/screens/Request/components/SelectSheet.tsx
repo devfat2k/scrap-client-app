@@ -6,7 +6,6 @@ import {
   BottomSheetScrollView,
   type BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
@@ -57,7 +56,6 @@ export interface SelectSheetProps<T extends string> {
 export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
   const { visible, options, selectedValue, onSelect, onClose, title, titleTx } = props
   const { themed, theme } = useAppTheme()
-  const insets = useSafeAreaInsets()
   const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
 
@@ -101,7 +99,6 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
       enableDynamicSizing={false}
       keyboardBlurBehavior="none"
       snapPoints={snapPoints}
-      bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={themed(styles.$handle)}

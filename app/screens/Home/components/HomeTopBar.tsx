@@ -8,6 +8,7 @@ import { useAppTheme } from "@/theme/context"
 import { styles } from "../styles/homeScreenStyles"
 
 export interface HomeTopBarProps {
+  onPressLanguage: () => void
   /**
    * Opens the theme picker sheet.
    */
@@ -22,7 +23,7 @@ export interface HomeTopBarProps {
  * Greeting plus the Home quick controls: theme and notifications.
  */
 export function HomeTopBar(props: HomeTopBarProps) {
-  const { onPressTheme, onPressNotifications } = props
+  const { onPressTheme, onPressNotifications, onPressLanguage } = props
   const { themed, theme } = useAppTheme()
 
   return (
@@ -37,6 +38,18 @@ export function HomeTopBar(props: HomeTopBarProps) {
       </View>
 
       <View style={themed(styles.$headerActions)}>
+        <Pressable
+          onPress={onPressLanguage}
+          accessibilityRole="button"
+          accessibilityLabel={translate("home:languageAction")}
+          hitSlop={theme.spacing.xs}
+          style={({ pressed }) => [
+            themed(styles.$actionButton),
+            pressed && themed(styles.$actionButtonPressed),
+          ]}
+        >
+          <SvgIcon icon="Earth" size={20} fill={theme.colors.text} />
+        </Pressable>
         <Pressable
           onPress={onPressTheme}
           accessibilityRole="button"

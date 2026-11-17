@@ -55,13 +55,12 @@ const styles = {
     gap: spacing.xs,
   })) as ThemedStyle<ViewStyle>,
 
-  $formSectionBadge: (({ colors, spacing }) => ({
+  $formSectionBadge: (({ spacing }) => ({
     width: spacing.lg,
     height: spacing.lg,
     borderRadius: spacing.sm,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.palette.primary100,
   })) as ThemedStyle<ViewStyle>,
 
   $formSectionBadgeText: (({ colors, typography }) => ({

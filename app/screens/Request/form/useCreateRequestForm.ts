@@ -107,6 +107,12 @@ export function useCreateRequestForm() {
     setErrors((prev) => (prev.proposedAt ? { ...prev, proposedAt: undefined } : prev))
   }
 
+  function validate() {
+    const nextErrors = validateRequestForm(draft)
+    setErrors(nextErrors)
+    return !hasRequestFormErrors(nextErrors)
+  }
+
   async function submit(): Promise<string | false> {
     if (submittingRef.current) return false
 
@@ -138,6 +144,7 @@ export function useCreateRequestForm() {
     removeItem,
     updateAddress,
     setProposedAt,
+    validate,
     submit,
   }
 }
