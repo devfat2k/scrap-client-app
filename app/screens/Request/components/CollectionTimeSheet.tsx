@@ -129,10 +129,10 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed($handle)}
-      backgroundStyle={themed($sheet)}
+      handleIndicatorStyle={themed(styles.$handle)}
+      backgroundStyle={themed(styles.$sheet)}
     >
-      <BottomSheetView style={themed($content)}>
+      <BottomSheetView style={themed(styles.$content)}>
         <DateTimePicker
           value={draft}
           mode="datetime"
@@ -142,18 +142,18 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
           }}
         />
 
-        <View style={themed($actions)}>
+        <View style={themed(styles.$actions)}>
           <Button
             preset="default"
             tx="common:cancel"
             onPress={() => close()}
-            style={themed($actionSurface)}
+            style={themed(styles.$actionSurface)}
           />
           <Button
             preset="primary"
             tx="common:done"
             onPress={() => close(draft)}
-            style={themed($actionSurface)}
+            style={themed(styles.$actionSurface)}
           />
         </View>
       </BottomSheetView>
@@ -161,31 +161,33 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
   )
 }
 
-const $sheet: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.card,
-  borderTopStartRadius: spacing.md,
-  borderTopEndRadius: spacing.md,
-})
+const styles = {
+  $sheet: (({ colors, spacing }) => ({
+    backgroundColor: colors.card,
+    borderTopStartRadius: spacing.md,
+    borderTopEndRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-const $handle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.xxl,
-  height: spacing.xxs,
-  borderRadius: spacing.xxs,
-  backgroundColor: colors.palette.neutral400,
-})
+  $handle: (({ colors, spacing }) => ({
+    width: spacing.xxl,
+    height: spacing.xxs,
+    borderRadius: spacing.xxs,
+    backgroundColor: colors.palette.neutral400,
+  })) as ThemedStyle<ViewStyle>,
 
-const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xs,
-  paddingBottom: spacing.md,
-  gap: spacing.xs,
-})
+  $content: (({ spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+    gap: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $actions: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  gap: spacing.sm,
-})
+  $actions: (({ spacing }) => ({
+    flexDirection: "row",
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-const $actionSurface: ViewStyle = {
-  flex: 1,
+  $actionSurface: {
+    flex: 1,
+  } as ViewStyle,
 }

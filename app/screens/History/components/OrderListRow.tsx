@@ -2,90 +2,68 @@ import { Pressable, View } from "react-native"
 
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
+import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
 import { formatShortDate } from "@/utils/formatDate"
-import { getStatusColor, getStatusLabel } from "@/utils/orderStatusDisplay"
 
-import { OrderStatusLabel } from "./OrderStatusLabel"
-import {
-  $chevron,
-  $row,
-  $rowAddress,
-  $rowBody,
-  $rowDivider,
-  $rowFooter,
-  $rowHeader,
-  $rowId,
-  $rowItems,
-  $rowMeta,
-  $rowPressed,
-} from "../styles/historyScreenStyles"
+import { OrderCardContent } from "./OrderCardContent"
+import { OrderDriver } from "./OrderDriver"
+import { styles } from "../styles/orderListRowStyles"
 import type { RequestOrder } from "../types/order"
-import { formatOrderAddress, getItemsSummary } from "../utils/orderDetail"
+import { getOrderCardAccessibilityLabel } from "../utils/orderCardAccessibility"
 
 export interface OrderListRowProps {
-  /**
-   * Request shown in the row.
-   */
   order: RequestOrder
-  /**
-   * Opens the request detail screen.
-   */
   onPress: () => void
 }
 
-/**
- * History row: id and status on top, location and scrap below, date and chevron in the footer.
- */
-export function OrderListRow(props: OrderListRowProps) {
-  const { order, onPress } = props
+function getCardDate(order: RequestOrder) {
+  if (order.status === ORDER_STATUS.PAID) {
+    return order.settlement?.completedAt
+      ? translate("history:completedOn", { date: formatShortDate(order.settlement.completedAt) })
+      : translate("history:completionDateUnavailable")
+  }
+  if (order.status === ORDER_STATUS.CANCELLED) {
+    return order.cancellation?.cancelledAt
+      ? translate("history:cancelledOn", { date: formatShortDate(order.cancellation.cancelledAt) })
+      : translate("history:cancellationDateUnavailable")
+  }
+  return translate("history:submitted", { date: formatShortDate(order.createdAt) })
+}
+
+export function OrderListRow({ order, onPress }: OrderListRowProps) {
   const { themed, theme } = useAppTheme()
-
-  const statusLabel = getStatusLabel(order.status)
-  const { line1, line2 } = formatOrderAddress(order.address)
-
   return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`#${order.id}, ${statusLabel}`}
-      style={({ pressed }) => [
-        themed($row),
-        { borderStartColor: getStatusColor(theme, order.status) },
-        pressed && themed($rowPressed),
-      ]}
-    >
-      <View style={themed($rowBody)}>
-        <View style={themed($rowHeader)}>
-          <Text preset="bold" text={`#${order.id}`} style={themed($rowId)} />
-          <OrderStatusLabel status={order.status} />
+    <View style={themed(styles.$card)}>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={getOrderCardAccessibilityLabel(order)}
+        style={({ pressed }) => [pressed && themed(styles.$pressed)]}
+      >
+        <View
+          style={themed(styles.$body)}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          <View style={themed(styles.$row)}>
+            <Text preset="bold" text={`#${order.id}`} />
+            <Text preset="formHelper" text={getCardDate(order)} style={themed(styles.$meta)} />
+          </View>
+          <OrderCardContent order={order} />
+          <View style={themed(styles.$footer)}>
+            <Text preset="formHelper" tx="history:viewDetails" />
+            <SvgIcon
+              icon="ChevronDown"
+              size={16}
+              fill={theme.colors.textDim}
+              style={styles.$chevron}
+            />
+          </View>
         </View>
-
-        <View style={themed($rowDivider)} />
-
-        <Text
-          preset="formHelper"
-          text={`${line1}, ${line2}`}
-          numberOfLines={1}
-          style={themed($rowAddress)}
-        />
-        <Text
-          preset="formHelper"
-          text={getItemsSummary(order.items)}
-          numberOfLines={1}
-          style={themed($rowItems)}
-        />
-
-        <View style={themed($rowFooter)}>
-          <Text
-            preset="formHelper"
-            text={translate("history:submitted", { date: formatShortDate(order.createdAt) })}
-            style={themed($rowMeta)}
-          />
-          <SvgIcon icon="ChevronDown" size={16} fill={theme.colors.textDim} style={$chevron} />
-        </View>
-      </View>
-    </Pressable>
+      </Pressable>
+      {order.status === ORDER_STATUS.DISPATCHED && <OrderDriver driver={order.driverAssignment} />}
+    </View>
   )
 }

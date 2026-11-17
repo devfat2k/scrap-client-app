@@ -25,50 +25,56 @@ export function FormSection(props: PropsWithChildren<FormSectionProps>) {
   const { themed } = useAppTheme()
 
   return (
-    <View style={themed($formSection)}>
-      <View style={themed($formSectionHeader)}>
-        <View style={themed($formSectionBadge)}>
-          <Text preset="formHelper" text={String(step)} style={themed($formSectionBadgeText)} />
+    <View style={themed(styles.$formSection)}>
+      <View style={themed(styles.$formSectionHeader)}>
+        <View style={themed(styles.$formSectionBadge)}>
+          <Text
+            preset="formHelper"
+            text={String(step)}
+            style={themed(styles.$formSectionBadgeText)}
+          />
         </View>
-        <Text preset="subheading" tx={titleTx} style={themed($formSectionTitle)} />
+        <Text preset="subheading" tx={titleTx} style={themed(styles.$formSectionTitle)} />
       </View>
 
-      <View style={themed($formSectionDivider)} />
+      <View style={themed(styles.$formSectionDivider)} />
 
       {children}
     </View>
   )
 }
 
-const $formSection: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.sm,
-})
+const styles = {
+  $formSection: (({ spacing }) => ({
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-const $formSectionHeader: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.xs,
-})
+  $formSectionHeader: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $formSectionBadge: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.lg,
-  height: spacing.lg,
-  borderRadius: spacing.sm,
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: colors.palette.primary100,
-})
+  $formSectionBadge: (({ colors, spacing }) => ({
+    width: spacing.lg,
+    height: spacing.lg,
+    borderRadius: spacing.sm,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.palette.primary100,
+  })) as ThemedStyle<ViewStyle>,
 
-const $formSectionBadgeText: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.palette.primary600,
-  fontFamily: typography.primary.semiBold,
-})
+  $formSectionBadgeText: (({ colors, typography }) => ({
+    color: colors.palette.primary600,
+    fontFamily: typography.primary.semiBold,
+  })) as ThemedStyle<TextStyle>,
 
-const $formSectionTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $formSectionTitle: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-const $formSectionDivider: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  height: StyleSheet.hairlineWidth,
-  backgroundColor: colors.separator,
-})
+  $formSectionDivider: (({ colors }) => ({
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.separator,
+  })) as ThemedStyle<ViewStyle>,
+}

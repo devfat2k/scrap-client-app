@@ -7,19 +7,7 @@ import { useAppTheme } from "@/theme/context"
 import { formatShortDate } from "@/utils/formatDate"
 import { getStatusColor, getStatusIconName, getStatusLabel } from "@/utils/orderStatusDisplay"
 
-import {
-  $chevron,
-  $recentAddress,
-  $recentCard,
-  $recentDivider,
-  $recentFooter,
-  $recentHeader,
-  $recentId,
-  $recentMeta,
-  $recentPressed,
-  $recentStatus,
-  $recentStatusText,
-} from "../styles/homeCardsStyles"
+import { styles } from "../styles/homeCardsStyles"
 
 export interface RecentRequestCardProps {
   /**
@@ -48,47 +36,47 @@ export function RecentRequestCard(props: RecentRequestCardProps) {
       accessibilityRole="button"
       accessibilityLabel={`#${order.id}, ${statusLabel}`}
       style={({ pressed }) => [
-        themed($recentCard),
+        themed(styles.$recentCard),
         { borderStartColor: statusColor },
-        pressed && themed($recentPressed),
+        pressed && themed(styles.$recentPressed),
       ]}
     >
-      <View style={themed($recentHeader)}>
-        <Text preset="bold" text={`#${order.id}`} style={themed($recentId)} />
+      <View style={themed(styles.$recentHeader)}>
+        <Text preset="bold" text={`#${order.id}`} style={themed(styles.$recentId)} />
 
-        <View style={themed($recentStatus)}>
+        <View style={themed(styles.$recentStatus)}>
           <SvgIcon icon={getStatusIconName(order.status)} size={14} fill={statusColor} />
           <Text
             preset="formHelper"
             text={statusLabel}
-            style={[themed($recentStatusText), { color: statusColor }]}
+            style={[themed(styles.$recentStatusText), { color: statusColor }]}
           />
         </View>
       </View>
 
-      <View style={themed($recentDivider)} />
+      <View style={themed(styles.$recentDivider)} />
 
       <Text
         preset="formHelper"
         text={`${order.address.suburb}, ${order.address.state}`}
         numberOfLines={1}
-        style={themed($recentAddress)}
+        style={themed(styles.$recentAddress)}
       />
       <Text
         preset="formHelper"
         tx="history:scrapTypes"
         txOptions={{ count: order.items.length }}
-        style={themed($recentMeta)}
+        style={themed(styles.$recentMeta)}
       />
 
-      <View style={themed($recentFooter)}>
+      <View style={themed(styles.$recentFooter)}>
         <Text
           preset="formHelper"
           tx="history:submitted"
           txOptions={{ date: formatShortDate(order.createdAt) }}
-          style={themed($recentMeta)}
+          style={themed(styles.$recentMeta)}
         />
-        <SvgIcon icon="ChevronDown" size={16} fill={theme.colors.textDim} style={$chevron} />
+        <SvgIcon icon="ChevronDown" size={16} fill={theme.colors.textDim} style={styles.$chevron} />
       </View>
     </Pressable>
   )

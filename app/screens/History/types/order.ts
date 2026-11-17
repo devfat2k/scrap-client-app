@@ -17,6 +17,20 @@ export interface OrderContact {
   phone: string
 }
 
+export interface DriverAssignment {
+  name?: string
+  vehiclePlate?: string
+  phone?: string
+  isDemoContact: boolean
+}
+
+export interface OrderSettlement {
+  completedAt?: Date
+  actualItems?: Pick<OrderItem, "id" | "category" | "quantity" | "unit" | "unitPriceCents">[]
+  paymentMethod?: string
+  receivedTotalCents?: number
+}
+
 export interface RequestOrder {
   id: string
   status: OrderStatus
@@ -27,5 +41,8 @@ export interface RequestOrder {
   confirmedAt?: Date
   volumeCubicMeters?: number
   items: OrderItem[]
+  driverAssignment?: DriverAssignment
+  settlement?: OrderSettlement
+  cancellation?: { cancelledAt?: Date; reason?: string }
   quoteTotalCents?: number
 }

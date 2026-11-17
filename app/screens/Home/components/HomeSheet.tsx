@@ -78,37 +78,39 @@ export function HomeSheet(props: HomeSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed($handle)}
-      backgroundStyle={themed($sheet)}
+      handleIndicatorStyle={themed(styles.$handle)}
+      backgroundStyle={themed(styles.$sheet)}
     >
-      <BottomSheetScrollView contentContainerStyle={themed($content)}>
-        <Text preset="subheading" tx={titleTx} style={themed($title)} />
+      <BottomSheetScrollView contentContainerStyle={themed(styles.$content)}>
+        <Text preset="subheading" tx={titleTx} style={themed(styles.$title)} />
         {children}
       </BottomSheetScrollView>
     </BottomSheetModal>
   )
 }
 
-const $sheet: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.card,
-  borderTopStartRadius: spacing.md,
-  borderTopEndRadius: spacing.md,
-})
+const styles = {
+  $sheet: (({ colors, spacing }) => ({
+    backgroundColor: colors.card,
+    borderTopStartRadius: spacing.md,
+    borderTopEndRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-const $handle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.xxl,
-  height: spacing.xxs,
-  borderRadius: spacing.xxs,
-  backgroundColor: colors.palette.neutral400,
-})
+  $handle: (({ colors, spacing }) => ({
+    width: spacing.xxl,
+    height: spacing.xxs,
+    borderRadius: spacing.xxs,
+    backgroundColor: colors.palette.neutral400,
+  })) as ThemedStyle<ViewStyle>,
 
-const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xs,
-  paddingBottom: spacing.md,
-})
+  $content: (({ spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-const $title: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.text,
-  paddingBottom: spacing.xs,
-})
+  $title: (({ colors, spacing }) => ({
+    color: colors.text,
+    paddingBottom: spacing.xs,
+  })) as ThemedStyle<TextStyle>,
+}

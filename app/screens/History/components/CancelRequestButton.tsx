@@ -2,12 +2,7 @@ import { Button } from "@/components/Button"
 import SvgIcon from "@/components/SvgIcon"
 import { useAppTheme } from "@/theme/context"
 
-import {
-  $cancelButton,
-  $cancelButtonDisabled,
-  $cancelButtonPressed,
-  $cancelText,
-} from "../styles/cancelRequestStyles"
+import { styles } from "../styles/cancelRequestStyles"
 
 export interface CancelRequestButtonProps {
   /**
@@ -40,10 +35,10 @@ export function CancelRequestButton(props: CancelRequestButtonProps) {
       LeftAccessory={CancelIcon}
       onPress={onPress}
       disabled={disabled}
-      style={themed($cancelButton)}
-      pressedStyle={themed($cancelButtonPressed)}
-      disabledStyle={themed($cancelButtonDisabled)}
-      textStyle={themed($cancelText)}
+      style={themed(styles.$cancelButton)}
+      pressedStyle={themed(styles.$cancelButtonPressed)}
+      disabledStyle={themed(styles.$cancelButtonDisabled)}
+      textStyle={themed(styles.$cancelText)}
     />
   )
 }

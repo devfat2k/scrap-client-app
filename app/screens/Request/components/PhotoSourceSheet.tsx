@@ -101,11 +101,11 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed($handle)}
-      backgroundStyle={themed($sheet)}
+      handleIndicatorStyle={themed(styles.$handle)}
+      backgroundStyle={themed(styles.$sheet)}
     >
-      <BottomSheetScrollView contentContainerStyle={themed($content)}>
-        <Text preset="subheading" tx="request:photoSourceTitle" style={themed($title)} />
+      <BottomSheetScrollView contentContainerStyle={themed(styles.$content)}>
+        <Text preset="subheading" tx="request:photoSourceTitle" style={themed(styles.$title)} />
 
         {actions.map((action) => {
           const isDisabled = disabled && !action.isCancel
@@ -118,14 +118,14 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
               accessibilityRole="button"
               accessibilityState={{ disabled: isDisabled }}
               style={({ pressed }) => [
-                themed($action),
-                action.isCancel && themed($cancelAction),
-                pressed && !isDisabled && themed($actionPressed),
+                themed(styles.$action),
+                action.isCancel && themed(styles.$cancelAction),
+                pressed && !isDisabled && themed(styles.$actionPressed),
               ]}
             >
               <Text
                 tx={action.labelTx}
-                style={[themed($actionText), action.isCancel && themed($cancelText)]}
+                style={[themed(styles.$actionText), action.isCancel && themed(styles.$cancelText)]}
               />
             </Pressable>
           )
@@ -135,52 +135,54 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
   )
 }
 
-const $sheet: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.card,
-  borderTopStartRadius: spacing.md,
-  borderTopEndRadius: spacing.md,
-})
+const styles = {
+  $sheet: (({ colors, spacing }) => ({
+    backgroundColor: colors.card,
+    borderTopStartRadius: spacing.md,
+    borderTopEndRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-const $handle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.xxl,
-  height: spacing.xxs,
-  borderRadius: spacing.xxs,
-  backgroundColor: colors.palette.neutral400,
-})
+  $handle: (({ colors, spacing }) => ({
+    width: spacing.xxl,
+    height: spacing.xxs,
+    borderRadius: spacing.xxs,
+    backgroundColor: colors.palette.neutral400,
+  })) as ThemedStyle<ViewStyle>,
 
-const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xs,
-  paddingBottom: spacing.md,
-})
+  $content: (({ spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-const $title: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.text,
-  paddingBottom: spacing.xs,
-})
+  $title: (({ colors, spacing }) => ({
+    color: colors.text,
+    paddingBottom: spacing.xs,
+  })) as ThemedStyle<TextStyle>,
 
-const $action: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  minHeight: spacing.xxl,
-  justifyContent: "center",
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderBottomColor: colors.separator,
-  paddingVertical: spacing.sm,
-})
+  $action: (({ colors, spacing }) => ({
+    minHeight: spacing.xxl,
+    justifyContent: "center",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.separator,
+    paddingVertical: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-const $cancelAction: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  borderBottomWidth: 0,
-  marginTop: spacing.xs,
-})
+  $cancelAction: (({ spacing }) => ({
+    borderBottomWidth: 0,
+    marginTop: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $actionPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
+  $actionPressed: (({ isDark }) => ({
+    opacity: isDark ? 0.7 : 0.6,
+  })) as ThemedStyle<ViewStyle>,
 
-const $actionText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $actionText: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-const $cancelText: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.textDim,
-  fontFamily: typography.primary.medium,
-})
+  $cancelText: (({ colors, typography }) => ({
+    color: colors.textDim,
+    fontFamily: typography.primary.medium,
+  })) as ThemedStyle<TextStyle>,
+}

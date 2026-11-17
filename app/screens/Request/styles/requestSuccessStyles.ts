@@ -2,80 +2,86 @@ import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-/**
- * Scroll content for the request success screen.
- */
-export const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xxl,
-  paddingBottom: spacing.lg,
-  gap: spacing.lg,
-})
+export const styles = {
+  $container: (({ colors }) => ({
+    flex: 1,
+    backgroundColor: colors.background,
+  })) as ThemedStyle<ViewStyle>,
+  /**
+   * Scroll content for the request success screen.
+   */
+  $content: (({ spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xxl,
+    paddingBottom: spacing.lg,
+    gap: spacing.lg,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $hero: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  alignItems: "center",
-  gap: spacing.sm,
-})
-
-export const $successCircle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => {
-  const size = spacing.xxxl + spacing.xl
-
-  return {
-    width: size,
-    height: size,
-    borderRadius: size / 2,
+  $hero: (({ spacing }) => ({
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.palette.primary500,
-  }
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
+
+  $successCircle: (({ colors, spacing }) => {
+    const size = spacing.xxxl + spacing.xl
+
+    return {
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: colors.palette.primary500,
+    }
+  }) as ThemedStyle<ViewStyle>,
+
+  $title: (({ colors }) => ({
+    color: colors.text,
+    textAlign: "center",
+  })) as ThemedStyle<TextStyle>,
+
+  $message: (({ colors, spacing }) => ({
+    color: colors.textDim,
+    textAlign: "center",
+    paddingHorizontal: spacing.sm,
+  })) as ThemedStyle<TextStyle>,
+
+  $requestIdPill: (({ colors, spacing }) => ({
+    marginTop: spacing.xxs,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xxs,
+    borderRadius: spacing.xs,
+    backgroundColor: colors.palette.primary100,
+  })) as ThemedStyle<ViewStyle>,
+
+  $requestIdText: (({ colors }) => ({
+    color: colors.palette.primary600,
+  })) as ThemedStyle<TextStyle>,
+
+  $ecoCard: (({ colors, spacing }) => ({
+    borderWidth: 1,
+    borderRadius: spacing.sm,
+    borderColor: colors.palette.primary200,
+    backgroundColor: colors.palette.primary100,
+    padding: spacing.md,
+    gap: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
+
+  $ecoHeader: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
+
+  $ecoTitle: (({ colors }) => ({
+    color: colors.palette.primary600,
+  })) as ThemedStyle<TextStyle>,
+
+  $ecoText: (({ colors }) => ({
+    color: colors.textDim,
+  })) as ThemedStyle<TextStyle>,
+
+  $actions: (({ spacing }) => ({
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 }
-
-export const $title: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-  textAlign: "center",
-})
-
-export const $message: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.textDim,
-  textAlign: "center",
-  paddingHorizontal: spacing.sm,
-})
-
-export const $requestIdPill: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  marginTop: spacing.xxs,
-  paddingHorizontal: spacing.sm,
-  paddingVertical: spacing.xxs,
-  borderRadius: spacing.xs,
-  backgroundColor: colors.palette.primary100,
-})
-
-export const $requestIdText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.primary600,
-})
-
-export const $ecoCard: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  borderWidth: 1,
-  borderRadius: spacing.sm,
-  borderColor: colors.palette.primary200,
-  backgroundColor: colors.palette.primary100,
-  padding: spacing.md,
-  gap: spacing.xs,
-})
-
-export const $ecoHeader: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.xs,
-})
-
-export const $ecoTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.palette.primary600,
-})
-
-export const $ecoText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-})
-
-export const $actions: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.sm,
-})

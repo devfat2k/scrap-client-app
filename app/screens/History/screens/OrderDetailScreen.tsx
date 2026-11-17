@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { View } from "react-native"
+import { useRef, useState } from "react"
+import { ScrollView, View } from "react-native"
+import { StatusBar } from "expo-status-bar"
+import { useScrollToTop } from "@react-navigation/native"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import { Header, type HeaderProps } from "@/components/Header"
-import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
@@ -12,6 +13,7 @@ import { useNetworkStatus } from "@/services/network"
 import { useAppTheme } from "@/theme/context"
 import { formatShortDate } from "@/utils/formatDate"
 import { showToast } from "@/utils/toastService"
+import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { CancelRequestButton } from "../components/CancelRequestButton"
 import { CancelRequestSheet } from "../components/CancelRequestSheet"
@@ -21,14 +23,7 @@ import { OrderItemsCard } from "../components/OrderItemsCard"
 import { OrderNotFoundState } from "../components/OrderNotFoundState"
 import { OrderStatusLabel } from "../components/OrderStatusLabel"
 import { getMockOrder } from "../mocks/historyOrders"
-import {
-  $content,
-  $header,
-  $headerStatus,
-  $headerTitle,
-  $metaLine,
-  $screen,
-} from "../styles/orderDetailScreenStyles"
+import { styles } from "../styles/orderDetailScreenStyles"
 import { getHeaderBackground, getHeaderForeground } from "../utils/orderDetail"
 
 type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "OrderDetailScreen">
@@ -37,6 +32,9 @@ type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "Ord
  * Request detail for both pending (1.4) and confirmed (1.5) requests.
  */
 export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps) {
+  const scrollRef = useRef<ScrollView>(null)
+  useScrollToTop(scrollRef)
+  const containerInsets = useSafeAreaInsetsStyle(["bottom"])
   const { orderId } = route.params
   const order = getMockOrder(orderId)
   const { themed, theme } = useAppTheme()
@@ -62,17 +60,18 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
   const headerProps: Omit<HeaderProps, "backgroundColor" | "title" | "RightActionComponent"> = {
     safeAreaEdges: ["top"],
     titleMode: "left",
-    titleStyle: [themed($headerTitle), { color: foreground }],
+    titleStyle: [themed(styles.$headerTitle), { color: foreground }],
     leftIcon: "Back",
     leftIconColor: foreground,
     leftIconAccessibilityLabel: translate("common:back"),
     onLeftPress: handleBack,
-    containerStyle: themed($header),
+    containerStyle: themed(styles.$header),
   }
 
   if (!order) {
     return (
-      <View style={themed($screen)}>
+      <View style={[themed(styles.$screen), containerInsets]}>
+        <StatusBar style="light" />
         <Header
           {...headerProps}
           backgroundColor={getHeaderBackground(theme, undefined)}
@@ -87,23 +86,22 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
   const canCancel = currentStatus === ORDER_STATUS.NEW
 
   return (
-    <View style={themed($screen)}>
+    <View style={[themed(styles.$screen), containerInsets]}>
       <Header
         {...headerProps}
         backgroundColor={getHeaderBackground(theme, currentStatus)}
         title={`#${order.id}`}
         RightActionComponent={
-          <View style={themed($headerStatus)}>
+          <View style={themed(styles.$headerStatus)}>
             <OrderStatusLabel status={currentStatus} color={foreground} iconSize={16} />
           </View>
         }
       />
 
-      <Screen
-        preset="scroll"
-        safeAreaEdges={["bottom"]}
-        systemBarStyle="light"
-        contentContainerStyle={themed($content)}
+      <ScrollView
+        ref={scrollRef}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={themed(styles.$content)}
       >
         {!isOnline && (
           <OfflineNotice
@@ -115,16 +113,16 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
         <Text
           preset="formHelper"
           text={translate("history:submitted", { date: formatShortDate(order.createdAt) })}
-          style={themed($metaLine)}
+          style={themed(styles.$metaLine)}
         />
 
-        <OrderCollectionCard order={order} />
+        <OrderCollectionCard order={order} status={currentStatus} />
         <OrderItemsCard order={order} />
 
         {canCancel && (
           <CancelRequestButton disabled={!isOnline} onPress={() => setCancelVisible(true)} />
         )}
-      </Screen>
+      </ScrollView>
 
       <CancelRequestSheet
         visible={cancelVisible && canCancel}

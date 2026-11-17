@@ -2,12 +2,14 @@ import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-export const $statusRow: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.xxs,
-})
+export const styles = {
+  $statusRow: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xxs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $statusText: ThemedStyle<TextStyle> = ({ typography }) => ({
-  fontFamily: typography.primary.medium,
-})
+  $statusText: (({ typography }) => ({
+    fontFamily: typography.primary.medium,
+  })) as ThemedStyle<TextStyle>,
+}

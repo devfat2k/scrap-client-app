@@ -1,15 +1,16 @@
 import { FC, useEffect } from "react"
+import { View } from "react-native"
 import type { TextStyle, ViewStyle } from "react-native"
+import { StatusBar } from "expo-status-bar"
 import { MotiView } from "moti"
 
-import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import type { AppStackScreenProps } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
 import type { ThemedStyle } from "@/theme/types"
 
 export const SplashScreen: FC<AppStackScreenProps<"Splash">> = ({ navigation }) => {
-  const { themed } = useAppTheme()
+  const { themed, themeContext } = useAppTheme()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,26 +21,29 @@ export const SplashScreen: FC<AppStackScreenProps<"Splash">> = ({ navigation }) 
   }, [navigation])
 
   return (
-    <Screen preset="fixed" contentContainerStyle={themed($container)}>
+    <View style={themed(styles.$container)}>
+      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
       <MotiView
         from={{ opacity: 0, scale: 0.88 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "timing", duration: 800 }}
       >
-        <Text preset="heading" style={themed($title)} text="ScrapUp" />
+        <Text preset="heading" style={themed(styles.$title)} text="ScrapUp" />
       </MotiView>
-    </Screen>
+    </View>
   )
 }
 
-const $container: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  alignItems: "center",
-  backgroundColor: colors.background,
-  flex: 1,
-  justifyContent: "center",
-})
+const styles = {
+  $container: (({ colors }) => ({
+    alignItems: "center",
+    backgroundColor: colors.background,
+    flex: 1,
+    justifyContent: "center",
+  })) as ThemedStyle<ViewStyle>,
 
-const $title: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.palette.primary500,
-  fontFamily: typography.primary.bold,
-})
+  $title: (({ colors, typography }) => ({
+    color: colors.palette.primary500,
+    fontFamily: typography.primary.bold,
+  })) as ThemedStyle<TextStyle>,
+}

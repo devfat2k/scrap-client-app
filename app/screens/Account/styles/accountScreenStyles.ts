@@ -2,14 +2,16 @@ import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-export const $container: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  alignItems: "center",
-  backgroundColor: colors.background,
-  flex: 1,
-  justifyContent: "center",
-})
+export const styles = {
+  $container: (({ colors }) => ({
+    alignItems: "center",
+    backgroundColor: colors.background,
+    flex: 1,
+    justifyContent: "center",
+  })) as ThemedStyle<ViewStyle>,
 
-export const $text: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.text,
-  fontFamily: typography.primary.semiBold,
-})
+  $text: (({ colors, typography }) => ({
+    color: colors.text,
+    fontFamily: typography.primary.semiBold,
+  })) as ThemedStyle<TextStyle>,
+}

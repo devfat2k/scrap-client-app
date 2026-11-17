@@ -6,25 +6,8 @@ import { useAppTheme } from "@/theme/context"
 import { formatMoneyFromCents } from "@/utils/formatMoney"
 
 import { OrderItemRow } from "./OrderItemRow"
-import {
-  $alignRight,
-  $columnHeader,
-  $columnText,
-  $disclaimer,
-  $disclaimerIcon,
-  $disclaimerText,
-  $itemInfo,
-  $itemsList,
-  $pendingTotal,
-  $priceCell,
-  $totalCell,
-  $totalDivider,
-  $totalLabel,
-  $totalPending,
-  $totalRow,
-  $totalValue,
-} from "../styles/orderItemsStyles"
-import { $sectionCard, $sectionDivider, $sectionTitle } from "../styles/orderSectionStyles"
+import { styles } from "../styles/orderItemsStyles"
+import { styles as orderSectionStyles } from "../styles/orderSectionStyles"
 import type { RequestOrder } from "../types/order"
 
 export interface OrderItemsCardProps {
@@ -43,63 +26,79 @@ export function OrderItemsCard(props: OrderItemsCardProps) {
   const showQuote = order.quoteTotalCents !== undefined
 
   return (
-    <View style={themed($sectionCard)}>
-      <Text preset="subheading" tx="orderDetail:scrapSection" style={themed($sectionTitle)} />
-      <View style={themed($sectionDivider)} />
+    <View style={themed(orderSectionStyles.$sectionCard)}>
+      <Text
+        preset="subheading"
+        tx="orderDetail:scrapSection"
+        style={themed(orderSectionStyles.$sectionTitle)}
+      />
+      <View style={themed(orderSectionStyles.$sectionDivider)} />
 
       {showQuote && (
-        <View style={themed($columnHeader)}>
+        <View style={themed(styles.$columnHeader)}>
           <Text
             preset="formHelper"
             tx="orderDetail:itemColumn"
-            style={[themed($itemInfo), themed($columnText)]}
+            style={[themed(styles.$itemInfo), themed(styles.$columnText)]}
           />
           <Text
             preset="formHelper"
             tx="orderDetail:unitPrice"
-            style={[themed($priceCell), themed($alignRight), themed($columnText)]}
+            style={[
+              themed(styles.$priceCell),
+              themed(styles.$alignRight),
+              themed(styles.$columnText),
+            ]}
           />
           <Text
             preset="formHelper"
             tx="orderDetail:subtotal"
-            style={[themed($totalCell), themed($alignRight), themed($columnText)]}
+            style={[
+              themed(styles.$totalCell),
+              themed(styles.$alignRight),
+              themed(styles.$columnText),
+            ]}
           />
         </View>
       )}
 
-      <View style={themed($itemsList)}>
+      <View style={themed(styles.$itemsList)}>
         {order.items.map((item) => (
           <OrderItemRow key={item.id} item={item} showQuote={showQuote} />
         ))}
       </View>
 
-      <View style={themed($totalDivider)} />
+      <View style={themed(styles.$totalDivider)} />
 
-      <View style={themed($totalRow)}>
-        <Text preset="bold" tx="orderDetail:estimatedTotal" style={themed($totalLabel)} />
+      <View style={themed(styles.$totalRow)}>
+        <Text preset="bold" tx="orderDetail:estimatedTotal" style={themed(styles.$totalLabel)} />
 
         {order.quoteTotalCents !== undefined ? (
           <Text
             preset="subheading"
             text={formatMoneyFromCents(order.quoteTotalCents)}
-            style={themed($totalValue)}
+            style={themed(styles.$totalValue)}
           />
         ) : (
-          <View style={themed($pendingTotal)}>
+          <View style={themed(styles.$pendingTotal)}>
             <SvgIcon icon="Clock" size={14} fill={theme.colors.textDim} />
             <Text
               preset="formHelper"
               tx="orderDetail:quoteUpdating"
-              style={themed($totalPending)}
+              style={themed(styles.$totalPending)}
             />
           </View>
         )}
       </View>
 
       {showQuote && (
-        <View style={themed($disclaimer)}>
-          <Text preset="bold" text="!" style={themed($disclaimerIcon)} />
-          <Text preset="formHelper" tx="orderDetail:disclaimer" style={themed($disclaimerText)} />
+        <View style={themed(styles.$disclaimer)}>
+          <Text preset="bold" text="!" style={themed(styles.$disclaimerIcon)} />
+          <Text
+            preset="formHelper"
+            tx="orderDetail:disclaimer"
+            style={themed(styles.$disclaimerText)}
+          />
         </View>
       )}
     </View>

@@ -10,16 +10,7 @@ import { useAppTheme } from "@/theme/context"
 import { formatDateTime } from "@/utils/formatDate"
 
 import { CollectionTimeSheet } from "./CollectionTimeSheet"
-import {
-  $fieldIcon,
-  $fieldPlaceholder,
-  $fieldRow,
-  $fieldSurface,
-  $fieldSurfaceDisabled,
-  $fieldSurfaceError,
-  $fieldSurfacePressed,
-  $fieldValue,
-} from "../styles/createRequestStyles"
+import { styles } from "../styles/createRequestStyles"
 
 export interface CollectionTimeFieldProps {
   /**
@@ -91,22 +82,22 @@ export function CollectionTimeField(props: CollectionTimeFieldProps) {
         accessibilityLabel={`${translate(labelTx)}${value ? ` ${displayText}` : ""}`}
         accessibilityState={{ disabled, expanded: isSheetVisible }}
         style={({ pressed }) => [
-          themed($fieldSurface),
-          !!errorTx && themed($fieldSurfaceError),
-          disabled && themed($fieldSurfaceDisabled),
-          pressed && !disabled && themed($fieldSurfacePressed),
+          themed(styles.$fieldSurface),
+          !!errorTx && themed(styles.$fieldSurfaceError),
+          disabled && themed(styles.$fieldSurfaceDisabled),
+          pressed && !disabled && themed(styles.$fieldSurfacePressed),
         ]}
       >
-        <View style={themed($fieldRow)}>
+        <View style={themed(styles.$fieldRow)}>
           <Text
             text={displayText}
-            style={value ? themed($fieldValue) : themed($fieldPlaceholder)}
+            style={value ? themed(styles.$fieldValue) : themed(styles.$fieldPlaceholder)}
           />
           <SvgIcon
             icon="Clock"
             size={20}
             fill={disabled ? theme.colors.textDim : theme.colors.text}
-            style={themed($fieldIcon)}
+            style={themed(styles.$fieldIcon)}
           />
         </View>
       </Pressable>

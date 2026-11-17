@@ -52,7 +52,10 @@ export function ThemeSheet(props: ThemeSheetProps) {
             onPress={() => selectTheme(option.value)}
             accessibilityRole="button"
             accessibilityState={{ selected: isSelected }}
-            style={({ pressed }) => [themed($option), pressed && themed($optionPressed)]}
+            style={({ pressed }) => [
+              themed(styles.$option),
+              pressed && themed(styles.$optionPressed),
+            ]}
           >
             <SvgIcon
               icon={option.icon}
@@ -61,7 +64,7 @@ export function ThemeSheet(props: ThemeSheetProps) {
             />
             <Text
               tx={option.labelTx}
-              style={[themed($optionText), isSelected && themed($optionTextSelected)]}
+              style={[themed(styles.$optionText), isSelected && themed(styles.$optionTextSelected)]}
             />
             {isSelected && <SvgIcon icon="Check" size={20} fill={theme.colors.tint} />}
           </Pressable>
@@ -71,26 +74,28 @@ export function ThemeSheet(props: ThemeSheetProps) {
   )
 }
 
-const $option: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  minHeight: spacing.xxl,
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.sm,
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderBottomColor: colors.separator,
-  paddingVertical: spacing.xs,
-})
+const styles = {
+  $option: (({ colors, spacing }) => ({
+    minHeight: spacing.xxl,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.separator,
+    paddingVertical: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $optionPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
+  $optionPressed: (({ isDark }) => ({
+    opacity: isDark ? 0.7 : 0.6,
+  })) as ThemedStyle<ViewStyle>,
 
-const $optionText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  flex: 1,
-  color: colors.text,
-})
+  $optionText: (({ colors }) => ({
+    flex: 1,
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-const $optionTextSelected: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.tint,
-  fontFamily: typography.primary.semiBold,
-})
+  $optionTextSelected: (({ colors, typography }) => ({
+    color: colors.tint,
+    fontFamily: typography.primary.semiBold,
+  })) as ThemedStyle<TextStyle>,
+}

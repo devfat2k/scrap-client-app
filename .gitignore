@@ -118,4 +118,7 @@ CLAUDE.local.md
 /docs/superpowers/specs/*
 /docs/superpowers/plans/*
 !/docs/superpowers/specs/2026-11-17-codex-claude-workflow-design.md
+!/docs/superpowers/specs/2026-11-17-history-tabs-design.md
 !/docs/superpowers/plans/2026-11-17-codex-claude-workflow.md
+!/docs/superpowers/plans/2026-11-17-history-tabs.md
+!/docs/superpowers/plans/2026-11-17-screen-containers.md

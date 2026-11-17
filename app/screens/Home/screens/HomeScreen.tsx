@@ -1,14 +1,15 @@
-import { FC, useState } from "react"
-import { View } from "react-native"
-import { useNavigation } from "@react-navigation/native"
+import { FC, useRef, useState } from "react"
+import { ScrollView, View } from "react-native"
+import { StatusBar } from "expo-status-bar"
+import { useNavigation, useScrollToTop } from "@react-navigation/native"
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
 import { Button } from "@/components/Button"
-import { Screen } from "@/components/Screen"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import type { AppStackParamList } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
+import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { HomeTopBar } from "../components/HomeTopBar"
 import { HowItWorksSheet } from "../components/HowItWorksSheet"
@@ -17,11 +18,14 @@ import { QuickActions } from "../components/QuickActions"
 import { RecentRequestCard } from "../components/RecentRequestCard"
 import { ThemeSheet } from "../components/ThemeSheet"
 import { RECENT_REQUEST } from "../mocks/recentRequest"
-import { $recentSection, $recentTitle } from "../styles/homeCardsStyles"
-import { $badge, $content, $cta, $hero, $subtitle, $title } from "../styles/homeScreenStyles"
+import { styles as cardStyles } from "../styles/homeCardsStyles"
+import { styles } from "../styles/homeScreenStyles"
 
 export const HomeScreen: FC = () => {
-  const { themed, theme } = useAppTheme()
+  const { themed, theme, themeContext } = useAppTheme()
+  const containerInsets = useSafeAreaInsetsStyle(["top"])
+  const scrollRef = useRef<ScrollView>(null)
+  useScrollToTop(scrollRef)
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
   const [themeSheetVisible, setThemeSheetVisible] = useState(false)
   const [notificationsVisible, setNotificationsVisible] = useState(false)
@@ -44,50 +48,56 @@ export const HomeScreen: FC = () => {
   }
 
   return (
-    <Screen preset="scroll" safeAreaEdges={["top"]} contentContainerStyle={themed($content)}>
-      <HomeTopBar
-        onPressTheme={() => setThemeSheetVisible(true)}
-        onPressNotifications={() => setNotificationsVisible(true)}
-      />
-
-      <View style={themed($hero)}>
-        <View
-          style={themed($badge)}
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-        >
-          <SvgIcon icon="Earth" size={theme.spacing.xl} fill={theme.colors.palette.primary600} />
-        </View>
-
-        <Text preset="heading" tx="home:title" style={themed($title)} />
-        <Text preset="formHelper" tx="home:subtitle" style={themed($subtitle)} />
-
-        <Button
-          preset="primary"
-          tx="home:createRequest"
-          style={themed($cta)}
-          onPress={() => navigation.navigate("Request")}
+    <View style={[themed(styles.$container), containerInsets]}>
+      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
+      <ScrollView
+        ref={scrollRef}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={themed(styles.$content)}
+      >
+        <HomeTopBar
+          onPressTheme={() => setThemeSheetVisible(true)}
+          onPressNotifications={() => setNotificationsVisible(true)}
         />
-      </View>
 
-      <QuickActions
-        onPressMyRequests={openHistory}
-        onPressHowItWorks={() => setHowItWorksVisible(true)}
-      />
+        <View style={themed(styles.$hero)}>
+          <View
+            style={themed(styles.$badge)}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <SvgIcon icon="Earth" size={theme.spacing.xl} fill={theme.colors.palette.primary600} />
+          </View>
 
-      {RECENT_REQUEST && (
-        <View style={themed($recentSection)}>
-          <Text preset="bold" tx="home:recent.title" style={themed($recentTitle)} />
-          <RecentRequestCard order={RECENT_REQUEST} onPress={openRecentOrder} />
+          <Text preset="heading" tx="home:title" style={themed(styles.$title)} />
+          <Text preset="formHelper" tx="home:subtitle" style={themed(styles.$subtitle)} />
+
+          <Button
+            preset="primary"
+            tx="home:createRequest"
+            style={themed(styles.$cta)}
+            onPress={() => navigation.navigate("Request")}
+          />
         </View>
-      )}
 
+        <QuickActions
+          onPressMyRequests={openHistory}
+          onPressHowItWorks={() => setHowItWorksVisible(true)}
+        />
+
+        {RECENT_REQUEST && (
+          <View style={themed(cardStyles.$recentSection)}>
+            <Text preset="bold" tx="home:recent.title" style={themed(cardStyles.$recentTitle)} />
+            <RecentRequestCard order={RECENT_REQUEST} onPress={openRecentOrder} />
+          </View>
+        )}
+      </ScrollView>
       <ThemeSheet visible={themeSheetVisible} onClose={() => setThemeSheetVisible(false)} />
       <NotificationsSheet
         visible={notificationsVisible}
         onClose={() => setNotificationsVisible(false)}
       />
       <HowItWorksSheet visible={howItWorksVisible} onClose={() => setHowItWorksVisible(false)} />
-    </Screen>
+    </View>
   )
 }

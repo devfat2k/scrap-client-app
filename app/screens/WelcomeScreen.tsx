@@ -1,11 +1,10 @@
 import { FC } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { StatusBar } from "expo-status-bar"
 
-import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { isRTL } from "@/i18n"
 import { useAppTheme } from "@/theme/context"
-import { $styles } from "@/theme/styles"
 import type { ThemedStyle } from "@/theme/types"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
@@ -13,28 +12,29 @@ const welcomeLogo = require("@assets/images/logo.png")
 const welcomeFace = require("@assets/images/welcome-face.png")
 
 export const WelcomeScreen: FC = function WelcomeScreen() {
-  const { themed, theme } = useAppTheme()
+  const { themed, theme, themeContext } = useAppTheme()
 
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
-    <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
-      <View style={themed($topContainer)}>
+    <View style={themed(styles.$container)}>
+      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
+      <View style={themed(styles.$topContainer)}>
         <Image
-          style={themed($welcomeLogo)}
+          style={themed(styles.$welcomeLogo)}
           source={welcomeLogo}
           resizeMode="contain"
           accessibilityLabel="App logo"
         />
         <Text
           testID="welcome-heading"
-          style={themed($welcomeHeading)}
+          style={themed(styles.$welcomeHeading)}
           tx="welcomeScreen:readyForLaunch"
           preset="heading"
         />
         <Text tx="welcomeScreen:exciting" preset="subheading" />
         <Image
-          style={$welcomeFace}
+          style={styles.$welcomeFace}
           source={welcomeFace}
           resizeMode="contain"
           tintColor={theme.colors.palette.neutral900}
@@ -42,47 +42,53 @@ export const WelcomeScreen: FC = function WelcomeScreen() {
         />
       </View>
 
-      <View style={themed([$bottomContainer, $bottomContainerInsets])}>
+      <View style={themed([styles.$bottomContainer, $bottomContainerInsets])}>
         <Text tx="welcomeScreen:postscript" size="md" />
       </View>
-    </Screen>
+    </View>
   )
 }
 
-const $topContainer: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexShrink: 1,
-  flexGrow: 1,
-  flexBasis: "57%",
-  justifyContent: "center",
-  paddingHorizontal: spacing.lg,
-})
+const styles = {
+  $container: (({ colors }) => ({
+    flex: 1,
+    backgroundColor: colors.background,
+  })) as ThemedStyle<ViewStyle>,
+  $topContainer: (({ spacing }) => ({
+    flexShrink: 1,
+    flexGrow: 1,
+    flexBasis: "57%",
+    justifyContent: "center",
+    paddingHorizontal: spacing.lg,
+  })) as ThemedStyle<ViewStyle>,
 
-const $bottomContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  flexShrink: 1,
-  flexGrow: 0,
-  flexBasis: "43%",
-  backgroundColor: colors.palette.neutral100,
-  borderTopLeftRadius: 16,
-  borderTopRightRadius: 16,
-  paddingHorizontal: spacing.lg,
-  justifyContent: "space-around",
-})
+  $bottomContainer: (({ colors, spacing }) => ({
+    flexShrink: 1,
+    flexGrow: 0,
+    flexBasis: "43%",
+    backgroundColor: colors.palette.neutral100,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingHorizontal: spacing.lg,
+    justifyContent: "space-around",
+  })) as ThemedStyle<ViewStyle>,
 
-const $welcomeLogo: ThemedStyle<ImageStyle> = ({ spacing }) => ({
-  height: 88,
-  width: "100%",
-  marginBottom: spacing.xxl,
-})
+  $welcomeLogo: (({ spacing }) => ({
+    height: 88,
+    width: "100%",
+    marginBottom: spacing.xxl,
+  })) as ThemedStyle<ImageStyle>,
 
-const $welcomeFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  position: "absolute",
-  bottom: -47,
-  right: -80,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
+  $welcomeFace: {
+    height: 169,
+    width: 269,
+    position: "absolute",
+    bottom: -47,
+    right: -80,
+    transform: [{ scaleX: isRTL ? -1 : 1 }],
+  } as ImageStyle,
+
+  $welcomeHeading: (({ spacing }) => ({
+    marginBottom: spacing.md,
+  })) as ThemedStyle<TextStyle>,
 }
-
-const $welcomeHeading: ThemedStyle<TextStyle> = ({ spacing }) => ({
-  marginBottom: spacing.md,
-})

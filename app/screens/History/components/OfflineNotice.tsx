@@ -4,7 +4,7 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { useAppTheme } from "@/theme/context"
 
-import { $offlineBanner, $offlineText, $offlineTitle } from "../styles/orderDetailScreenStyles"
+import { styles } from "../styles/orderDetailScreenStyles"
 
 export interface OfflineNoticeProps {
   /**
@@ -25,9 +25,9 @@ export function OfflineNotice(props: OfflineNoticeProps) {
   const { themed } = useAppTheme()
 
   return (
-    <View style={themed($offlineBanner)}>
-      <Text preset="bold" tx={titleTx} style={themed($offlineTitle)} />
-      <Text preset="formHelper" tx={messageTx} style={themed($offlineText)} />
+    <View style={themed(styles.$offlineBanner)}>
+      <Text preset="bold" tx={titleTx} style={themed(styles.$offlineTitle)} />
+      <Text preset="formHelper" tx={messageTx} style={themed(styles.$offlineText)} />
     </View>
   )
 }

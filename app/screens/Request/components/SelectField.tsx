@@ -10,16 +10,7 @@ import { useAppTheme } from "@/theme/context"
 
 import { SelectSheet } from "./SelectSheet"
 import type { SelectOption } from "../form/requestFormOptions"
-import {
-  $fieldIcon,
-  $fieldPlaceholder,
-  $fieldRow,
-  $fieldSurface,
-  $fieldSurfaceDisabled,
-  $fieldSurfaceError,
-  $fieldSurfacePressed,
-  $fieldValue,
-} from "../styles/createRequestStyles"
+import { styles } from "../styles/createRequestStyles"
 
 export interface SelectFieldProps<T extends string> {
   /**
@@ -135,22 +126,22 @@ export function SelectField<T extends string>(props: SelectFieldProps<T>) {
         accessibilityLabel={accessibilityLabel}
         accessibilityState={{ disabled, expanded: isSheetVisible }}
         style={({ pressed }) => [
-          themed($fieldSurface),
-          !!errorTx && themed($fieldSurfaceError),
-          disabled && themed($fieldSurfaceDisabled),
-          pressed && !disabled && themed($fieldSurfacePressed),
+          themed(styles.$fieldSurface),
+          !!errorTx && themed(styles.$fieldSurfaceError),
+          disabled && themed(styles.$fieldSurfaceDisabled),
+          pressed && !disabled && themed(styles.$fieldSurfacePressed),
         ]}
       >
-        <View style={themed($fieldRow)}>
+        <View style={themed(styles.$fieldRow)}>
           <Text
             text={displayText ?? placeholderText}
-            style={displayText ? themed($fieldValue) : themed($fieldPlaceholder)}
+            style={displayText ? themed(styles.$fieldValue) : themed(styles.$fieldPlaceholder)}
           />
           <SvgIcon
             icon="ChevronDown"
             size={20}
             fill={disabled ? theme.colors.textDim : theme.colors.text}
-            style={themed($fieldIcon)}
+            style={themed(styles.$fieldIcon)}
           />
         </View>
       </Pressable>

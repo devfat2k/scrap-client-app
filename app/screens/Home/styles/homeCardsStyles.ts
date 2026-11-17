@@ -3,114 +3,116 @@ import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-export const $quickActions: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  gap: spacing.sm,
-})
+export const styles = {
+  $quickActions: (({ spacing }) => ({
+    flexDirection: "row",
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickAction: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  flex: 1,
-  gap: spacing.xs,
-  padding: spacing.md,
-  backgroundColor: colors.card,
-  borderWidth: 1,
-  borderColor: colors.border,
-  borderRadius: spacing.md,
-})
+  $quickAction: (({ colors, spacing }) => ({
+    flex: 1,
+    gap: spacing.xs,
+    padding: spacing.md,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickActionPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
+  $quickActionPressed: (({ isDark }) => ({
+    opacity: isDark ? 0.7 : 0.6,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickActionIcon: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  alignItems: "center",
-  justifyContent: "center",
-  width: spacing.xl,
-  height: spacing.xl,
-  borderRadius: spacing.md,
-})
+  $quickActionIcon: (({ spacing }) => ({
+    alignItems: "center",
+    justifyContent: "center",
+    width: spacing.xl,
+    height: spacing.xl,
+    borderRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickActionIconPrimary: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  backgroundColor: colors.palette.primary100,
-})
+  $quickActionIconPrimary: (({ colors }) => ({
+    backgroundColor: colors.palette.primary100,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickActionIconSecondary: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  backgroundColor: colors.palette.secondary100,
-})
+  $quickActionIconSecondary: (({ colors }) => ({
+    backgroundColor: colors.palette.secondary100,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $quickActionTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $quickActionTitle: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-export const $quickActionHint: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-})
+  $quickActionHint: (({ colors }) => ({
+    color: colors.textDim,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentSection: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.xs,
-})
+  $recentSection: (({ spacing }) => ({
+    gap: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $recentTitle: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentCard: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  padding: spacing.md,
-  backgroundColor: colors.card,
-  borderWidth: 1,
-  borderColor: colors.border,
-  borderStartWidth: spacing.xxs,
-  borderRadius: spacing.md,
-})
+  $recentCard: (({ colors, spacing }) => ({
+    padding: spacing.md,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderStartWidth: spacing.xxs,
+    borderRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
+  $recentPressed: (({ isDark }) => ({
+    opacity: isDark ? 0.7 : 0.6,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentHeader: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: spacing.sm,
-})
+  $recentHeader: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentId: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $recentId: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentStatus: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.xxs,
-})
+  $recentStatus: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xxs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentStatusText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-})
+  $recentStatusText: (({ colors }) => ({
+    color: colors.textDim,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentDivider: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  height: StyleSheet.hairlineWidth,
-  backgroundColor: colors.separator,
-  marginVertical: spacing.xs,
-})
+  $recentDivider: (({ colors, spacing }) => ({
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: colors.separator,
+    marginVertical: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $recentAddress: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.text,
-  fontFamily: typography.primary.medium,
-})
+  $recentAddress: (({ colors, typography }) => ({
+    color: colors.text,
+    fontFamily: typography.primary.medium,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentMeta: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-})
+  $recentMeta: (({ colors }) => ({
+    color: colors.textDim,
+  })) as ThemedStyle<TextStyle>,
 
-export const $recentFooter: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: spacing.sm,
-  marginTop: spacing.xs,
-})
+  $recentFooter: (({ spacing }) => ({
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.sm,
+    marginTop: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $chevron: ViewStyle = {
-  transform: [{ rotate: "-90deg" }],
+  $chevron: {
+    transform: [{ rotate: "-90deg" }],
+  } as ViewStyle,
 }

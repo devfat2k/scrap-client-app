@@ -1,12 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react"
-import {
-  BackHandler,
-  Pressable,
-  StyleSheet,
-  TextStyle,
-  useWindowDimensions,
-  ViewStyle,
-} from "react-native"
+import { BackHandler, Pressable, useWindowDimensions } from "react-native"
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -20,10 +13,10 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 import type { SelectOption } from "../form/requestFormOptions"
+import { styles } from "../styles/selectSheetStyles"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.75
 
@@ -111,15 +104,15 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed($handle)}
-      backgroundStyle={themed($sheet)}
+      handleIndicatorStyle={themed(styles.$handle)}
+      backgroundStyle={themed(styles.$sheet)}
     >
       <BottomSheetScrollView
-        contentContainerStyle={themed($content)}
+        contentContainerStyle={themed(styles.$content)}
         keyboardShouldPersistTaps="handled"
       >
         {!!(title || titleTx) && (
-          <Text preset="subheading" text={title} tx={titleTx} style={themed($title)} />
+          <Text preset="subheading" text={title} tx={titleTx} style={themed(styles.$title)} />
         )}
 
         {options.map((option) => {
@@ -131,11 +124,17 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
               onPress={() => onSelect(option.value)}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
-              style={({ pressed }) => [themed($option), pressed && themed($optionPressed)]}
+              style={({ pressed }) => [
+                themed(styles.$option),
+                pressed && themed(styles.$optionPressed),
+              ]}
             >
               <Text
                 text={translate(option.labelTx)}
-                style={[themed($optionText), isSelected && themed($optionTextSelected)]}
+                style={[
+                  themed(styles.$optionText),
+                  isSelected && themed(styles.$optionTextSelected),
+                ]}
               />
               {isSelected && <SvgIcon icon="Check" size={20} fill={theme.colors.tint} />}
             </Pressable>
@@ -145,51 +144,3 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
     </BottomSheetModal>
   )
 }
-
-const $sheet: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.card,
-  borderTopStartRadius: spacing.md,
-  borderTopEndRadius: spacing.md,
-})
-
-const $handle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.xxl,
-  height: spacing.xxs,
-  borderRadius: spacing.xxs,
-  backgroundColor: colors.palette.neutral400,
-})
-
-const $content: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xs,
-  paddingBottom: spacing.md,
-})
-
-const $title: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.text,
-  paddingBottom: spacing.xs,
-})
-
-const $option: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  minHeight: spacing.xxl,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderBottomColor: colors.separator,
-  paddingVertical: spacing.xs,
-})
-
-const $optionPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
-
-const $optionText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  flex: 1,
-  color: colors.text,
-})
-
-const $optionTextSelected: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.tint,
-  fontFamily: typography.primary.semiBold,
-})

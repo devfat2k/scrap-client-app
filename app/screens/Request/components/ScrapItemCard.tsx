@@ -11,14 +11,7 @@ import { PhotoAttachmentField } from "./PhotoAttachmentField"
 import { SelectField } from "./SelectField"
 import { CATEGORY_OPTIONS, UNIT_OPTIONS, VOLUME_SELECT_OPTIONS } from "../form/requestFormOptions"
 import type { ScrapItemDraft, ScrapItemErrors } from "../form/requestFormTypes"
-import {
-  $scrapCard,
-  $scrapCardHeader,
-  $scrapCardTitle,
-  $scrapFieldItem,
-  $scrapFieldRow,
-  $scrapRemoveButton,
-} from "../styles/createRequestStyles"
+import { styles } from "../styles/createRequestStyles"
 
 export interface ScrapItemCardProps {
   /**
@@ -55,13 +48,13 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
   const { themed, theme } = useAppTheme()
 
   return (
-    <View style={themed($scrapCard)}>
-      <View style={themed($scrapCardHeader)}>
+    <View style={themed(styles.$scrapCard)}>
+      <View style={themed(styles.$scrapCardHeader)}>
         <Text
           preset="subheading"
           tx="request:itemLabel"
           txOptions={{ index: index + 1 }}
-          style={themed($scrapCardTitle)}
+          style={themed(styles.$scrapCardTitle)}
         />
 
         {canRemove && (
@@ -70,7 +63,7 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
             hitSlop={theme.spacing.xs}
             accessibilityRole="button"
             accessibilityLabel={translate("request:removeItem")}
-            style={themed($scrapRemoveButton)}
+            style={themed(styles.$scrapRemoveButton)}
           >
             <SvgIcon icon="Close" size={18} fill={theme.colors.textDim} />
           </Pressable>
@@ -89,8 +82,8 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
         errorTx={errors?.category}
       />
 
-      <View style={themed($scrapFieldRow)}>
-        <View style={$scrapFieldItem}>
+      <View style={themed(styles.$scrapFieldRow)}>
+        <View style={styles.$scrapFieldItem}>
           <TextField
             labelTx="request:quantityLabel"
             required
@@ -103,7 +96,7 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
           <FieldError messageTx={errors?.quantity} />
         </View>
 
-        <View style={$scrapFieldItem}>
+        <View style={styles.$scrapFieldItem}>
           <SelectField
             options={UNIT_OPTIONS}
             value={item.unit}

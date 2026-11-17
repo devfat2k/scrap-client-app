@@ -8,16 +8,7 @@ import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
 
-import {
-  $quickAction,
-  $quickActionHint,
-  $quickActionIcon,
-  $quickActionIconPrimary,
-  $quickActionIconSecondary,
-  $quickActionPressed,
-  $quickActions,
-  $quickActionTitle,
-} from "../styles/homeCardsStyles"
+import { styles } from "../styles/homeCardsStyles"
 
 export interface QuickActionsProps {
   /**
@@ -49,19 +40,24 @@ function QuickActionCard(props: QuickActionCardProps) {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={translate(titleTx)}
-      style={({ pressed }) => [themed($quickAction), pressed && themed($quickActionPressed)]}
+      style={({ pressed }) => [
+        themed(styles.$quickAction),
+        pressed && themed(styles.$quickActionPressed),
+      ]}
     >
       <View
         style={[
-          themed($quickActionIcon),
-          tone === "primary" ? themed($quickActionIconPrimary) : themed($quickActionIconSecondary),
+          themed(styles.$quickActionIcon),
+          tone === "primary"
+            ? themed(styles.$quickActionIconPrimary)
+            : themed(styles.$quickActionIconSecondary),
         ]}
       >
         <SvgIcon icon={icon} size={20} fill={iconFill} />
       </View>
 
-      <Text preset="bold" tx={titleTx} style={themed($quickActionTitle)} />
-      <Text preset="formHelper" tx={hintTx} style={themed($quickActionHint)} />
+      <Text preset="bold" tx={titleTx} style={themed(styles.$quickActionTitle)} />
+      <Text preset="formHelper" tx={hintTx} style={themed(styles.$quickActionHint)} />
     </Pressable>
   )
 }
@@ -74,7 +70,7 @@ export function QuickActions(props: QuickActionsProps) {
   const { themed } = useAppTheme()
 
   return (
-    <View style={themed($quickActions)}>
+    <View style={themed(styles.$quickActions)}>
       <QuickActionCard
         icon="History"
         titleTx="home:quickActions.myRequests"

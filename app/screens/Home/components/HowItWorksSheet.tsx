@@ -37,16 +37,16 @@ export function HowItWorksSheet(props: HowItWorksSheetProps) {
 
   return (
     <HomeSheet visible={visible} onClose={onClose} titleTx="home:howItWorks.title">
-      <View style={themed($steps)}>
+      <View style={themed(styles.$steps)}>
         {STEPS.map((step) => (
-          <View key={step.titleTx} style={themed($step)}>
-            <View style={themed($stepIcon)}>
+          <View key={step.titleTx} style={themed(styles.$step)}>
+            <View style={themed(styles.$stepIcon)}>
               <SvgIcon icon={step.icon} size={18} fill={theme.colors.palette.primary600} />
             </View>
 
-            <View style={themed($stepText)}>
-              <Text preset="bold" tx={step.titleTx} style={themed($stepTitle)} />
-              <Text preset="formHelper" tx={step.bodyTx} style={themed($stepBody)} />
+            <View style={themed(styles.$stepText)}>
+              <Text preset="bold" tx={step.titleTx} style={themed(styles.$stepTitle)} />
+              <Text preset="formHelper" tx={step.bodyTx} style={themed(styles.$stepBody)} />
             </View>
           </View>
         ))}
@@ -55,34 +55,36 @@ export function HowItWorksSheet(props: HowItWorksSheetProps) {
   )
 }
 
-const $steps: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.md,
-  paddingVertical: spacing.xs,
-})
+const styles = {
+  $steps: (({ spacing }) => ({
+    gap: spacing.md,
+    paddingVertical: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $step: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flexDirection: "row",
-  gap: spacing.sm,
-})
+  $step: (({ spacing }) => ({
+    flexDirection: "row",
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
 
-const $stepIcon: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  alignItems: "center",
-  justifyContent: "center",
-  width: spacing.xl + spacing.xxs,
-  height: spacing.xl + spacing.xxs,
-  borderRadius: (spacing.xl + spacing.xxs) / 2,
-  backgroundColor: colors.palette.primary100,
-})
+  $stepIcon: (({ colors, spacing }) => ({
+    alignItems: "center",
+    justifyContent: "center",
+    width: spacing.xl + spacing.xxs,
+    height: spacing.xl + spacing.xxs,
+    borderRadius: (spacing.xl + spacing.xxs) / 2,
+    backgroundColor: colors.palette.primary100,
+  })) as ThemedStyle<ViewStyle>,
 
-const $stepText: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  flex: 1,
-  gap: spacing.xxxs,
-})
+  $stepText: (({ spacing }) => ({
+    flex: 1,
+    gap: spacing.xxxs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $stepTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-})
+  $stepTitle: (({ colors }) => ({
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-const $stepBody: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-})
+  $stepBody: (({ colors }) => ({
+    color: colors.textDim,
+  })) as ThemedStyle<TextStyle>,
+}

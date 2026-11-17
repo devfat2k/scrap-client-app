@@ -3,103 +3,105 @@ import type { TextStyle, ViewStyle } from "react-native"
 
 import type { ThemedStyle } from "@/theme/types"
 
-/**
- * Destructive outline button under the detail cards.
- */
-export const $cancelButton: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  marginTop: spacing.sm,
-  borderColor: colors.error,
-  backgroundColor: colors.errorBackground,
-})
+export const styles = {
+  /**
+   * Destructive outline button under the detail cards.
+   */
+  $cancelButton: (({ colors, spacing }) => ({
+    marginTop: spacing.sm,
+    borderColor: colors.error,
+    backgroundColor: colors.errorBackground,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $cancelButtonPressed: ThemedStyle<ViewStyle> = ({ colors }) => ({
-  backgroundColor: colors.errorBackground,
-  opacity: 0.8,
-})
+  $cancelButtonPressed: (({ colors }) => ({
+    backgroundColor: colors.errorBackground,
+    opacity: 0.8,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $cancelButtonDisabled: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.45 : 0.5,
-})
+  $cancelButtonDisabled: (({ isDark }) => ({
+    opacity: isDark ? 0.45 : 0.5,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $cancelText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.error,
-})
+  $cancelText: (({ colors }) => ({
+    color: colors.error,
+  })) as ThemedStyle<TextStyle>,
 
-/**
- * Cancel reason sheet.
- */
-export const $sheet: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  backgroundColor: colors.card,
-  borderTopStartRadius: spacing.md,
-  borderTopEndRadius: spacing.md,
-})
+  /**
+   * Cancel reason sheet.
+   */
+  $sheet: (({ colors, spacing }) => ({
+    backgroundColor: colors.card,
+    borderTopStartRadius: spacing.md,
+    borderTopEndRadius: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $handle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  width: spacing.xxl,
-  height: spacing.xxs,
-  borderRadius: spacing.xxs,
-  backgroundColor: colors.palette.neutral400,
-})
+  $handle: (({ colors, spacing }) => ({
+    width: spacing.xxl,
+    height: spacing.xxs,
+    borderRadius: spacing.xxs,
+    backgroundColor: colors.palette.neutral400,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $sheetContent: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.xs,
-  paddingBottom: spacing.md,
-})
+  $sheetContent: (({ spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xs,
+    paddingBottom: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $sheetTitle: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.text,
-  paddingBottom: spacing.xxs,
-})
+  $sheetTitle: (({ colors, spacing }) => ({
+    color: colors.text,
+    paddingBottom: spacing.xxs,
+  })) as ThemedStyle<TextStyle>,
 
-export const $sheetMessage: ThemedStyle<TextStyle> = ({ colors, spacing }) => ({
-  color: colors.textDim,
-  paddingBottom: spacing.sm,
-})
+  $sheetMessage: (({ colors, spacing }) => ({
+    color: colors.textDim,
+    paddingBottom: spacing.sm,
+  })) as ThemedStyle<TextStyle>,
 
-export const $reasonRow: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  minHeight: spacing.xxl,
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: spacing.sm,
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderBottomColor: colors.separator,
-  paddingVertical: spacing.xs,
-})
+  $reasonRow: (({ colors, spacing }) => ({
+    minHeight: spacing.xxl,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.sm,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.separator,
+    paddingVertical: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $reasonPressed: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.7 : 0.6,
-})
+  $reasonPressed: (({ isDark }) => ({
+    opacity: isDark ? 0.7 : 0.6,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $reasonText: ThemedStyle<TextStyle> = ({ colors }) => ({
-  flex: 1,
-  color: colors.text,
-})
+  $reasonText: (({ colors }) => ({
+    flex: 1,
+    color: colors.text,
+  })) as ThemedStyle<TextStyle>,
 
-export const $reasonTextSelected: ThemedStyle<TextStyle> = ({ colors, typography }) => ({
-  color: colors.tint,
-  fontFamily: typography.primary.semiBold,
-})
+  $reasonTextSelected: (({ colors, typography }) => ({
+    color: colors.tint,
+    fontFamily: typography.primary.semiBold,
+  })) as ThemedStyle<TextStyle>,
 
-export const $sheetActions: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.sm,
-  marginTop: spacing.md,
-})
+  $sheetActions: (({ spacing }) => ({
+    gap: spacing.sm,
+    marginTop: spacing.md,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $confirmButton: ThemedStyle<ViewStyle> = ({ colors, isDark }) => ({
-  backgroundColor: isDark ? colors.palette.angry100 : colors.error,
-})
+  $confirmButton: (({ colors, isDark }) => ({
+    backgroundColor: isDark ? colors.palette.angry100 : colors.error,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $confirmButtonPressed: ThemedStyle<ViewStyle> = ({ colors, isDark }) => ({
-  backgroundColor: isDark ? colors.palette.angry100 : colors.error,
-  opacity: 0.85,
-})
+  $confirmButtonPressed: (({ colors, isDark }) => ({
+    backgroundColor: isDark ? colors.palette.angry100 : colors.error,
+    opacity: 0.85,
+  })) as ThemedStyle<ViewStyle>,
 
-export const $confirmText: ThemedStyle<TextStyle> = ({ isDark, colors }) => ({
-  color: isDark ? colors.palette.neutral900 : colors.palette.neutral100,
-})
+  $confirmText: (({ isDark, colors }) => ({
+    color: isDark ? colors.palette.neutral900 : colors.palette.neutral100,
+  })) as ThemedStyle<TextStyle>,
 
-export const $confirmButtonDisabled: ThemedStyle<ViewStyle> = ({ isDark }) => ({
-  opacity: isDark ? 0.45 : 0.5,
-})
+  $confirmButtonDisabled: (({ isDark }) => ({
+    opacity: isDark ? 0.45 : 0.5,
+  })) as ThemedStyle<ViewStyle>,
+}

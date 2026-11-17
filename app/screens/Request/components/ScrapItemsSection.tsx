@@ -6,12 +6,12 @@ import { useAppTheme } from "@/theme/context"
 
 import { ScrapItemCard } from "./ScrapItemCard"
 import type { ScrapItemDraft, ScrapItemErrors } from "../form/requestFormTypes"
-import { $addScrapButton, $addScrapPlus, $scrapList } from "../styles/createRequestStyles"
+import { styles } from "../styles/createRequestStyles"
 
 function AddScrapIcon() {
   const { themed } = useAppTheme()
 
-  return <Text preset="subheading" text="+" style={themed($addScrapPlus)} />
+  return <Text preset="subheading" text="+" style={themed(styles.$addScrapPlus)} />
 }
 
 export interface ScrapItemsSectionProps {
@@ -46,7 +46,7 @@ export function ScrapItemsSection(props: ScrapItemsSectionProps) {
   const canRemove = items.length > 1
 
   return (
-    <View style={themed($scrapList)}>
+    <View style={themed(styles.$scrapList)}>
       {items.map((item, index) => (
         <ScrapItemCard
           key={item.id}
@@ -64,7 +64,7 @@ export function ScrapItemsSection(props: ScrapItemsSectionProps) {
         tx="request:addAnother"
         onPress={onAddItem}
         LeftAccessory={AddScrapIcon}
-        style={themed($addScrapButton)}
+        style={themed(styles.$addScrapButton)}
       />
     </View>
   )

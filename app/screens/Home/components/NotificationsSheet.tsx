@@ -28,48 +28,50 @@ export function NotificationsSheet(props: NotificationsSheetProps) {
 
   return (
     <HomeSheet visible={visible} onClose={onClose} titleTx="home:notifications.title">
-      <View style={themed($empty)}>
+      <View style={themed(styles.$empty)}>
         <View
-          style={themed($iconBadge)}
+          style={themed(styles.$iconBadge)}
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
         >
           <SvgIcon icon="Bell" size={theme.spacing.xl} fill={theme.colors.palette.primary600} />
         </View>
 
-        <Text preset="bold" tx="home:notifications.emptyTitle" style={themed($emptyTitle)} />
+        <Text preset="bold" tx="home:notifications.emptyTitle" style={themed(styles.$emptyTitle)} />
         <Text
           preset="formHelper"
           tx="home:notifications.emptyMessage"
-          style={themed($emptyMessage)}
+          style={themed(styles.$emptyMessage)}
         />
       </View>
     </HomeSheet>
   )
 }
 
-const $empty: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  alignItems: "center",
-  gap: spacing.xs,
-  paddingVertical: spacing.lg,
-})
+const styles = {
+  $empty: (({ spacing }) => ({
+    alignItems: "center",
+    gap: spacing.xs,
+    paddingVertical: spacing.lg,
+  })) as ThemedStyle<ViewStyle>,
 
-const $iconBadge: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  alignItems: "center",
-  justifyContent: "center",
-  width: spacing.xxl,
-  height: spacing.xxl,
-  borderRadius: spacing.xxl / 2,
-  backgroundColor: colors.palette.primary100,
-  marginBottom: spacing.xs,
-})
+  $iconBadge: (({ colors, spacing }) => ({
+    alignItems: "center",
+    justifyContent: "center",
+    width: spacing.xxl,
+    height: spacing.xxl,
+    borderRadius: spacing.xxl / 2,
+    backgroundColor: colors.palette.primary100,
+    marginBottom: spacing.xs,
+  })) as ThemedStyle<ViewStyle>,
 
-const $emptyTitle: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.text,
-  textAlign: "center",
-})
+  $emptyTitle: (({ colors }) => ({
+    color: colors.text,
+    textAlign: "center",
+  })) as ThemedStyle<TextStyle>,
 
-const $emptyMessage: ThemedStyle<TextStyle> = ({ colors }) => ({
-  color: colors.textDim,
-  textAlign: "center",
-})
+  $emptyMessage: (({ colors }) => ({
+    color: colors.textDim,
+    textAlign: "center",
+  })) as ThemedStyle<TextStyle>,
+}

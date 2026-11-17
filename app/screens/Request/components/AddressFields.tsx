@@ -9,7 +9,7 @@ import type { ThemedStyle } from "@/theme/types"
 import { SelectField } from "./SelectField"
 import { STATE_OPTIONS } from "../form/requestFormOptions"
 import type { AddressDraft, AddressErrors } from "../form/requestFormTypes"
-import { $scrapFieldItem, $scrapFieldRow } from "../styles/createRequestStyles"
+import { styles as createRequestStyles } from "../styles/createRequestStyles"
 
 export interface AddressFieldsProps {
   /**
@@ -39,9 +39,9 @@ export function AddressFields(props: AddressFieldsProps) {
   const { themed } = useAppTheme()
 
   return (
-    <View style={themed($addressBlock)}>
-      <View style={themed($scrapFieldRow)}>
-        <View style={$scrapFieldItem}>
+    <View style={themed(styles.$addressBlock)}>
+      <View style={themed(createRequestStyles.$scrapFieldRow)}>
+        <View style={createRequestStyles.$scrapFieldItem}>
           <TextField
             labelTx="request:unitOrHouseNoLabel"
             placeholderTx="request:unitOrHouseNoPlaceholder"
@@ -51,7 +51,7 @@ export function AddressFields(props: AddressFieldsProps) {
           />
         </View>
 
-        <View style={$scrapFieldItem}>
+        <View style={createRequestStyles.$scrapFieldItem}>
           <TextField
             labelTx="request:streetNameLabel"
             required
@@ -78,8 +78,8 @@ export function AddressFields(props: AddressFieldsProps) {
         <FieldError messageTx={errors.suburb} />
       </View>
 
-      <View style={themed($scrapFieldRow)}>
-        <View style={$scrapFieldItem}>
+      <View style={themed(createRequestStyles.$scrapFieldRow)}>
+        <View style={createRequestStyles.$scrapFieldItem}>
           <SelectField
             options={STATE_OPTIONS}
             value={address.state}
@@ -92,7 +92,7 @@ export function AddressFields(props: AddressFieldsProps) {
           />
         </View>
 
-        <View style={$scrapFieldItem}>
+        <View style={createRequestStyles.$scrapFieldItem}>
           <TextField
             labelTx="request:postcodeLabel"
             required
@@ -123,6 +123,8 @@ export function AddressFields(props: AddressFieldsProps) {
   )
 }
 
-const $addressBlock: ThemedStyle<ViewStyle> = ({ spacing }) => ({
-  gap: spacing.sm,
-})
+const styles = {
+  $addressBlock: (({ spacing }) => ({
+    gap: spacing.sm,
+  })) as ThemedStyle<ViewStyle>,
+}

@@ -2,6 +2,7 @@ import { FIXED_COUNTRY } from "@/domain/address"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { SCRAP_CATEGORIES, SCRAP_UNITS } from "@/domain/scrapCategory"
 
+import { createHistoryScenarios } from "./historyScenarios"
 import type { RequestOrder } from "../types/order"
 
 const MOCK_CONTACT = {
@@ -83,7 +84,11 @@ const QUOTED_ORDER: RequestOrder = {
 /**
  * Newest first, so the pending request is the first row in History.
  */
-export const HISTORY_ORDERS: RequestOrder[] = [PENDING_ORDER, QUOTED_ORDER]
+export const HISTORY_ORDERS: RequestOrder[] = [
+  PENDING_ORDER,
+  QUOTED_ORDER,
+  ...createHistoryScenarios(QUOTED_ORDER),
+]
 
 /**
  * Looks up a mock order by its request id.

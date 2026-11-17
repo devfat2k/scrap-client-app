@@ -6,7 +6,7 @@ import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 import { getStatusColor, getStatusIconName, getStatusLabel } from "@/utils/orderStatusDisplay"
 
-import { $statusRow, $statusText } from "../styles/orderStatusStyles"
+import { styles } from "../styles/orderStatusStyles"
 
 export interface OrderStatusLabelProps {
   /**
@@ -38,12 +38,17 @@ export function OrderStatusLabel(props: OrderStatusLabelProps) {
   const statusColor = color ?? getStatusColor(theme, status)
 
   return (
-    <View style={themed($statusRow)} accessible accessibilityRole="text" accessibilityLabel={label}>
+    <View
+      style={themed(styles.$statusRow)}
+      accessible
+      accessibilityRole="text"
+      accessibilityLabel={label}
+    >
       <SvgIcon icon={getStatusIconName(status)} size={iconSize} fill={statusColor} />
       <Text
         preset="formHelper"
         text={label}
-        style={[themed($statusText), { color: statusColor }, textStyle]}
+        style={[themed(styles.$statusText), { color: statusColor }, textStyle]}
       />
     </View>
   )

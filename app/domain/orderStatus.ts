@@ -54,9 +54,18 @@ export const ORDER_STATUS_CONFIG: Record<OrderStatus, StatusVisualConfig> = {
   },
 }
 
+const UNKNOWN_STATUS_CONFIG: StatusVisualConfig = {
+  labelKey: "orderStatus.unavailable",
+  icon: "",
+  colorKey: "textDim",
+}
+
 export const getStatusConfig = (status: unknown): StatusVisualConfig => {
-  if (typeof status === "string" && status in ORDER_STATUS_CONFIG) {
+  if (
+    typeof status === "string" &&
+    Object.prototype.hasOwnProperty.call(ORDER_STATUS_CONFIG, status)
+  ) {
     return ORDER_STATUS_CONFIG[status as OrderStatus]
   }
-  return ORDER_STATUS_CONFIG[ORDER_STATUS.NEW]
+  return UNKNOWN_STATUS_CONFIG
 }

@@ -5,12 +5,7 @@ import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
 
-import {
-  $reasonPressed,
-  $reasonRow,
-  $reasonText,
-  $reasonTextSelected,
-} from "../styles/cancelRequestStyles"
+import { styles } from "../styles/cancelRequestStyles"
 import { CANCEL_REASON_OPTIONS, type CancelReason } from "../utils/cancelReasons"
 
 export interface CancelReasonListProps {
@@ -43,11 +38,14 @@ export function CancelReasonList(props: CancelReasonListProps) {
             accessibilityRole="radio"
             accessibilityState={{ selected: isSelected }}
             accessibilityLabel={translate(option.labelTx)}
-            style={({ pressed }) => [themed($reasonRow), pressed && themed($reasonPressed)]}
+            style={({ pressed }) => [
+              themed(styles.$reasonRow),
+              pressed && themed(styles.$reasonPressed),
+            ]}
           >
             <Text
               text={translate(option.labelTx)}
-              style={[themed($reasonText), isSelected && themed($reasonTextSelected)]}
+              style={[themed(styles.$reasonText), isSelected && themed(styles.$reasonTextSelected)]}
             />
             {isSelected && <SvgIcon icon="Check" size={18} fill={theme.colors.tint} />}
           </Pressable>

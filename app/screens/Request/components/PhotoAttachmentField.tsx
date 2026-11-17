@@ -13,17 +13,7 @@ import { PHOTO_ERROR_TX } from "./photoErrorMessages"
 import { showPermissionAlert, type PhotoSource } from "./photoPermissionAlert"
 import { PhotoSourceSheet } from "./PhotoSourceSheet"
 import { MAX_REQUEST_PHOTOS } from "../form/requestFormTypes"
-import {
-  $fieldSurfacePressed,
-  $photoAddIcon,
-  $photoAddTile,
-  $photoAddTileDisabled,
-  $photoGrid,
-  $photoHelper,
-  $photoRemoveButton,
-  $photoThumb,
-  $photoThumbImage,
-} from "../styles/createRequestStyles"
+import { styles } from "../styles/createRequestStyles"
 
 export interface PhotoAttachmentFieldProps {
   /**
@@ -127,17 +117,17 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
     <View>
       <FieldLabel label={label} />
 
-      <View style={themed($photoGrid)}>
+      <View style={themed(styles.$photoGrid)}>
         {photos.map((photo, index) => (
-          <View key={`${photo.uri}-${index}`} style={themed($photoThumb)}>
-            <Image source={{ uri: photo.uri }} style={$photoThumbImage} resizeMode="cover" />
+          <View key={`${photo.uri}-${index}`} style={themed(styles.$photoThumb)}>
+            <Image source={{ uri: photo.uri }} style={styles.$photoThumbImage} resizeMode="cover" />
             <Pressable
               onPress={() => removePhoto(index)}
               disabled={disabled}
               hitSlop={theme.spacing.xs}
               accessibilityRole="button"
               accessibilityLabel={translate("request:removePhoto")}
-              style={themed($photoRemoveButton)}
+              style={themed(styles.$photoRemoveButton)}
             >
               <SvgIcon icon="Close" size={14} fill={theme.colors.palette.neutral100} />
             </Pressable>
@@ -152,15 +142,15 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
             accessibilityLabel={translate("request:addPhoto")}
             accessibilityState={{ disabled: !canAdd }}
             style={({ pressed }) => [
-              themed($photoAddTile),
-              !canAdd && themed($photoAddTileDisabled),
-              pressed && canAdd && themed($fieldSurfacePressed),
+              themed(styles.$photoAddTile),
+              !canAdd && themed(styles.$photoAddTileDisabled),
+              pressed && canAdd && themed(styles.$fieldSurfacePressed),
             ]}
           >
             {isPicking ? (
               <ActivityIndicator size="small" color={theme.colors.textDim} />
             ) : (
-              <Text preset="heading" text="+" style={themed($photoAddIcon)} />
+              <Text preset="heading" text="+" style={themed(styles.$photoAddIcon)} />
             )}
           </Pressable>
         )}
@@ -170,7 +160,7 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
         preset="formHelper"
         tx="request:photosHelper"
         txOptions={{ count: maxPhotos }}
-        style={themed($photoHelper)}
+        style={themed(styles.$photoHelper)}
       />
 
       <PhotoSourceSheet

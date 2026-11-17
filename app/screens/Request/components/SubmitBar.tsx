@@ -29,7 +29,7 @@ export function SubmitBar(props: SubmitBarProps) {
   const insets = useSafeAreaInsets()
 
   return (
-    <View style={[themed($bar), { paddingBottom: theme.spacing.sm + insets.bottom }]}>
+    <View style={[themed(styles.$bar), { paddingBottom: theme.spacing.sm + insets.bottom }]}>
       <Button
         preset="primary"
         tx="request:submit"
@@ -42,10 +42,12 @@ export function SubmitBar(props: SubmitBarProps) {
   )
 }
 
-const $bar: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  paddingHorizontal: spacing.md,
-  paddingTop: spacing.sm,
-  backgroundColor: colors.background,
-  borderTopWidth: StyleSheet.hairlineWidth,
-  borderTopColor: colors.separator,
-})
+const styles = {
+  $bar: (({ colors, spacing }) => ({
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.sm,
+    backgroundColor: colors.background,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.separator,
+  })) as ThemedStyle<ViewStyle>,
+}

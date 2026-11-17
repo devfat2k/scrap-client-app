@@ -81,7 +81,7 @@ export function getItemsSummary(items: OrderItem[]): string {
     labels.push(translate("history:moreTypes", { count: remaining }))
   }
 
-  return labels.join(" · ")
+  return labels.join(", ")
 }
 
 /**

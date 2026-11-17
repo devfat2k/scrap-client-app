@@ -5,23 +5,9 @@ import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 import { formatDateTime } from "@/utils/formatDate"
 
-import {
-  $infoBody,
-  $infoIcon,
-  $infoLabel,
-  $infoList,
-  $infoRow,
-  $infoSubtext,
-  $infoText,
-  $sectionCard,
-  $sectionDivider,
-  $sectionTitle,
-  $timePanel,
-  $timePanelConfirmed,
-  $timeValue,
-  $volumeText,
-} from "../styles/orderSectionStyles"
+import { styles } from "../styles/orderSectionStyles"
 import type { RequestOrder } from "../types/order"
+import { getCollectionSchedule } from "../utils/collectionSchedule"
 import { formatOrderAddress, formatVolume } from "../utils/orderDetail"
 
 export interface OrderCollectionCardProps {
@@ -29,6 +15,7 @@ export interface OrderCollectionCardProps {
    * Order shown on the detail screen.
    */
   order: RequestOrder
+  status?: unknown
 }
 
 /**
@@ -36,54 +23,65 @@ export interface OrderCollectionCardProps {
  * Status is intentionally not repeated here.
  */
 export function OrderCollectionCard(props: OrderCollectionCardProps) {
-  const { order } = props
+  const { order, status = order.status } = props
   const { themed, theme } = useAppTheme()
 
   const { line1, line2 } = formatOrderAddress(order.address)
-  const confirmedAt = order.confirmedAt
-  const isConfirmed = confirmedAt !== undefined
-  const timeValue = confirmedAt ?? order.proposedAt
-  const timeColor = isConfirmed ? theme.colors.tint : theme.colors.textDim
+  const schedule = getCollectionSchedule(order, status)
+  const timeColor = theme.colors.text
   const mutedIconColor = theme.colors.textDim
 
   return (
-    <View style={themed($sectionCard)}>
-      <Text preset="subheading" tx="orderDetail:collectionSection" style={themed($sectionTitle)} />
-      <View style={themed($sectionDivider)} />
+    <View style={themed(styles.$sectionCard)}>
+      <Text
+        preset="subheading"
+        tx="orderDetail:collectionSection"
+        style={themed(styles.$sectionTitle)}
+      />
+      <View style={themed(styles.$sectionDivider)} />
 
-      <View style={themed($infoList)}>
-        <View style={themed($infoRow)}>
-          <SvgIcon icon="User" size={18} fill={mutedIconColor} style={themed($infoIcon)} />
+      <View style={themed(styles.$infoList)}>
+        <View style={themed(styles.$infoRow)}>
+          <SvgIcon icon="User" size={18} fill={mutedIconColor} style={themed(styles.$infoIcon)} />
           <Text
             preset="bold"
             text={order.contact.name}
-            style={[themed($infoBody), themed($infoText)]}
+            style={[themed(styles.$infoBody), themed(styles.$infoText)]}
           />
         </View>
 
-        <View style={themed($infoRow)}>
-          <SvgIcon icon="Phone" size={18} fill={mutedIconColor} style={themed($infoIcon)} />
-          <Text text={order.contact.phone} style={[themed($infoBody), themed($infoText)]} />
+        <View style={themed(styles.$infoRow)}>
+          <SvgIcon icon="Phone" size={18} fill={mutedIconColor} style={themed(styles.$infoIcon)} />
+          <Text
+            text={order.contact.phone}
+            style={[themed(styles.$infoBody), themed(styles.$infoText)]}
+          />
         </View>
 
-        <View style={themed($infoRow)}>
-          <SvgIcon icon="Home" size={18} fill={mutedIconColor} style={themed($infoIcon)} />
-          <View style={themed($infoBody)}>
-            <Text text={line1} style={themed($infoText)} />
-            <Text text={line2} style={themed($infoSubtext)} />
+        <View style={themed(styles.$infoRow)}>
+          <SvgIcon icon="Home" size={18} fill={mutedIconColor} style={themed(styles.$infoIcon)} />
+          <View style={themed(styles.$infoBody)}>
+            <Text text={line1} style={themed(styles.$infoText)} />
+            <Text text={line2} style={themed(styles.$infoSubtext)} />
           </View>
         </View>
       </View>
 
-      <View style={[themed($timePanel), isConfirmed && themed($timePanelConfirmed)]}>
+      <View style={themed(styles.$timePanel)}>
         <SvgIcon icon="Clock" size={20} fill={timeColor} />
-        <View style={themed($infoBody)}>
+        <View style={themed(styles.$infoBody)}>
           <Text
             preset="formHelper"
-            tx={isConfirmed ? "orderDetail:confirmedTime" : "orderDetail:preferredTime"}
-            style={[themed($infoLabel), { color: timeColor }]}
+            tx={schedule.label}
+            style={[themed(styles.$infoLabel), { color: timeColor }]}
           />
-          <Text preset="bold" text={formatDateTime(timeValue)} style={themed($timeValue)} />
+          {schedule.date && (
+            <Text
+              preset="bold"
+              text={formatDateTime(schedule.date)}
+              style={themed(styles.$timeValue)}
+            />
+          )}
         </View>
       </View>
 
@@ -92,7 +90,7 @@ export function OrderCollectionCard(props: OrderCollectionCardProps) {
           preset="formHelper"
           tx="orderDetail:volume"
           txOptions={{ value: formatVolume(order.volumeCubicMeters) }}
-          style={themed($volumeText)}
+          style={themed(styles.$volumeText)}
         />
       )}
     </View>

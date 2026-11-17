@@ -14,18 +14,7 @@ import { useAppTheme } from "@/theme/context"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 import { CancelReasonList } from "./CancelReasonList"
-import {
-  $confirmButton,
-  $confirmButtonDisabled,
-  $confirmButtonPressed,
-  $confirmText,
-  $handle,
-  $sheet,
-  $sheetActions,
-  $sheetContent,
-  $sheetMessage,
-  $sheetTitle,
-} from "../styles/cancelRequestStyles"
+import { styles } from "../styles/cancelRequestStyles"
 import type { CancelReason } from "../utils/cancelReasons"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.8
@@ -104,32 +93,36 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleSheetDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed($handle)}
-      backgroundStyle={themed($sheet)}
+      handleIndicatorStyle={themed(styles.$handle)}
+      backgroundStyle={themed(styles.$sheet)}
     >
       <BottomSheetScrollView
-        contentContainerStyle={themed($sheetContent)}
+        contentContainerStyle={themed(styles.$sheetContent)}
         keyboardShouldPersistTaps="handled"
       >
-        <Text preset="subheading" tx="orderDetail:cancelSheetTitle" style={themed($sheetTitle)} />
+        <Text
+          preset="subheading"
+          tx="orderDetail:cancelSheetTitle"
+          style={themed(styles.$sheetTitle)}
+        />
         <Text
           preset="formHelper"
           tx="orderDetail:cancelSheetMessage"
-          style={themed($sheetMessage)}
+          style={themed(styles.$sheetMessage)}
         />
 
         <CancelReasonList selected={reason} onSelect={setReason} />
 
-        <View style={themed($sheetActions)}>
+        <View style={themed(styles.$sheetActions)}>
           <Button
             preset="primary"
             tx="orderDetail:confirmCancel"
             onPress={handleConfirm}
             disabled={!reason}
-            style={themed($confirmButton)}
-            pressedStyle={themed($confirmButtonPressed)}
-            disabledStyle={themed($confirmButtonDisabled)}
-            textStyle={themed($confirmText)}
+            style={themed(styles.$confirmButton)}
+            pressedStyle={themed(styles.$confirmButtonPressed)}
+            disabledStyle={themed(styles.$confirmButtonDisabled)}
+            textStyle={themed(styles.$confirmText)}
           />
           <Button preset="default" tx="orderDetail:keepRequest" onPress={onClose} />
         </View>

@@ -1,17 +1,19 @@
 import { FC } from "react"
+import { View } from "react-native"
+import { StatusBar } from "expo-status-bar"
 
-import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
 
-import { $container, $text } from "../styles/authStyles"
+import { styles } from "../styles/authStyles"
 
 export const SignInScreen: FC = () => {
-  const { themed } = useAppTheme()
+  const { themed, themeContext } = useAppTheme()
 
   return (
-    <Screen preset="fixed" contentContainerStyle={themed($container)}>
-      <Text preset="subheading" style={themed($text)} text="Sign In" />
-    </Screen>
+    <View style={themed(styles.$container)}>
+      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
+      <Text preset="subheading" style={themed(styles.$text)} text="Sign In" />
+    </View>
   )
 }

@@ -1,4 +1,5 @@
-import { View } from "react-native"
+import { ScrollView, View } from "react-native"
+import { StatusBar } from "expo-status-bar"
 import { useNavigation } from "@react-navigation/native"
 import type {
   NativeStackNavigationProp,
@@ -6,26 +7,13 @@ import type {
 } from "@react-navigation/native-stack"
 
 import { Button } from "@/components/Button"
-import { Screen } from "@/components/Screen"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import type { AppStackParamList, RequestStackParamList } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
+import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
-import {
-  $actions,
-  $content,
-  $ecoCard,
-  $ecoHeader,
-  $ecoText,
-  $ecoTitle,
-  $hero,
-  $message,
-  $requestIdPill,
-  $requestIdText,
-  $successCircle,
-  $title,
-} from "../styles/requestSuccessStyles"
+import { styles } from "../styles/requestSuccessStyles"
 
 type RequestSuccessScreenProps = NativeStackScreenProps<
   RequestStackParamList,
@@ -38,7 +26,8 @@ type MainTabName = "HomeTab" | "HistoryTab"
  */
 export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
   const { requestId } = route.params
-  const { themed, theme } = useAppTheme()
+  const { themed, theme, themeContext } = useAppTheme()
+  const containerInsets = useSafeAreaInsetsStyle(["top", "bottom"])
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
   function leaveTo(tab: MainTabName) {
@@ -50,45 +39,55 @@ export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
   }
 
   return (
-    <Screen
-      preset="scroll"
-      safeAreaEdges={["top", "bottom"]}
-      contentContainerStyle={themed($content)}
-    >
-      <View style={themed($hero)}>
-        <View style={themed($successCircle)} accessibilityElementsHidden>
-          <SvgIcon icon="Check" size={44} fill={theme.colors.background} />
+    <View style={[themed(styles.$container), containerInsets]}>
+      <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={themed(styles.$content)}
+      >
+        <View style={themed(styles.$hero)}>
+          <View style={themed(styles.$successCircle)} accessibilityElementsHidden>
+            <SvgIcon icon="Check" size={44} fill={theme.colors.background} />
+          </View>
+
+          <Text preset="heading" tx="requestSuccess:title" style={themed(styles.$title)} />
+          <Text preset="formHelper" tx="requestSuccess:message" style={themed(styles.$message)} />
+
+          <View style={themed(styles.$requestIdPill)}>
+            <Text
+              preset="bold"
+              tx="requestSuccess:requestId"
+              txOptions={{ id: requestId }}
+              style={themed(styles.$requestIdText)}
+            />
+          </View>
         </View>
 
-        <Text preset="heading" tx="requestSuccess:title" style={themed($title)} />
-        <Text preset="formHelper" tx="requestSuccess:message" style={themed($message)} />
-
-        <View style={themed($requestIdPill)}>
+        <View style={themed(styles.$ecoCard)}>
+          <View style={themed(styles.$ecoHeader)}>
+            <SvgIcon icon="Earth" size={18} fill={theme.colors.palette.primary600} />
+            <Text preset="bold" tx="requestSuccess:ecoTitle" style={themed(styles.$ecoTitle)} />
+          </View>
           <Text
-            preset="bold"
-            tx="requestSuccess:requestId"
-            txOptions={{ id: requestId }}
-            style={themed($requestIdText)}
+            preset="formHelper"
+            tx="requestSuccess:ecoMessage"
+            style={themed(styles.$ecoText)}
           />
         </View>
-      </View>
 
-      <View style={themed($ecoCard)}>
-        <View style={themed($ecoHeader)}>
-          <SvgIcon icon="Earth" size={18} fill={theme.colors.palette.primary600} />
-          <Text preset="bold" tx="requestSuccess:ecoTitle" style={themed($ecoTitle)} />
+        <View style={themed(styles.$actions)}>
+          <Button
+            preset="primary"
+            tx="requestSuccess:viewRequests"
+            onPress={() => leaveTo("HistoryTab")}
+          />
+          <Button
+            preset="default"
+            tx="requestSuccess:backHome"
+            onPress={() => leaveTo("HomeTab")}
+          />
         </View>
-        <Text preset="formHelper" tx="requestSuccess:ecoMessage" style={themed($ecoText)} />
-      </View>
-
-      <View style={themed($actions)}>
-        <Button
-          preset="primary"
-          tx="requestSuccess:viewRequests"
-          onPress={() => leaveTo("HistoryTab")}
-        />
-        <Button preset="default" tx="requestSuccess:backHome" onPress={() => leaveTo("HomeTab")} />
-      </View>
-    </Screen>
+      </ScrollView>
+    </View>
   )
 }
