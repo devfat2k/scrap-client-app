@@ -1,18 +1,18 @@
 import { useEffect, useMemo, useState } from "react"
-import { BackHandler, Platform, View } from "react-native"
+import { BackHandler, Platform } from "react-native"
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
   type BottomSheetBackdropProps,
 } from "@gorhom/bottom-sheet"
-import DateTimePicker, { type DateTimePickerEvent } from "@react-native-community/datetimepicker"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import DateTimePicker from "@react-native-community/datetimepicker"
 
-import { Button } from "@/components/Button"
 import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
+import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
+import { CollectionTimePicker } from "./CollectionTimePicker"
 import { createStyles } from "../styles/collectionTimeSheetStyles"
 
 type AndroidStep = "date" | "time"
@@ -53,9 +53,9 @@ export interface CollectionTimeSheetProps {
  */
 export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
   const styles = useStyles(createStyles)
+  const bottomInset = useSafeAreaInsetsStyle(["bottom"], "margin")
 
   const { visible, value, onChange, onClose } = props
-  const insets = useSafeAreaInsets()
   const { sheetRef, handleDismiss } = useBottomSheetModal({
     visible,
     onClose,
@@ -90,13 +90,7 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
     }
   }
 
-  function handleAndroidChange(event: DateTimePickerEvent, selected?: Date) {
-    if (event.type === "dismissed" || !selected) {
-      // Cancelling keeps the previously committed value.
-      onClose()
-      return
-    }
-
+  function handleAndroidValueChange(selected: Date) {
     if (androidStep === "date") {
       setDraft(selected)
       setAndroidStep("time")
@@ -116,10 +110,16 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
         value={draft}
         mode="date"
         minimumDate={minimumDate}
-        onChange={handleAndroidChange}
+        onValueChange={(_, date) => handleAndroidValueChange(date)}
+        onDismiss={onClose}
       />
     ) : (
-      <DateTimePicker value={draft} mode="time" onChange={handleAndroidChange} />
+      <DateTimePicker
+        value={draft}
+        mode="time"
+        onValueChange={(_, date) => handleAndroidValueChange(date)}
+        onDismiss={onClose}
+      />
     )
   }
 
@@ -127,37 +127,21 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
     <BottomSheetModal
       ref={sheetRef}
       enablePanDownToClose
+      enableContentPanningGesture={false}
       keyboardBlurBehavior="none"
-      bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={styles.handle}
       backgroundStyle={styles.sheet}
     >
-      <BottomSheetView style={styles.content}>
-        <DateTimePicker
+      <BottomSheetView style={[styles.content, bottomInset]}>
+        <CollectionTimePicker
           value={draft}
-          mode="datetime"
           minimumDate={minimumDate}
-          onChange={(_, date) => {
-            if (date) setDraft(date)
-          }}
+          onChange={setDraft}
+          onCancel={() => close()}
+          onConfirm={() => close(draft)}
         />
-
-        <View style={styles.actions}>
-          <Button
-            preset="default"
-            tx="common:cancel"
-            onPress={() => close()}
-            style={styles.actionSurface}
-          />
-          <Button
-            preset="primary"
-            tx="common:done"
-            onPress={() => close(draft)}
-            style={styles.actionSurface}
-          />
-        </View>
       </BottomSheetView>
     </BottomSheetModal>
   )

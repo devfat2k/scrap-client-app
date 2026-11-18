@@ -3,6 +3,16 @@ import orderEn from "./en/order"
 import requestEn from "./en/request"
 
 const en = {
+  account: {
+    title: "Account",
+    guest: "Guest",
+    description: "Your basic contact information.",
+    contactDetails: "Contact details",
+    fullName: "Full name",
+    phone: "Phone number",
+    email: "Email",
+    notProvided: "Not provided",
+  },
   common: {
     ok: "OK!",
     cancel: "Cancel",

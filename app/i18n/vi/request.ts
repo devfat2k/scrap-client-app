@@ -34,6 +34,8 @@ const requestVi = {
     statePlaceholder: "Chọn",
     postcodePlaceholder: "4 chữ số",
     mapUrlPlaceholder: "Dán liên kết Google Maps hoặc tọa độ",
+    collectionDate: "Ngày",
+    collectionTime: "Giờ",
     proposedAtPlaceholder: "Chọn ngày và giờ",
     submit: "Gửi yêu cầu thu gom",
     contactTitle: "Thông tin liên hệ",

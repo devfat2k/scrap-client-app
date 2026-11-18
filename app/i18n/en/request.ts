@@ -32,6 +32,8 @@ const requestEn = {
     statePlaceholder: "Select",
     postcodePlaceholder: "4 digits",
     mapUrlPlaceholder: "Paste a Google Maps link or coordinates",
+    collectionDate: "Date",
+    collectionTime: "Time",
     proposedAtPlaceholder: "Select date and time",
     submit: "Send pickup request",
     contactTitle: "Contact details",

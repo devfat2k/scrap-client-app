@@ -4,6 +4,16 @@ import orderVi from "./vi/order"
 import requestVi from "./vi/request"
 
 const vi = {
+  account: {
+    title: "Tài khoản",
+    guest: "Khách",
+    description: "Thông tin liên hệ cơ bản của bạn.",
+    contactDetails: "Thông tin liên hệ",
+    fullName: "Họ và tên",
+    phone: "Số điện thoại",
+    email: "Email",
+    notProvided: "Chưa cung cấp",
+  },
   common: {
     ok: "OK!",
     cancel: "Hủy",
