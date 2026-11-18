@@ -1,9 +1,8 @@
 import { Linking } from "react-native"
 
+import type { DriverAssignment } from "@/domain/driver"
 import { translate } from "@/i18n/translate"
 import { showToast } from "@/utils/toastService"
-
-import type { DriverAssignment } from "../types/order"
 
 export function getDriverPhoneUrl(driver?: DriverAssignment): string | undefined {
   if (!driver || driver.isDemoContact !== false) return undefined

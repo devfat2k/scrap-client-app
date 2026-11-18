@@ -28,9 +28,14 @@ export function FormSection(props: PropsWithChildren<FormSectionProps>) {
     <View style={styles.formSection}>
       <View style={styles.formSectionHeader}>
         <View style={styles.formSectionBadge}>
-          <Text preset="formHelper" text={String(step)} style={styles.formSectionBadgeText} />
+          <Text
+            weight="semiBold"
+            preset="formHelper"
+            text={String(step)}
+            style={styles.formSectionBadgeText}
+          />
         </View>
-        <Text preset="subheading" tx={titleTx} style={styles.formSectionTitle} />
+        <Text preset="subheading" tx={titleTx} />
       </View>
 
       <View style={styles.formSectionDivider} />
@@ -40,7 +45,7 @@ export function FormSection(props: PropsWithChildren<FormSectionProps>) {
   )
 }
 
-const createStyles = ({ spacing, colors, typography }: Theme) =>
+const createStyles = ({ spacing, colors }: Theme) =>
   ({
     formSection: {
       gap: spacing.sm,
@@ -59,11 +64,8 @@ const createStyles = ({ spacing, colors, typography }: Theme) =>
     },
     formSectionBadgeText: {
       color: colors.palette.primary600,
-      fontFamily: typography.primary.semiBold,
     },
-    formSectionTitle: {
-      color: colors.text,
-    },
+
     formSectionDivider: {
       height: StyleSheet.hairlineWidth,
       backgroundColor: colors.separator,

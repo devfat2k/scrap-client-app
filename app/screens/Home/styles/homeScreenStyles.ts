@@ -24,9 +24,7 @@ export const createStyles = ({ colors, spacing, isDark }: Theme) =>
       flex: 1,
       gap: spacing.xxxs,
     },
-    greeting: {
-      color: colors.text,
-    },
+
     greetingSubtitle: {
       color: colors.textDim,
     },
@@ -65,9 +63,7 @@ export const createStyles = ({ colors, spacing, isDark }: Theme) =>
       justifyContent: "center",
       width: spacing.xxl + spacing.xs,
     },
-    title: {
-      color: colors.text,
-    },
+
     subtitle: {
       color: colors.textDim,
       marginBottom: spacing.xs,

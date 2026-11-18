@@ -62,6 +62,7 @@ export function ThemeSheet(props: ThemeSheetProps) {
               fill={isSelected ? theme.colors.tint : theme.colors.textDim}
             />
             <Text
+              weight={isSelected ? "semiBold" : undefined}
               tx={option.labelTx}
               style={[styles.optionText, isSelected && styles.optionTextSelected]}
             />
@@ -73,7 +74,7 @@ export function ThemeSheet(props: ThemeSheetProps) {
   )
 }
 
-const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+const createStyles = ({ colors, spacing, isDark }: Theme) =>
   ({
     option: {
       minHeight: spacing.xxl,
@@ -89,10 +90,8 @@ const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
     },
     optionText: {
       flex: 1,
-      color: colors.text,
     },
     optionTextSelected: {
       color: colors.tint,
-      fontFamily: typography.primary.semiBold,
     },
   }) as const

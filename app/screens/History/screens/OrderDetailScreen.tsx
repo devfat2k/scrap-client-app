@@ -18,8 +18,10 @@ import { CancelRequestButton } from "../components/CancelRequestButton"
 import { CancelRequestSheet } from "../components/CancelRequestSheet"
 import { OfflineNotice } from "../components/OfflineNotice"
 import { OrderCollectionCard } from "../components/OrderCollectionCard"
+import { OrderDriver } from "../components/OrderDriver"
 import { OrderItemsCard } from "../components/OrderItemsCard"
 import { OrderNotFoundState } from "../components/OrderNotFoundState"
+import { OrderStatusLabel } from "../components/OrderStatusLabel"
 import { getMockOrder } from "../mocks/historyOrders"
 import { createStyles } from "../styles/orderDetailScreenStyles"
 import { getHeaderBackground } from "../utils/orderDetail"
@@ -83,13 +85,22 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
           />
         )}
 
-        <Text
-          preset="formHelper"
-          text={translate("history:submitted", { date: formatShortDate(order.createdAt) })}
-          style={styles.metaLine}
-        />
+        <View style={styles.summary}>
+          <OrderStatusLabel status={currentStatus} />
+          <Text
+            size="xxs"
+            tx="history:submitted"
+            txOptions={{ date: formatShortDate(order.createdAt) }}
+            style={styles.metaLine}
+          />
+        </View>
 
         <OrderCollectionCard order={order} status={currentStatus} />
+        {currentStatus === ORDER_STATUS.DISPATCHED && (
+          <View style={styles.driverCard}>
+            <OrderDriver driver={order.driverAssignment} />
+          </View>
+        )}
         <OrderItemsCard order={order} />
 
         {canCancel && (

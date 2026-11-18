@@ -18,7 +18,7 @@ export const createContactDetailsStyles = ({ colors, spacing, typography }: Them
       paddingTop: spacing.xs,
       gap: spacing.xl,
     },
-    title: { color: colors.text },
+
     error: { color: colors.error },
     actions: {
       flexDirection: "row",

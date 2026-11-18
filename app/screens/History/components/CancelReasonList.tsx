@@ -44,6 +44,7 @@ export function CancelReasonList(props: CancelReasonListProps) {
             style={({ pressed }) => [styles.reasonRow, pressed && styles.reasonPressed]}
           >
             <Text
+              weight={isSelected ? "semiBold" : undefined}
               text={translate(option.labelTx)}
               style={[styles.reasonText, isSelected && styles.reasonTextSelected]}
             />

@@ -32,7 +32,7 @@ export function HomeTopBar(props: HomeTopBarProps) {
   return (
     <View style={styles.topBar}>
       <View style={styles.greetingBlock}>
-        <Text preset="subheading" tx="home:greeting" style={styles.greeting} />
+        <Text preset="subheading" tx="home:greeting" />
         <Text preset="formHelper" tx="home:greetingSubtitle" style={styles.greetingSubtitle} />
       </View>
 

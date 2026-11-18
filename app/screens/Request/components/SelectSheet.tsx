@@ -127,6 +127,7 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
               style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
             >
               <Text
+                weight={isSelected ? "semiBold" : undefined}
                 text={translate(option.labelTx)}
                 style={[styles.optionText, isSelected && styles.optionTextSelected]}
               />

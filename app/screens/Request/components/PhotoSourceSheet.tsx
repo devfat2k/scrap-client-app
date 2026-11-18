@@ -118,8 +118,9 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
               ]}
             >
               <Text
+                weight={action.isCancel ? "medium" : undefined}
                 tx={action.labelTx}
-                style={[styles.actionText, action.isCancel && styles.cancelText]}
+                style={action.isCancel && styles.cancelText}
               />
             </Pressable>
           )
@@ -129,7 +130,7 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
   )
 }
 
-const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+const createStyles = ({ colors, spacing, isDark }: Theme) =>
   ({
     sheet: {
       backgroundColor: colors.card,
@@ -148,7 +149,6 @@ const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
       paddingBottom: spacing.md,
     },
     title: {
-      color: colors.text,
       paddingBottom: spacing.xs,
     },
     action: {
@@ -165,11 +165,8 @@ const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
     actionPressed: {
       opacity: isDark ? 0.7 : 0.6,
     },
-    actionText: {
-      color: colors.text,
-    },
+
     cancelText: {
       color: colors.textDim,
-      fontFamily: typography.primary.medium,
     },
   }) as const

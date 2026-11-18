@@ -55,6 +55,6 @@ const createStyles = ({ colors, spacing }: Theme) =>
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: colors.separator,
     },
-    label: { flex: 1, color: colors.text },
+    label: { flex: 1 },
     pressed: { opacity: 0.6 },
   }) as const

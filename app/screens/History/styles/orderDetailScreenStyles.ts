@@ -23,7 +23,20 @@ export const createStyles = ({ colors, isDark, typography, spacing }: Theme) =>
       paddingHorizontal: spacing.md,
       paddingTop: spacing.md,
       paddingBottom: spacing.xxxl,
-      gap: spacing.lg,
+      gap: spacing.md,
+    },
+    summary: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: spacing.xs,
+    },
+    driverCard: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: spacing.md,
+      overflow: "hidden",
     },
     metaLine: {
       color: colors.textDim,
@@ -57,7 +70,6 @@ export const createStyles = ({ colors, isDark, typography, spacing }: Theme) =>
       textAlign: "center",
     },
     notFoundTitle: {
-      color: colors.text,
       textAlign: "center",
     },
     notFoundButton: {

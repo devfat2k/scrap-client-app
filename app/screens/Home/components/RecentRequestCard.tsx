@@ -1,86 +1,59 @@
-import { Pressable, View } from "react-native"
+import { View } from "react-native"
 
+import { DriverContact } from "@/components/order/DriverContact"
+import { OrderCard } from "@/components/order/OrderCard"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
+import { ORDER_STATUS } from "@/domain/orderStatus"
+import { translate } from "@/i18n/translate"
 import type { RequestOrder } from "@/screens/History/types/order"
 import { useAppTheme } from "@/theme/context"
 import { useStyles } from "@/theme/useStyles"
 import { formatShortDate } from "@/utils/formatDate"
-import { getStatusColor, getStatusIconName, getStatusLabel } from "@/utils/orderStatusDisplay"
+import { getStatusLabel } from "@/utils/orderStatusDisplay"
 
 import { createStyles } from "../styles/homeCardsStyles"
 
 export interface RecentRequestCardProps {
-  /**
-   * Request shown in the card.
-   */
   order: RequestOrder
-  /**
-   * Opens the request detail screen.
-   */
   onPress: () => void
 }
 
-/**
- * Compact summary of the latest request, linking to its detail screen.
- */
-export function RecentRequestCard(props: RecentRequestCardProps) {
+/** The shared card shell keeps Home compact without a second visual design. */
+export function RecentRequestCard({ order, onPress }: RecentRequestCardProps) {
   const styles = useStyles(createStyles)
-
-  const { order, onPress } = props
   const { theme } = useAppTheme()
-
-  const statusColor = getStatusColor(theme, order.status)
-  const statusLabel = getStatusLabel(order.status)
+  const address = `${order.address.suburb}, ${order.address.state}`
+  const dateLabel = translate("history:submitted", { date: formatShortDate(order.createdAt) })
+  const itemCount = translate("history:scrapTypes", { count: order.items.length })
 
   return (
-    <Pressable
+    <OrderCard
+      id={order.id}
+      status={order.status}
+      dateLabel={dateLabel}
+      accessibilityLabel={[
+        order.id,
+        getStatusLabel(order.status),
+        dateLabel,
+        address,
+        itemCount,
+        translate("history:viewDetails"),
+      ].join(". ")}
       onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={`#${order.id}, ${statusLabel}`}
-      style={({ pressed }) => [
-        styles.recentCard,
-        { borderStartColor: statusColor },
-        pressed && styles.recentPressed,
-      ]}
+      driverContact={
+        order.status === ORDER_STATUS.DISPATCHED ? (
+          <DriverContact driver={order.driverAssignment} />
+        ) : undefined
+      }
     >
-      <View style={styles.recentHeader}>
-        <Text preset="bold" text={`#${order.id}`} style={styles.recentId} />
-
-        <View style={styles.recentStatus}>
-          <SvgIcon icon={getStatusIconName(order.status)} size={14} fill={statusColor} />
-          <Text
-            preset="formHelper"
-            text={statusLabel}
-            style={[styles.recentStatusText, { color: statusColor }]}
-          />
+      <View style={styles.recentLocation}>
+        <SvgIcon icon="Home" size={18} fill={theme.colors.textDim} />
+        <View style={styles.recentLocationText}>
+          <Text weight="medium" text={address} />
+          <Text preset="formHelper" text={itemCount} style={styles.recentMeta} />
         </View>
       </View>
-
-      <View style={styles.recentDivider} />
-
-      <Text
-        preset="formHelper"
-        text={`${order.address.suburb}, ${order.address.state}`}
-        numberOfLines={1}
-        style={styles.recentAddress}
-      />
-      <Text
-        preset="formHelper"
-        tx="history:scrapTypes"
-        txOptions={{ count: order.items.length }}
-        style={styles.recentMeta}
-      />
-
-      <View style={styles.recentFooter}>
-        <Text
-          preset="formHelper"
-          tx="history:submitted"
-          txOptions={{ date: formatShortDate(order.createdAt) }}
-          style={styles.recentMeta}
-        />
-        <SvgIcon icon="ChevronDown" size={16} fill={theme.colors.textDim} style={styles.chevron} />
-      </View>
-    </Pressable>
+    </OrderCard>
   )
 }

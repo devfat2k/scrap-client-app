@@ -44,9 +44,10 @@ export function OrderStatusLabel(props: OrderStatusLabelProps) {
     <View style={styles.statusRow} accessible accessibilityRole="text" accessibilityLabel={label}>
       <SvgIcon icon={getStatusIconName(status)} size={iconSize} fill={statusColor} />
       <Text
+        weight="medium"
         preset="formHelper"
         text={label}
-        style={[styles.statusText, { color: statusColor }, textStyle]}
+        style={[{ color: statusColor }, textStyle]}
       />
     </View>
   )

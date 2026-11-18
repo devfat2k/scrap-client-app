@@ -101,7 +101,6 @@ const createStyles = ({ colors, spacing }: Theme) =>
       paddingBottom: spacing.md,
     },
     title: {
-      color: colors.text,
       paddingBottom: spacing.xs,
     },
   }) as const

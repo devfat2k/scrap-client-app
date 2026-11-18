@@ -38,8 +38,9 @@ export function HistoryTabs({ orders, onOpenOrder }: Props) {
       commonOptions={{
         label: ({ route, color }) => (
           <Text
+            weight="semiBold"
             text={translate(`history:${route.key as HistoryTabKey}`)}
-            style={[styles.label, { color }]}
+            style={{ color }}
           />
         ),
       }}

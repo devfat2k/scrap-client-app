@@ -1,4 +1,5 @@
 import type { AustralianAddress } from "@/domain/address"
+import type { DriverAssignment } from "@/domain/driver"
 import type { OrderStatus } from "@/domain/orderStatus"
 import type { ScrapCategory, ScrapUnit } from "@/domain/scrapCategory"
 
@@ -17,12 +18,7 @@ export interface OrderContact {
   phone: string
 }
 
-export interface DriverAssignment {
-  name?: string
-  vehiclePlate?: string
-  phone?: string
-  isDemoContact: boolean
-}
+export type { DriverAssignment } from "@/domain/driver"
 
 export interface OrderSettlement {
   completedAt?: Date

@@ -1,6 +1,6 @@
 import type { Theme } from "@/theme/types"
 
-export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+export const createStyles = ({ colors, spacing, isDark }: Theme) =>
   ({
     bar: {
       backgroundColor: colors.background,
@@ -19,7 +19,4 @@ export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
       paddingVertical: spacing.sm,
     },
     scrollTab: { width: "auto" },
-    label: {
-      fontFamily: typography.primary.semiBold,
-    },
   }) as const

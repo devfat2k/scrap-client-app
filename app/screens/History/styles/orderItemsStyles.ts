@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 import type { Theme } from "@/theme/types"
 
-export const createStyles = ({ spacing, colors }: Theme) =>
+export const createStyles = ({ spacing, colors, isDark }: Theme) =>
   ({
     itemsList: {
       gap: spacing.md,
@@ -15,9 +15,7 @@ export const createStyles = ({ spacing, colors }: Theme) =>
     itemInfo: {
       flex: 1,
     },
-    itemCategory: {
-      color: colors.text,
-    },
+
     itemQuantity: {
       color: colors.textDim,
     },
@@ -27,10 +25,12 @@ export const createStyles = ({ spacing, colors }: Theme) =>
       textAlign: "right",
     },
     priceCell: {
-      width: 76,
+      flex: 1,
+      minWidth: 0,
     },
     totalCell: {
-      width: 76,
+      flex: 1,
+      minWidth: 0,
     },
     alignRight: {
       textAlign: "right",
@@ -38,9 +38,7 @@ export const createStyles = ({ spacing, colors }: Theme) =>
     unitPriceText: {
       color: colors.textDim,
     },
-    lineTotalText: {
-      color: colors.text,
-    },
+
     columnHeader: {
       flexDirection: "row",
       alignItems: "center",
@@ -60,13 +58,12 @@ export const createStyles = ({ spacing, colors }: Theme) =>
       alignItems: "center",
       justifyContent: "space-between",
       gap: spacing.sm,
+      flexWrap: "wrap",
       paddingTop: spacing.sm,
     },
-    totalLabel: {
-      color: colors.text,
-    },
+
     totalValue: {
-      color: colors.tint,
+      color: isDark ? colors.palette.primary400 : colors.palette.primary600,
     },
     totalPending: {
       color: colors.textDim,
@@ -95,7 +92,5 @@ export const createStyles = ({ spacing, colors }: Theme) =>
     disclaimerText: {
       flex: 1,
       color: colors.palette.accent500,
-      fontSize: 12,
-      lineHeight: 18,
     },
   }) as const

@@ -27,7 +27,6 @@ export const createStyles = ({ colors, spacing, isDark }: Theme) =>
     },
     fieldValue: {
       flex: 1,
-      color: colors.text,
     },
     fieldPlaceholder: {
       flex: 1,
@@ -99,7 +98,6 @@ export const createStyles = ({ colors, spacing, isDark }: Theme) =>
     },
     scrapCardTitle: {
       flex: 1,
-      color: colors.text,
     },
     scrapRemoveButton: {
       width: spacing.lg,

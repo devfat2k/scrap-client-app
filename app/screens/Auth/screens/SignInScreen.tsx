@@ -16,7 +16,7 @@ export const SignInScreen: FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
-      <Text preset="subheading" style={styles.text} text="Sign In" />
+      <Text weight="semiBold" preset="subheading" text="Sign In" />
     </View>
   )
 }

@@ -54,7 +54,7 @@ function QuickActionCard(props: QuickActionCardProps) {
         <SvgIcon icon={icon} size={20} fill={iconFill} />
       </View>
 
-      <Text preset="bold" tx={titleTx} style={styles.quickActionTitle} />
+      <Text preset="bold" tx={titleTx} />
       <Text preset="formHelper" tx={hintTx} style={styles.quickActionHint} />
     </Pressable>
   )

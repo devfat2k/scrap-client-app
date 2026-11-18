@@ -25,7 +25,7 @@ export const AccountScreen: FC = () => {
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
           >
-            <Text text="G" size="xl" weight="semiBold" style={styles.avatarLetter} />
+            <Text text="G" size="xl" weight="semiBold" />
           </View>
           <View style={styles.profileText}>
             <Text preset="subheading" tx="account:guest" />

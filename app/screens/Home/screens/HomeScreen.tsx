@@ -74,7 +74,7 @@ export const HomeScreen: FC = () => {
             <SvgIcon icon="Earth" size={theme.spacing.xl} fill={theme.colors.palette.primary600} />
           </View>
 
-          <Text preset="heading" tx="home:title" style={styles.title} />
+          <Text preset="heading" tx="home:title" />
           <Text preset="formHelper" tx="home:subtitle" style={styles.subtitle} />
 
           <Button
@@ -92,7 +92,7 @@ export const HomeScreen: FC = () => {
 
         {RECENT_REQUEST && (
           <View style={cardStyles.recentSection}>
-            <Text preset="bold" tx="home:recent.title" style={cardStyles.recentTitle} />
+            <Text preset="bold" tx="home:recent.title" />
             <RecentRequestCard order={RECENT_REQUEST} onPress={openRecentOrder} />
           </View>
         )}

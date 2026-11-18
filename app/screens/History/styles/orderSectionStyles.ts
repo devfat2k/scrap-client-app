@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 import type { Theme } from "@/theme/types"
 
-export const createStyles = ({ colors, isDark, spacing }: Theme) =>
+export const createStyles = ({ colors, spacing }: Theme) =>
   ({
     sectionCard: {
       padding: spacing.md,
@@ -10,15 +10,8 @@ export const createStyles = ({ colors, isDark, spacing }: Theme) =>
       borderColor: colors.border,
       borderRadius: spacing.md,
       backgroundColor: colors.card,
-      shadowColor: isDark ? colors.palette.neutral200 : colors.palette.neutral900,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.06,
-      shadowRadius: 6,
-      elevation: 2,
     },
-    sectionTitle: {
-      color: colors.text,
-    },
+
     sectionDivider: {
       height: StyleSheet.hairlineWidth,
       backgroundColor: colors.separator,
@@ -39,33 +32,16 @@ export const createStyles = ({ colors, isDark, spacing }: Theme) =>
     infoBody: {
       flex: 1,
     },
-    infoText: {
-      color: colors.text,
-    },
-    infoSubtext: {
-      color: colors.textDim,
-    },
-    infoLabel: {
-      color: colors.textDim,
-    },
-    timePanel: {
-      marginTop: spacing.md,
+
+    contact: {
+      flex: 1,
       flexDirection: "row",
       alignItems: "center",
-      gap: spacing.sm,
-      padding: spacing.sm,
-      borderRadius: spacing.sm,
-      backgroundColor: colors.palette.neutral300,
+      flexWrap: "wrap",
+      columnGap: spacing.sm,
+      rowGap: spacing.xxxs,
     },
-    timePanelConfirmed: {
-      borderWidth: 1,
-      borderColor: colors.palette.primary200,
-      backgroundColor: colors.palette.primary100,
-    },
-    timeValue: {
-      color: colors.text,
-      marginTop: spacing.xxxs,
-    },
+    infoLabel: { color: colors.textDim },
     volumeText: {
       color: colors.textDim,
       marginTop: spacing.sm,

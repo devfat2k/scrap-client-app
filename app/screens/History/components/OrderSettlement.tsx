@@ -22,7 +22,7 @@ export function OrderSettlement({ settlement }: { settlement?: Settlement }) {
         : "history:paymentUnavailable"
   return (
     <View style={styles.stack}>
-      {items.length === 0 && <Text tx="history:breakdownUnavailable" style={styles.meta} />}
+      {items.length === 0 && <Text tx="history:breakdownUnavailable" />}
       {items.slice(0, 2).map((item) => (
         <View key={item.id} style={styles.row}>
           <Text text={getCategoryLabel(item.category)} />
@@ -33,18 +33,16 @@ export function OrderSettlement({ settlement }: { settlement?: Settlement }) {
                 ? translate("history:priceUnavailable")
                 : `AUD ${formatMoneyFromCents(item.unitPriceCents)}`
             }`}
-            style={styles.meta}
           />
         </View>
       ))}
-      {items.length > 2 && (
-        <Text tx="history:moreTypes" txOptions={{ count: items.length - 2 }} style={styles.meta} />
-      )}
-      <Text tx={paymentTx} style={styles.meta} />
-      <Text preset="formHelper" tx="history:totalReceived" style={styles.meta} />
+      {items.length > 2 && <Text tx="history:moreTypes" txOptions={{ count: items.length - 2 }} />}
+      <Text tx={paymentTx} />
+      <Text preset="formHelper" tx="history:totalReceived" />
       <Text
+        weight="semiBold"
         preset="heading"
-        style={styles.headline}
+        style={styles.receivedAmount}
         text={
           settlement?.receivedTotalCents === undefined
             ? translate("history:amountUnavailable")

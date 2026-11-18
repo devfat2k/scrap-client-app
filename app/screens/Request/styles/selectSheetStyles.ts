@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 import type { Theme } from "@/theme/types"
 
-export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+export const createStyles = ({ colors, spacing, isDark }: Theme) =>
   ({
     sheet: {
       backgroundColor: colors.card,
@@ -21,7 +21,6 @@ export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
       paddingBottom: spacing.md,
     },
     title: {
-      color: colors.text,
       paddingBottom: spacing.xs,
     },
     option: {
@@ -38,10 +37,8 @@ export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
     },
     optionText: {
       flex: 1,
-      color: colors.text,
     },
     optionTextSelected: {
       color: colors.tint,
-      fontFamily: typography.primary.semiBold,
     },
   }) as const

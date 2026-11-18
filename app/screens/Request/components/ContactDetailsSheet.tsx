@@ -87,7 +87,7 @@ export function ContactDetailsSheet({
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.form}>
-          <Text preset="subheading" tx="request:contactTitle" style={styles.title} />
+          <Text preset="subheading" tx="request:contactTitle" />
           <FieldLabel labelTx="request:contactName" required />
           <BottomSheetTextInput
             accessibilityLabel={translate("request:contactName")}

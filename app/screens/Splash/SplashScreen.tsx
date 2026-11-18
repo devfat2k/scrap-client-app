@@ -36,7 +36,7 @@ export const SplashScreen: FC<AppStackScreenProps<"Splash">> = ({ navigation }) 
   )
 }
 
-const createStyles = ({ colors, typography }: Theme) =>
+const createStyles = ({ colors }: Theme) =>
   ({
     container: {
       alignItems: "center",
@@ -46,6 +46,5 @@ const createStyles = ({ colors, typography }: Theme) =>
     },
     title: {
       color: colors.palette.primary500,
-      fontFamily: typography.primary.bold,
     },
   }) as const

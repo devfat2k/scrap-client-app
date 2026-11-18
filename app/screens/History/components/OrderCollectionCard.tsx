@@ -31,49 +31,33 @@ export function OrderCollectionCard(props: OrderCollectionCardProps) {
 
   const { line1, line2 } = formatOrderAddress(order.address)
   const schedule = getCollectionSchedule(order, status)
-  const timeColor = theme.colors.text
   const mutedIconColor = theme.colors.textDim
 
   return (
     <View style={styles.sectionCard}>
-      <Text preset="subheading" tx="orderDetail:collectionSection" style={styles.sectionTitle} />
+      <Text size="md" weight="semiBold" tx="orderDetail:collectionSection" />
       <View style={styles.sectionDivider} />
 
       <View style={styles.infoList}>
         <View style={styles.infoRow}>
-          <SvgIcon icon="User" size={18} fill={mutedIconColor} style={styles.infoIcon} />
-          <Text
-            preset="bold"
-            text={order.contact.name}
-            style={[styles.infoBody, styles.infoText]}
-          />
-        </View>
-
-        <View style={styles.infoRow}>
-          <SvgIcon icon="Phone" size={18} fill={mutedIconColor} style={styles.infoIcon} />
-          <Text text={order.contact.phone} style={[styles.infoBody, styles.infoText]} />
-        </View>
-
-        <View style={styles.infoRow}>
-          <SvgIcon icon="Home" size={18} fill={mutedIconColor} style={styles.infoIcon} />
+          <SvgIcon icon="Clock" size={18} fill={mutedIconColor} style={styles.infoIcon} />
           <View style={styles.infoBody}>
-            <Text text={line1} style={styles.infoText} />
-            <Text text={line2} style={styles.infoSubtext} />
+            <Text size="xs" tx={schedule.label} style={styles.infoLabel} />
+            {schedule.date && (
+              <Text weight="semiBold" text={formatDateTime(schedule.date).replace(" • ", ", ")} />
+            )}
           </View>
         </View>
-      </View>
-
-      <View style={styles.timePanel}>
-        <SvgIcon icon="Clock" size={20} fill={timeColor} />
-        <View style={styles.infoBody}>
-          <Text
-            preset="formHelper"
-            tx={schedule.label}
-            style={[styles.infoLabel, { color: timeColor }]}
-          />
-          {schedule.date && (
-            <Text preset="bold" text={formatDateTime(schedule.date)} style={styles.timeValue} />
-          )}
+        <View style={styles.infoRow}>
+          <SvgIcon icon="Home" size={18} fill={mutedIconColor} style={styles.infoIcon} />
+          <Text text={[line1, line2].filter(Boolean).join(", ")} style={styles.infoBody} />
+        </View>
+        <View style={styles.infoRow}>
+          <SvgIcon icon="User" size={18} fill={mutedIconColor} style={styles.infoIcon} />
+          <View style={styles.contact}>
+            <Text weight="medium" text={order.contact.name} />
+            <Text text={order.contact.phone} size="xs" style={styles.infoLabel} />
+          </View>
         </View>
       </View>
 

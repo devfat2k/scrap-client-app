@@ -47,7 +47,7 @@ export function HowItWorksSheet(props: HowItWorksSheetProps) {
             </View>
 
             <View style={styles.stepText}>
-              <Text preset="bold" tx={step.titleTx} style={styles.stepTitle} />
+              <Text preset="bold" tx={step.titleTx} />
               <Text preset="formHelper" tx={step.bodyTx} style={styles.stepBody} />
             </View>
           </View>
@@ -79,9 +79,7 @@ const createStyles = ({ spacing, colors }: Theme) =>
       flex: 1,
       gap: spacing.xxxs,
     },
-    stepTitle: {
-      color: colors.text,
-    },
+
     stepBody: {
       color: colors.textDim,
     },

@@ -31,11 +31,7 @@ export function OrderItemsCard(props: OrderItemsCardProps) {
 
   return (
     <View style={orderSectionStyles.sectionCard}>
-      <Text
-        preset="subheading"
-        tx="orderDetail:scrapSection"
-        style={orderSectionStyles.sectionTitle}
-      />
+      <Text size="md" weight="semiBold" tx="orderDetail:scrapSection" />
       <View style={orderSectionStyles.sectionDivider} />
 
       {showQuote && (
@@ -67,11 +63,12 @@ export function OrderItemsCard(props: OrderItemsCardProps) {
       <View style={styles.totalDivider} />
 
       <View style={styles.totalRow}>
-        <Text preset="bold" tx="orderDetail:estimatedTotal" style={styles.totalLabel} />
+        <Text weight="medium" tx="orderDetail:estimatedTotal" />
 
         {order.quoteTotalCents !== undefined ? (
           <Text
-            preset="subheading"
+            size="lg"
+            weight="semiBold"
             text={formatMoneyFromCents(order.quoteTotalCents)}
             style={styles.totalValue}
           />
@@ -86,7 +83,12 @@ export function OrderItemsCard(props: OrderItemsCardProps) {
       {showQuote && (
         <View style={styles.disclaimer}>
           <Text preset="bold" text="!" style={styles.disclaimerIcon} />
-          <Text preset="formHelper" tx="orderDetail:disclaimer" style={styles.disclaimerText} />
+          <Text
+            size="xxs"
+            preset="formHelper"
+            tx="orderDetail:disclaimer"
+            style={styles.disclaimerText}
+          />
         </View>
       )}
     </View>

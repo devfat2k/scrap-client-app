@@ -28,9 +28,7 @@ export const createStyles = ({ colors, spacing }: Theme) =>
       borderWidth: 1,
       borderColor: colors.border,
     },
-    avatarLetter: {
-      color: colors.text,
-    },
+
     profileText: {
       flex: 1,
       gap: spacing.xxs,

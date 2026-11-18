@@ -29,7 +29,7 @@ export function OrderItemRow(props: OrderItemRowProps) {
   return (
     <View style={styles.itemRow}>
       <View style={styles.itemInfo}>
-        <Text preset="bold" text={getCategoryLabel(item.category)} style={styles.itemCategory} />
+        <Text preset="bold" text={getCategoryLabel(item.category)} />
         <Text
           preset="formHelper"
           text={formatQuantity(item.quantity, item.unit)}
@@ -50,7 +50,7 @@ export function OrderItemRow(props: OrderItemRowProps) {
             text={
               item.lineTotalCents !== undefined ? formatMoneyFromCents(item.lineTotalCents) : "—"
             }
-            style={[styles.totalCell, styles.alignRight, styles.lineTotalText]}
+            style={[styles.totalCell, styles.alignRight]}
           />
         </>
       ) : (

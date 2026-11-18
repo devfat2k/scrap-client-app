@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 
 import type { Theme } from "@/theme/types"
 
-export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+export const createStyles = ({ colors, spacing, isDark }: Theme) =>
   ({
     cancelButton: {
       marginTop: spacing.sm,
@@ -37,7 +37,6 @@ export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
       paddingBottom: spacing.md,
     },
     sheetTitle: {
-      color: colors.text,
       paddingBottom: spacing.xxs,
     },
     sheetMessage: {
@@ -59,11 +58,9 @@ export const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
     },
     reasonText: {
       flex: 1,
-      color: colors.text,
     },
     reasonTextSelected: {
       color: colors.tint,
-      fontFamily: typography.primary.semiBold,
     },
     sheetActions: {
       gap: spacing.sm,

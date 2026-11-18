@@ -67,7 +67,6 @@ const createStyles = ({ spacing, colors }: Theme) =>
       marginBottom: spacing.xs,
     },
     emptyTitle: {
-      color: colors.text,
       textAlign: "center",
     },
     emptyMessage: {
