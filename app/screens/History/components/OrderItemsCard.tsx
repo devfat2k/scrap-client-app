@@ -3,11 +3,12 @@ import { View } from "react-native"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { formatMoneyFromCents } from "@/utils/formatMoney"
 
 import { OrderItemRow } from "./OrderItemRow"
-import { styles } from "../styles/orderItemsStyles"
-import { styles as orderSectionStyles } from "../styles/orderSectionStyles"
+import { createStyles } from "../styles/orderItemsStyles"
+import { createStyles as createOrderSectionStyles } from "../styles/orderSectionStyles"
 import type { RequestOrder } from "../types/order"
 
 export interface OrderItemsCardProps {
@@ -21,84 +22,71 @@ export interface OrderItemsCardProps {
  * Scrap lines with either "Awaiting quote" or unit price, subtotal, and totals.
  */
 export function OrderItemsCard(props: OrderItemsCardProps) {
+  const orderSectionStyles = useStyles(createOrderSectionStyles)
+  const styles = useStyles(createStyles)
+
   const { order } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const showQuote = order.quoteTotalCents !== undefined
 
   return (
-    <View style={themed(orderSectionStyles.$sectionCard)}>
+    <View style={orderSectionStyles.sectionCard}>
       <Text
         preset="subheading"
         tx="orderDetail:scrapSection"
-        style={themed(orderSectionStyles.$sectionTitle)}
+        style={orderSectionStyles.sectionTitle}
       />
-      <View style={themed(orderSectionStyles.$sectionDivider)} />
+      <View style={orderSectionStyles.sectionDivider} />
 
       {showQuote && (
-        <View style={themed(styles.$columnHeader)}>
+        <View style={styles.columnHeader}>
           <Text
             preset="formHelper"
             tx="orderDetail:itemColumn"
-            style={[themed(styles.$itemInfo), themed(styles.$columnText)]}
+            style={[styles.itemInfo, styles.columnText]}
           />
           <Text
             preset="formHelper"
             tx="orderDetail:unitPrice"
-            style={[
-              themed(styles.$priceCell),
-              themed(styles.$alignRight),
-              themed(styles.$columnText),
-            ]}
+            style={[styles.priceCell, styles.alignRight, styles.columnText]}
           />
           <Text
             preset="formHelper"
             tx="orderDetail:subtotal"
-            style={[
-              themed(styles.$totalCell),
-              themed(styles.$alignRight),
-              themed(styles.$columnText),
-            ]}
+            style={[styles.totalCell, styles.alignRight, styles.columnText]}
           />
         </View>
       )}
 
-      <View style={themed(styles.$itemsList)}>
+      <View style={styles.itemsList}>
         {order.items.map((item) => (
           <OrderItemRow key={item.id} item={item} showQuote={showQuote} />
         ))}
       </View>
 
-      <View style={themed(styles.$totalDivider)} />
+      <View style={styles.totalDivider} />
 
-      <View style={themed(styles.$totalRow)}>
-        <Text preset="bold" tx="orderDetail:estimatedTotal" style={themed(styles.$totalLabel)} />
+      <View style={styles.totalRow}>
+        <Text preset="bold" tx="orderDetail:estimatedTotal" style={styles.totalLabel} />
 
         {order.quoteTotalCents !== undefined ? (
           <Text
             preset="subheading"
             text={formatMoneyFromCents(order.quoteTotalCents)}
-            style={themed(styles.$totalValue)}
+            style={styles.totalValue}
           />
         ) : (
-          <View style={themed(styles.$pendingTotal)}>
+          <View style={styles.pendingTotal}>
             <SvgIcon icon="Clock" size={14} fill={theme.colors.textDim} />
-            <Text
-              preset="formHelper"
-              tx="orderDetail:quoteUpdating"
-              style={themed(styles.$totalPending)}
-            />
+            <Text preset="formHelper" tx="orderDetail:quoteUpdating" style={styles.totalPending} />
           </View>
         )}
       </View>
 
       {showQuote && (
-        <View style={themed(styles.$disclaimer)}>
-          <Text preset="bold" text="!" style={themed(styles.$disclaimerIcon)} />
-          <Text
-            preset="formHelper"
-            tx="orderDetail:disclaimer"
-            style={themed(styles.$disclaimerText)}
-          />
+        <View style={styles.disclaimer}>
+          <Text preset="bold" text="!" style={styles.disclaimerIcon} />
+          <Text preset="formHelper" tx="orderDetail:disclaimer" style={styles.disclaimerText} />
         </View>
       )}
     </View>

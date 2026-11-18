@@ -4,8 +4,9 @@ import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/homeScreenStyles"
+import { createStyles } from "../styles/homeScreenStyles"
 
 export interface HomeTopBarProps {
   onPressLanguage: () => void
@@ -23,30 +24,25 @@ export interface HomeTopBarProps {
  * Greeting plus the Home quick controls: theme and notifications.
  */
 export function HomeTopBar(props: HomeTopBarProps) {
+  const styles = useStyles(createStyles)
+
   const { onPressTheme, onPressNotifications, onPressLanguage } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
 
   return (
-    <View style={themed(styles.$topBar)}>
-      <View style={themed(styles.$greetingBlock)}>
-        <Text preset="subheading" tx="home:greeting" style={themed(styles.$greeting)} />
-        <Text
-          preset="formHelper"
-          tx="home:greetingSubtitle"
-          style={themed(styles.$greetingSubtitle)}
-        />
+    <View style={styles.topBar}>
+      <View style={styles.greetingBlock}>
+        <Text preset="subheading" tx="home:greeting" style={styles.greeting} />
+        <Text preset="formHelper" tx="home:greetingSubtitle" style={styles.greetingSubtitle} />
       </View>
 
-      <View style={themed(styles.$headerActions)}>
+      <View style={styles.headerActions}>
         <Pressable
           onPress={onPressLanguage}
           accessibilityRole="button"
           accessibilityLabel={translate("home:languageAction")}
           hitSlop={theme.spacing.xs}
-          style={({ pressed }) => [
-            themed(styles.$actionButton),
-            pressed && themed(styles.$actionButtonPressed),
-          ]}
+          style={({ pressed }) => [styles.actionButton, pressed && styles.actionButtonPressed]}
         >
           <SvgIcon icon="Earth" size={20} fill={theme.colors.text} />
         </Pressable>
@@ -55,10 +51,7 @@ export function HomeTopBar(props: HomeTopBarProps) {
           accessibilityRole="button"
           accessibilityLabel={translate("home:themeAction")}
           hitSlop={theme.spacing.xs}
-          style={({ pressed }) => [
-            themed(styles.$actionButton),
-            pressed && themed(styles.$actionButtonPressed),
-          ]}
+          style={({ pressed }) => [styles.actionButton, pressed && styles.actionButtonPressed]}
         >
           <SvgIcon icon={theme.isDark ? "Sun" : "Moon"} size={20} fill={theme.colors.text} />
         </Pressable>
@@ -68,10 +61,7 @@ export function HomeTopBar(props: HomeTopBarProps) {
           accessibilityRole="button"
           accessibilityLabel={translate("home:notificationsAction")}
           hitSlop={theme.spacing.xs}
-          style={({ pressed }) => [
-            themed(styles.$actionButton),
-            pressed && themed(styles.$actionButtonPressed),
-          ]}
+          style={({ pressed }) => [styles.actionButton, pressed && styles.actionButtonPressed]}
         >
           <SvgIcon icon="Bell" size={20} fill={theme.colors.text} />
         </Pressable>

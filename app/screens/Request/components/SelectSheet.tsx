@@ -12,10 +12,11 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 import type { SelectOption } from "../form/requestFormOptions"
-import { styles } from "../styles/selectSheetStyles"
+import { createStyles } from "../styles/selectSheetStyles"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.75
 
@@ -54,8 +55,10 @@ export interface SelectSheetProps<T extends string> {
  * Bottom sheet with a single-choice list of options.
  */
 export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
+  const styles = useStyles(createStyles)
+
   const { visible, options, selectedValue, onSelect, onClose, title, titleTx } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
 
@@ -101,15 +104,15 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
       snapPoints={snapPoints}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
       <BottomSheetScrollView
-        contentContainerStyle={themed(styles.$content)}
+        contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
         {!!(title || titleTx) && (
-          <Text preset="subheading" text={title} tx={titleTx} style={themed(styles.$title)} />
+          <Text preset="subheading" text={title} tx={titleTx} style={styles.title} />
         )}
 
         {options.map((option) => {
@@ -121,17 +124,11 @@ export function SelectSheet<T extends string>(props: SelectSheetProps<T>) {
               onPress={() => onSelect(option.value)}
               accessibilityRole="button"
               accessibilityState={{ selected: isSelected }}
-              style={({ pressed }) => [
-                themed(styles.$option),
-                pressed && themed(styles.$optionPressed),
-              ]}
+              style={({ pressed }) => [styles.option, pressed && styles.optionPressed]}
             >
               <Text
                 text={translate(option.labelTx)}
-                style={[
-                  themed(styles.$optionText),
-                  isSelected && themed(styles.$optionTextSelected),
-                ]}
+                style={[styles.optionText, isSelected && styles.optionTextSelected]}
               />
               {isSelected && <SvgIcon icon="Check" size={20} fill={theme.colors.tint} />}
             </Pressable>

@@ -66,6 +66,7 @@ module.exports = {
     "react-hooks/refs": 0,
     // react-native
     "react-native/no-raw-text": 0,
+    "react-native/no-inline-styles": "off",
     // reactotron
     "reactotron/no-tron-in-production": "error",
     // eslint-config-standard overrides

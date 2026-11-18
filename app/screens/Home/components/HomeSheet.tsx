@@ -1,6 +1,5 @@
 import { ReactNode, useCallback, useEffect } from "react"
 import { BackHandler } from "react-native"
-import type { TextStyle, ViewStyle } from "react-native"
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,8 +9,8 @@ import {
 
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
-import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 export interface HomeSheetProps {
@@ -37,8 +36,9 @@ export interface HomeSheetProps {
  * Shared bottom sheet shell for the Home controls.
  */
 export function HomeSheet(props: HomeSheetProps) {
+  const styles = useStyles(createStyles)
+
   const { visible, onClose, titleTx, children } = props
-  const { themed } = useAppTheme()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
 
   useEffect(() => {
@@ -71,39 +71,37 @@ export function HomeSheet(props: HomeSheetProps) {
       keyboardBlurBehavior="none"
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
-      <BottomSheetScrollView contentContainerStyle={themed(styles.$content)}>
-        <Text preset="subheading" tx={titleTx} style={themed(styles.$title)} />
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
+        <Text preset="subheading" tx={titleTx} style={styles.title} />
         {children}
       </BottomSheetScrollView>
     </BottomSheetModal>
   )
 }
 
-const styles = {
-  $sheet: (({ colors, spacing }) => ({
-    backgroundColor: colors.card,
-    borderTopStartRadius: spacing.md,
-    borderTopEndRadius: spacing.md,
-  })) as ThemedStyle<ViewStyle>,
-
-  $handle: (({ colors, spacing }) => ({
-    width: spacing.xxl,
-    height: spacing.xxs,
-    borderRadius: spacing.xxs,
-    backgroundColor: colors.palette.neutral400,
-  })) as ThemedStyle<ViewStyle>,
-
-  $content: (({ spacing }) => ({
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.xs,
-    paddingBottom: spacing.md,
-  })) as ThemedStyle<ViewStyle>,
-
-  $title: (({ colors, spacing }) => ({
-    color: colors.text,
-    paddingBottom: spacing.xs,
-  })) as ThemedStyle<TextStyle>,
-}
+const createStyles = ({ colors, spacing }: Theme) =>
+  ({
+    sheet: {
+      backgroundColor: colors.card,
+      borderTopStartRadius: spacing.md,
+      borderTopEndRadius: spacing.md,
+    },
+    handle: {
+      width: spacing.xxl,
+      height: spacing.xxs,
+      borderRadius: spacing.xxs,
+      backgroundColor: colors.palette.neutral400,
+    },
+    content: {
+      paddingHorizontal: spacing.md,
+      paddingTop: spacing.xs,
+      paddingBottom: spacing.md,
+    },
+    title: {
+      color: colors.text,
+      paddingBottom: spacing.xs,
+    },
+  }) as const

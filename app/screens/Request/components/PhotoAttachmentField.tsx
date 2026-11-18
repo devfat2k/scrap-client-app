@@ -7,13 +7,14 @@ import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { pickImages, takePhoto, type PickerResult, type ProcessedAsset } from "@/services/camera"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { showToast } from "@/utils/toastService"
 
 import { PHOTO_ERROR_TX } from "./photoErrorMessages"
 import { showPermissionAlert, type PhotoSource } from "./photoPermissionAlert"
 import { PhotoSourceSheet } from "./PhotoSourceSheet"
 import { MAX_REQUEST_PHOTOS } from "../form/requestFormTypes"
-import { styles } from "../styles/createRequestStyles"
+import { createStyles } from "../styles/createRequestStyles"
 
 export interface PhotoAttachmentFieldProps {
   /**
@@ -38,8 +39,10 @@ export interface PhotoAttachmentFieldProps {
  * Photo grid with add/remove controls for a single scrap item.
  */
 export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
+  const styles = useStyles(createStyles)
+
   const { photos, onChange, maxPhotos = MAX_REQUEST_PHOTOS, disabled = false } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const [isSheetVisible, setIsSheetVisible] = useState(false)
   const [isPicking, setIsPicking] = useState(false)
   const pendingSourceRef = useRef<PhotoSource | null>(null)
@@ -117,17 +120,17 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
     <View>
       <FieldLabel label={label} />
 
-      <View style={themed(styles.$photoGrid)}>
+      <View style={styles.photoGrid}>
         {photos.map((photo, index) => (
-          <View key={`${photo.uri}-${index}`} style={themed(styles.$photoThumb)}>
-            <Image source={{ uri: photo.uri }} style={styles.$photoThumbImage} resizeMode="cover" />
+          <View key={`${photo.uri}-${index}`} style={styles.photoThumb}>
+            <Image source={{ uri: photo.uri }} style={styles.photoThumbImage} resizeMode="cover" />
             <Pressable
               onPress={() => removePhoto(index)}
               disabled={disabled}
               hitSlop={theme.spacing.xs}
               accessibilityRole="button"
               accessibilityLabel={translate("request:removePhoto")}
-              style={themed(styles.$photoRemoveButton)}
+              style={styles.photoRemoveButton}
             >
               <SvgIcon icon="Close" size={14} fill={theme.colors.palette.neutral100} />
             </Pressable>
@@ -142,15 +145,15 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
             accessibilityLabel={translate("request:addPhoto")}
             accessibilityState={{ disabled: !canAdd }}
             style={({ pressed }) => [
-              themed(styles.$photoAddTile),
-              !canAdd && themed(styles.$photoAddTileDisabled),
-              pressed && canAdd && themed(styles.$fieldSurfacePressed),
+              styles.photoAddTile,
+              !canAdd && styles.photoAddTileDisabled,
+              pressed && canAdd && styles.fieldSurfacePressed,
             ]}
           >
             {isPicking ? (
               <ActivityIndicator size="small" color={theme.colors.textDim} />
             ) : (
-              <Text preset="heading" text="+" style={themed(styles.$photoAddIcon)} />
+              <Text preset="heading" text="+" style={styles.photoAddIcon} />
             )}
           </Pressable>
         )}
@@ -160,7 +163,7 @@ export function PhotoAttachmentField(props: PhotoAttachmentFieldProps) {
         preset="formHelper"
         tx="request:photosHelper"
         txOptions={{ count: maxPhotos }}
-        style={themed(styles.$photoHelper)}
+        style={styles.photoHelper}
       />
 
       <PhotoSourceSheet

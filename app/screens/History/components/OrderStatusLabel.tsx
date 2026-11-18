@@ -4,9 +4,10 @@ import type { StyleProp, TextStyle } from "react-native"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { getStatusColor, getStatusIconName, getStatusLabel } from "@/utils/orderStatusDisplay"
 
-import { styles } from "../styles/orderStatusStyles"
+import { createStyles } from "../styles/orderStatusStyles"
 
 export interface OrderStatusLabelProps {
   /**
@@ -31,24 +32,21 @@ export interface OrderStatusLabelProps {
  * Status as plain text plus one SVG icon. No badge, pill, background, or animation.
  */
 export function OrderStatusLabel(props: OrderStatusLabelProps) {
+  const styles = useStyles(createStyles)
+
   const { status, color, iconSize = 14, textStyle } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
 
   const label = getStatusLabel(status)
   const statusColor = color ?? getStatusColor(theme, status)
 
   return (
-    <View
-      style={themed(styles.$statusRow)}
-      accessible
-      accessibilityRole="text"
-      accessibilityLabel={label}
-    >
+    <View style={styles.statusRow} accessible accessibilityRole="text" accessibilityLabel={label}>
       <SvgIcon icon={getStatusIconName(status)} size={iconSize} fill={statusColor} />
       <Text
         preset="formHelper"
         text={label}
-        style={[themed(styles.$statusText), { color: statusColor }, textStyle]}
+        style={[styles.statusText, { color: statusColor }, textStyle]}
       />
     </View>
   )

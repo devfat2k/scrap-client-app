@@ -10,10 +10,11 @@ import {
 import { Button } from "@/components/Button"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 import { CancelReasonList } from "./CancelReasonList"
-import { styles } from "../styles/cancelRequestStyles"
+import { createStyles } from "../styles/cancelRequestStyles"
 import type { CancelReason } from "../utils/cancelReasons"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.8
@@ -38,8 +39,10 @@ export interface CancelRequestSheetProps {
  * Bottom sheet that collects a cancellation reason before confirming.
  */
 export function CancelRequestSheet(props: CancelRequestSheetProps) {
+  const styles = useStyles(createStyles)
+
   const { visible, onClose, onConfirm } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
   const [reason, setReason] = useState<CancelReason | null>(null)
@@ -90,36 +93,28 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
       snapPoints={snapPoints}
       onDismiss={handleSheetDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
       <BottomSheetScrollView
-        contentContainerStyle={themed(styles.$sheetContent)}
+        contentContainerStyle={styles.sheetContent}
         keyboardShouldPersistTaps="handled"
       >
-        <Text
-          preset="subheading"
-          tx="orderDetail:cancelSheetTitle"
-          style={themed(styles.$sheetTitle)}
-        />
-        <Text
-          preset="formHelper"
-          tx="orderDetail:cancelSheetMessage"
-          style={themed(styles.$sheetMessage)}
-        />
+        <Text preset="subheading" tx="orderDetail:cancelSheetTitle" style={styles.sheetTitle} />
+        <Text preset="formHelper" tx="orderDetail:cancelSheetMessage" style={styles.sheetMessage} />
 
         <CancelReasonList selected={reason} onSelect={setReason} />
 
-        <View style={themed(styles.$sheetActions)}>
+        <View style={styles.sheetActions}>
           <Button
             preset="primary"
             tx="orderDetail:confirmCancel"
             onPress={handleConfirm}
             disabled={!reason}
-            style={themed(styles.$confirmButton)}
-            pressedStyle={themed(styles.$confirmButtonPressed)}
-            disabledStyle={themed(styles.$confirmButtonDisabled)}
-            textStyle={themed(styles.$confirmText)}
+            style={styles.confirmButton}
+            pressedStyle={styles.confirmButtonPressed}
+            disabledStyle={styles.confirmButtonDisabled}
+            textStyle={styles.confirmText}
           />
           <Button preset="default" tx="orderDetail:keepRequest" onPress={onClose} />
         </View>

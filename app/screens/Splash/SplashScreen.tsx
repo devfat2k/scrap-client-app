@@ -1,16 +1,18 @@
 import { FC, useEffect } from "react"
 import { View } from "react-native"
-import type { TextStyle, ViewStyle } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import { MotiView } from "moti"
 
 import { Text } from "@/components/Text"
 import type { AppStackScreenProps } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 
 export const SplashScreen: FC<AppStackScreenProps<"Splash">> = ({ navigation }) => {
-  const { themed, themeContext } = useAppTheme()
+  const styles = useStyles(createStyles)
+
+  const { themeContext } = useAppTheme()
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,29 +23,29 @@ export const SplashScreen: FC<AppStackScreenProps<"Splash">> = ({ navigation }) 
   }, [navigation])
 
   return (
-    <View style={themed(styles.$container)}>
+    <View style={styles.container}>
       <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
       <MotiView
         from={{ opacity: 0, scale: 0.88 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "timing", duration: 800 }}
       >
-        <Text preset="heading" style={themed(styles.$title)} text="ScrapUp" />
+        <Text preset="heading" style={styles.title} text="ScrapUp" />
       </MotiView>
     </View>
   )
 }
 
-const styles = {
-  $container: (({ colors }) => ({
-    alignItems: "center",
-    backgroundColor: colors.background,
-    flex: 1,
-    justifyContent: "center",
-  })) as ThemedStyle<ViewStyle>,
-
-  $title: (({ colors, typography }) => ({
-    color: colors.palette.primary500,
-    fontFamily: typography.primary.bold,
-  })) as ThemedStyle<TextStyle>,
-}
+const createStyles = ({ colors, typography }: Theme) =>
+  ({
+    container: {
+      alignItems: "center",
+      backgroundColor: colors.background,
+      flex: 1,
+      justifyContent: "center",
+    },
+    title: {
+      color: colors.palette.primary500,
+      fontFamily: typography.primary.bold,
+    },
+  }) as const

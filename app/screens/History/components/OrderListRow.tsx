@@ -5,11 +5,12 @@ import { Text } from "@/components/Text"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { formatShortDate } from "@/utils/formatDate"
 
 import { OrderCardContent } from "./OrderCardContent"
 import { OrderDriver } from "./OrderDriver"
-import { styles } from "../styles/orderListRowStyles"
+import { createStyles } from "../styles/orderListRowStyles"
 import type { RequestOrder } from "../types/order"
 import { getOrderCardAccessibilityLabel } from "../utils/orderCardAccessibility"
 
@@ -33,32 +34,34 @@ function getCardDate(order: RequestOrder) {
 }
 
 export function OrderListRow({ order, onPress }: OrderListRowProps) {
-  const { themed, theme } = useAppTheme()
+  const styles = useStyles(createStyles)
+
+  const { theme } = useAppTheme()
   return (
-    <View style={themed(styles.$card)}>
+    <View style={styles.card}>
       <Pressable
         onPress={onPress}
         accessibilityRole="button"
         accessibilityLabel={getOrderCardAccessibilityLabel(order)}
-        style={({ pressed }) => [pressed && themed(styles.$pressed)]}
+        style={({ pressed }) => [pressed && styles.pressed]}
       >
         <View
-          style={themed(styles.$body)}
+          style={styles.body}
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
         >
-          <View style={themed(styles.$row)}>
+          <View style={styles.row}>
             <Text preset="bold" text={`#${order.id}`} />
-            <Text preset="formHelper" text={getCardDate(order)} style={themed(styles.$meta)} />
+            <Text preset="formHelper" text={getCardDate(order)} style={styles.meta} />
           </View>
           <OrderCardContent order={order} />
-          <View style={themed(styles.$footer)}>
+          <View style={styles.footer}>
             <Text preset="formHelper" tx="history:viewDetails" />
             <SvgIcon
               icon="ChevronDown"
               size={16}
               fill={theme.colors.textDim}
-              style={styles.$chevron}
+              style={styles.chevron}
             />
           </View>
         </View>

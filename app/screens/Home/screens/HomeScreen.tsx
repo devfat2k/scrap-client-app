@@ -8,6 +8,7 @@ import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import type { AppStackParamList } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { HomeTopBar } from "../components/HomeTopBar"
@@ -18,11 +19,14 @@ import { QuickActions } from "../components/QuickActions"
 import { RecentRequestCard } from "../components/RecentRequestCard"
 import { ThemeSheet } from "../components/ThemeSheet"
 import { RECENT_REQUEST } from "../mocks/recentRequest"
-import { styles as cardStyles } from "../styles/homeCardsStyles"
-import { styles } from "../styles/homeScreenStyles"
+import { createStyles as createCardStyles } from "../styles/homeCardsStyles"
+import { createStyles } from "../styles/homeScreenStyles"
 
 export const HomeScreen: FC = () => {
-  const { themed, theme } = useAppTheme()
+  const styles = useStyles(createStyles)
+  const cardStyles = useStyles(createCardStyles)
+
+  const { theme } = useAppTheme()
   const containerInsets = useSafeAreaInsetsStyle(["top"])
   const scrollRef = useRef<ScrollView>(null)
   useScrollToTop(scrollRef)
@@ -49,11 +53,11 @@ export const HomeScreen: FC = () => {
   }
 
   return (
-    <View style={[themed(styles.$container), containerInsets]}>
+    <View style={[styles.container, containerInsets]}>
       <ScrollView
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={themed(styles.$content)}
+        contentContainerStyle={styles.content}
       >
         <HomeTopBar
           onPressLanguage={() => setLanguageSheetVisible(true)}
@@ -61,22 +65,22 @@ export const HomeScreen: FC = () => {
           onPressNotifications={() => setNotificationsVisible(true)}
         />
 
-        <View style={themed(styles.$hero)}>
+        <View style={styles.hero}>
           <View
-            style={themed(styles.$badge)}
+            style={styles.badge}
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
           >
             <SvgIcon icon="Earth" size={theme.spacing.xl} fill={theme.colors.palette.primary600} />
           </View>
 
-          <Text preset="heading" tx="home:title" style={themed(styles.$title)} />
-          <Text preset="formHelper" tx="home:subtitle" style={themed(styles.$subtitle)} />
+          <Text preset="heading" tx="home:title" style={styles.title} />
+          <Text preset="formHelper" tx="home:subtitle" style={styles.subtitle} />
 
           <Button
             preset="primary"
             tx="home:createRequest"
-            style={themed(styles.$cta)}
+            style={styles.cta}
             onPress={() => navigation.navigate("Request")}
           />
         </View>
@@ -87,8 +91,8 @@ export const HomeScreen: FC = () => {
         />
 
         {RECENT_REQUEST && (
-          <View style={themed(cardStyles.$recentSection)}>
-            <Text preset="bold" tx="home:recent.title" style={themed(cardStyles.$recentTitle)} />
+          <View style={cardStyles.recentSection}>
+            <Text preset="bold" tx="home:recent.title" style={cardStyles.recentTitle} />
             <RecentRequestCard order={RECENT_REQUEST} onPress={openRecentOrder} />
           </View>
         )}

@@ -4,8 +4,9 @@ import { Button } from "@/components/Button"
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/orderDetailScreenStyles"
+import { createStyles } from "../styles/orderDetailScreenStyles"
 
 export interface OrderNotFoundStateProps {
   /**
@@ -18,28 +19,21 @@ export interface OrderNotFoundStateProps {
  * Empty state shown when a request id has no matching order.
  */
 export function OrderNotFoundState(props: OrderNotFoundStateProps) {
+  const styles = useStyles(createStyles)
+
   const { onBack } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
 
   return (
-    <View style={themed(styles.$notFound)}>
-      <SvgIcon
-        icon="History"
-        size={44}
-        fill={theme.colors.textDim}
-        style={themed(styles.$notFoundIcon)}
-      />
-      <Text
-        preset="subheading"
-        tx="orderDetail:notFoundTitle"
-        style={themed(styles.$notFoundTitle)}
-      />
-      <Text tx="orderDetail:notFoundMessage" style={themed(styles.$notFoundMessage)} />
+    <View style={styles.notFound}>
+      <SvgIcon icon="History" size={44} fill={theme.colors.textDim} style={styles.notFoundIcon} />
+      <Text preset="subheading" tx="orderDetail:notFoundTitle" style={styles.notFoundTitle} />
+      <Text tx="orderDetail:notFoundMessage" style={styles.notFoundMessage} />
       <Button
         preset="default"
         tx="orderDetail:backToList"
         onPress={onBack}
-        style={themed(styles.$notFoundButton)}
+        style={styles.notFoundButton}
       />
     </View>
   )

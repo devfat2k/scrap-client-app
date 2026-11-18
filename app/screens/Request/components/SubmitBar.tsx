@@ -1,9 +1,10 @@
-import { StyleSheet, View, ViewStyle } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Button } from "@/components/Button"
 import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 
 export interface SubmitBarProps {
   /**
@@ -24,12 +25,14 @@ export interface SubmitBarProps {
  * Sticky footer with the create request submit button.
  */
 export function SubmitBar(props: SubmitBarProps) {
+  const styles = useStyles(createStyles)
+
   const { isSubmitting, isOffline, onSubmit } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const insets = useSafeAreaInsets()
 
   return (
-    <View style={[themed(styles.$bar), { paddingBottom: theme.spacing.sm + insets.bottom }]}>
+    <View style={[styles.bar, { paddingBottom: theme.spacing.sm + insets.bottom }]}>
       <Button
         preset="primary"
         tx="request:submit"
@@ -42,12 +45,13 @@ export function SubmitBar(props: SubmitBarProps) {
   )
 }
 
-const styles = {
-  $bar: (({ colors, spacing }) => ({
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.sm,
-    backgroundColor: colors.background,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.separator,
-  })) as ThemedStyle<ViewStyle>,
-}
+const createStyles = ({ colors, spacing }: Theme) =>
+  ({
+    bar: {
+      paddingHorizontal: spacing.md,
+      paddingTop: spacing.sm,
+      backgroundColor: colors.background,
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: colors.separator,
+    },
+  }) as const

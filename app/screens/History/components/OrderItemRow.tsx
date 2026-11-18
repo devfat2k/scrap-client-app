@@ -1,10 +1,10 @@
 import { View } from "react-native"
 
 import { Text } from "@/components/Text"
-import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { formatMoneyFromCents } from "@/utils/formatMoney"
 
-import { styles } from "../styles/orderItemsStyles"
+import { createStyles } from "../styles/orderItemsStyles"
 import type { OrderItem } from "../types/order"
 import { formatQuantity, getCategoryLabel } from "../utils/orderDetail"
 
@@ -23,21 +23,17 @@ export interface OrderItemRowProps {
  * One scrap line: category and quantity on the left, price columns on the right.
  */
 export function OrderItemRow(props: OrderItemRowProps) {
-  const { item, showQuote } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
+  const { item, showQuote } = props
   return (
-    <View style={themed(styles.$itemRow)}>
-      <View style={themed(styles.$itemInfo)}>
-        <Text
-          preset="bold"
-          text={getCategoryLabel(item.category)}
-          style={themed(styles.$itemCategory)}
-        />
+    <View style={styles.itemRow}>
+      <View style={styles.itemInfo}>
+        <Text preset="bold" text={getCategoryLabel(item.category)} style={styles.itemCategory} />
         <Text
           preset="formHelper"
           text={formatQuantity(item.quantity, item.unit)}
-          style={themed(styles.$itemQuantity)}
+          style={styles.itemQuantity}
         />
       </View>
 
@@ -47,30 +43,18 @@ export function OrderItemRow(props: OrderItemRowProps) {
             text={
               item.unitPriceCents !== undefined ? formatMoneyFromCents(item.unitPriceCents) : "—"
             }
-            style={[
-              themed(styles.$priceCell),
-              themed(styles.$alignRight),
-              themed(styles.$unitPriceText),
-            ]}
+            style={[styles.priceCell, styles.alignRight, styles.unitPriceText]}
           />
           <Text
             preset="bold"
             text={
               item.lineTotalCents !== undefined ? formatMoneyFromCents(item.lineTotalCents) : "—"
             }
-            style={[
-              themed(styles.$totalCell),
-              themed(styles.$alignRight),
-              themed(styles.$lineTotalText),
-            ]}
+            style={[styles.totalCell, styles.alignRight, styles.lineTotalText]}
           />
         </>
       ) : (
-        <Text
-          preset="formHelper"
-          tx="orderDetail:awaitingQuote"
-          style={themed(styles.$awaitingQuote)}
-        />
+        <Text preset="formHelper" tx="orderDetail:awaitingQuote" style={styles.awaitingQuote} />
       )}
     </View>
   )

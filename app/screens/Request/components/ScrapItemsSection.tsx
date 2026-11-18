@@ -2,16 +2,16 @@ import { View } from "react-native"
 
 import { Button } from "@/components/Button"
 import { Text } from "@/components/Text"
-import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
 import { ScrapItemCard } from "./ScrapItemCard"
 import type { ScrapItemDraft, ScrapItemErrors } from "../form/requestFormTypes"
-import { styles } from "../styles/createRequestStyles"
+import { createStyles } from "../styles/createRequestStyles"
 
 function AddScrapIcon() {
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
-  return <Text preset="subheading" text="+" style={themed(styles.$addScrapPlus)} />
+  return <Text preset="subheading" text="+" style={styles.addScrapPlus} />
 }
 
 export interface ScrapItemsSectionProps {
@@ -41,12 +41,13 @@ export interface ScrapItemsSectionProps {
  * List of scrap item cards with an add-another action.
  */
 export function ScrapItemsSection(props: ScrapItemsSectionProps) {
+  const styles = useStyles(createStyles)
+
   const { items, errors, onChangeItem, onRemoveItem, onAddItem } = props
-  const { themed } = useAppTheme()
   const canRemove = items.length > 1
 
   return (
-    <View style={themed(styles.$scrapList)}>
+    <View style={styles.scrapList}>
       {items.map((item, index) => (
         <ScrapItemCard
           key={item.id}
@@ -64,7 +65,7 @@ export function ScrapItemsSection(props: ScrapItemsSectionProps) {
         tx="request:addAnother"
         onPress={onAddItem}
         LeftAccessory={AddScrapIcon}
-        style={themed(styles.$addScrapButton)}
+        style={styles.addScrapButton}
       />
     </View>
   )

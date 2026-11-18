@@ -1,15 +1,15 @@
-import { View, ViewStyle } from "react-native"
+import { View } from "react-native"
 
 import { FieldError } from "@/components/FormField"
 import { TextField } from "@/components/TextField"
 import { FIXED_COUNTRY } from "@/domain/address"
-import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 
 import { SelectField } from "./SelectField"
 import { STATE_OPTIONS } from "../form/requestFormOptions"
 import type { AddressDraft, AddressErrors } from "../form/requestFormTypes"
-import { styles as createRequestStyles } from "../styles/createRequestStyles"
+import { createStyles as createCreateRequestStyles } from "../styles/createRequestStyles"
 
 export interface AddressFieldsProps {
   /**
@@ -35,13 +35,14 @@ export interface AddressFieldsProps {
  * fixed country, and optional Google Maps link).
  */
 export function AddressFields(props: AddressFieldsProps) {
-  const { address, errors, onChange, disabled = false } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
+  const createRequestStyles = useStyles(createCreateRequestStyles)
 
+  const { address, errors, onChange, disabled = false } = props
   return (
-    <View style={themed(styles.$addressBlock)}>
-      <View style={themed(createRequestStyles.$scrapFieldRow)}>
-        <View style={createRequestStyles.$scrapFieldItem}>
+    <View style={styles.addressBlock}>
+      <View style={createRequestStyles.scrapFieldRow}>
+        <View style={createRequestStyles.scrapFieldItem}>
           <TextField
             labelTx="request:unitOrHouseNoLabel"
             placeholderTx="request:unitOrHouseNoPlaceholder"
@@ -51,7 +52,7 @@ export function AddressFields(props: AddressFieldsProps) {
           />
         </View>
 
-        <View style={createRequestStyles.$scrapFieldItem}>
+        <View style={createRequestStyles.scrapFieldItem}>
           <TextField
             labelTx="request:streetNameLabel"
             required
@@ -78,8 +79,8 @@ export function AddressFields(props: AddressFieldsProps) {
         <FieldError messageTx={errors.suburb} />
       </View>
 
-      <View style={themed(createRequestStyles.$scrapFieldRow)}>
-        <View style={createRequestStyles.$scrapFieldItem}>
+      <View style={createRequestStyles.scrapFieldRow}>
+        <View style={createRequestStyles.scrapFieldItem}>
           <SelectField
             options={STATE_OPTIONS}
             value={address.state}
@@ -92,7 +93,7 @@ export function AddressFields(props: AddressFieldsProps) {
           />
         </View>
 
-        <View style={createRequestStyles.$scrapFieldItem}>
+        <View style={createRequestStyles.scrapFieldItem}>
           <TextField
             labelTx="request:postcodeLabel"
             required
@@ -123,8 +124,9 @@ export function AddressFields(props: AddressFieldsProps) {
   )
 }
 
-const styles = {
-  $addressBlock: (({ spacing }) => ({
-    gap: spacing.sm,
-  })) as ThemedStyle<ViewStyle>,
-}
+const createStyles = ({ spacing }: Theme) =>
+  ({
+    addressBlock: {
+      gap: spacing.sm,
+    },
+  }) as const

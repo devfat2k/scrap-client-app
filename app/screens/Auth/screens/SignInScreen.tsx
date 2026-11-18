@@ -4,16 +4,19 @@ import { StatusBar } from "expo-status-bar"
 
 import { Text } from "@/components/Text"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/authStyles"
+import { createStyles } from "../styles/authStyles"
 
 export const SignInScreen: FC = () => {
-  const { themed, themeContext } = useAppTheme()
+  const styles = useStyles(createStyles)
+
+  const { themeContext } = useAppTheme()
 
   return (
-    <View style={themed(styles.$container)}>
+    <View style={styles.container}>
       <StatusBar style={themeContext === "dark" ? "light" : "dark"} />
-      <Text preset="subheading" style={themed(styles.$text)} text="Sign In" />
+      <Text preset="subheading" style={styles.text} text="Sign In" />
     </View>
   )
 }

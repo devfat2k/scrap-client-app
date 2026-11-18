@@ -1,10 +1,10 @@
 import { PropsWithChildren } from "react"
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native"
+import { StyleSheet, View } from "react-native"
 
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
-import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 
 export interface FormSectionProps {
   /**
@@ -21,59 +21,51 @@ export interface FormSectionProps {
  * Titled, numbered section wrapper for the create request form.
  */
 export function FormSection(props: PropsWithChildren<FormSectionProps>) {
-  const { step, titleTx, children } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
+  const { step, titleTx, children } = props
   return (
-    <View style={themed(styles.$formSection)}>
-      <View style={themed(styles.$formSectionHeader)}>
-        <View style={themed(styles.$formSectionBadge)}>
-          <Text
-            preset="formHelper"
-            text={String(step)}
-            style={themed(styles.$formSectionBadgeText)}
-          />
+    <View style={styles.formSection}>
+      <View style={styles.formSectionHeader}>
+        <View style={styles.formSectionBadge}>
+          <Text preset="formHelper" text={String(step)} style={styles.formSectionBadgeText} />
         </View>
-        <Text preset="subheading" tx={titleTx} style={themed(styles.$formSectionTitle)} />
+        <Text preset="subheading" tx={titleTx} style={styles.formSectionTitle} />
       </View>
 
-      <View style={themed(styles.$formSectionDivider)} />
+      <View style={styles.formSectionDivider} />
 
       {children}
     </View>
   )
 }
 
-const styles = {
-  $formSection: (({ spacing }) => ({
-    gap: spacing.sm,
-  })) as ThemedStyle<ViewStyle>,
-
-  $formSectionHeader: (({ spacing }) => ({
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-  })) as ThemedStyle<ViewStyle>,
-
-  $formSectionBadge: (({ spacing }) => ({
-    width: spacing.lg,
-    height: spacing.lg,
-    borderRadius: spacing.sm,
-    alignItems: "center",
-    justifyContent: "center",
-  })) as ThemedStyle<ViewStyle>,
-
-  $formSectionBadgeText: (({ colors, typography }) => ({
-    color: colors.palette.primary600,
-    fontFamily: typography.primary.semiBold,
-  })) as ThemedStyle<TextStyle>,
-
-  $formSectionTitle: (({ colors }) => ({
-    color: colors.text,
-  })) as ThemedStyle<TextStyle>,
-
-  $formSectionDivider: (({ colors }) => ({
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: colors.separator,
-  })) as ThemedStyle<ViewStyle>,
-}
+const createStyles = ({ spacing, colors, typography }: Theme) =>
+  ({
+    formSection: {
+      gap: spacing.sm,
+    },
+    formSectionHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: spacing.xs,
+    },
+    formSectionBadge: {
+      width: spacing.lg,
+      height: spacing.lg,
+      borderRadius: spacing.sm,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    formSectionBadgeText: {
+      color: colors.palette.primary600,
+      fontFamily: typography.primary.semiBold,
+    },
+    formSectionTitle: {
+      color: colors.text,
+    },
+    formSectionDivider: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: colors.separator,
+    },
+  }) as const

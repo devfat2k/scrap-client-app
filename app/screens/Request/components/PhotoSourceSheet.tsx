@@ -1,12 +1,5 @@
 import { useCallback, useEffect } from "react"
-import {
-  BackHandler,
-  Pressable,
-  StyleSheet,
-  TextStyle,
-  useWindowDimensions,
-  ViewStyle,
-} from "react-native"
+import { BackHandler, Pressable, StyleSheet, useWindowDimensions } from "react-native"
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -17,8 +10,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
-import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.6
@@ -57,8 +50,9 @@ type PhotoSourceAction = {
  * Bottom sheet with the photo source actions for an attachment.
  */
 export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
+  const styles = useStyles(createStyles)
+
   const { visible, onClose, onTakePhoto, onChooseLibrary, disabled = false } = props
-  const { themed } = useAppTheme()
   const insets = useSafeAreaInsets()
   const { height: windowHeight } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
@@ -101,11 +95,11 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
-      <BottomSheetScrollView contentContainerStyle={themed(styles.$content)}>
-        <Text preset="subheading" tx="request:photoSourceTitle" style={themed(styles.$title)} />
+      <BottomSheetScrollView contentContainerStyle={styles.content}>
+        <Text preset="subheading" tx="request:photoSourceTitle" style={styles.title} />
 
         {actions.map((action) => {
           const isDisabled = disabled && !action.isCancel
@@ -118,14 +112,14 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
               accessibilityRole="button"
               accessibilityState={{ disabled: isDisabled }}
               style={({ pressed }) => [
-                themed(styles.$action),
-                action.isCancel && themed(styles.$cancelAction),
-                pressed && !isDisabled && themed(styles.$actionPressed),
+                styles.action,
+                action.isCancel && styles.cancelAction,
+                pressed && !isDisabled && styles.actionPressed,
               ]}
             >
               <Text
                 tx={action.labelTx}
-                style={[themed(styles.$actionText), action.isCancel && themed(styles.$cancelText)]}
+                style={[styles.actionText, action.isCancel && styles.cancelText]}
               />
             </Pressable>
           )
@@ -135,54 +129,47 @@ export function PhotoSourceSheet(props: PhotoSourceSheetProps) {
   )
 }
 
-const styles = {
-  $sheet: (({ colors, spacing }) => ({
-    backgroundColor: colors.card,
-    borderTopStartRadius: spacing.md,
-    borderTopEndRadius: spacing.md,
-  })) as ThemedStyle<ViewStyle>,
-
-  $handle: (({ colors, spacing }) => ({
-    width: spacing.xxl,
-    height: spacing.xxs,
-    borderRadius: spacing.xxs,
-    backgroundColor: colors.palette.neutral400,
-  })) as ThemedStyle<ViewStyle>,
-
-  $content: (({ spacing }) => ({
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.xs,
-    paddingBottom: spacing.md,
-  })) as ThemedStyle<ViewStyle>,
-
-  $title: (({ colors, spacing }) => ({
-    color: colors.text,
-    paddingBottom: spacing.xs,
-  })) as ThemedStyle<TextStyle>,
-
-  $action: (({ colors, spacing }) => ({
-    minHeight: spacing.xxl,
-    justifyContent: "center",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.separator,
-    paddingVertical: spacing.sm,
-  })) as ThemedStyle<ViewStyle>,
-
-  $cancelAction: (({ spacing }) => ({
-    borderBottomWidth: 0,
-    marginTop: spacing.xs,
-  })) as ThemedStyle<ViewStyle>,
-
-  $actionPressed: (({ isDark }) => ({
-    opacity: isDark ? 0.7 : 0.6,
-  })) as ThemedStyle<ViewStyle>,
-
-  $actionText: (({ colors }) => ({
-    color: colors.text,
-  })) as ThemedStyle<TextStyle>,
-
-  $cancelText: (({ colors, typography }) => ({
-    color: colors.textDim,
-    fontFamily: typography.primary.medium,
-  })) as ThemedStyle<TextStyle>,
-}
+const createStyles = ({ colors, spacing, isDark, typography }: Theme) =>
+  ({
+    sheet: {
+      backgroundColor: colors.card,
+      borderTopStartRadius: spacing.md,
+      borderTopEndRadius: spacing.md,
+    },
+    handle: {
+      width: spacing.xxl,
+      height: spacing.xxs,
+      borderRadius: spacing.xxs,
+      backgroundColor: colors.palette.neutral400,
+    },
+    content: {
+      paddingHorizontal: spacing.md,
+      paddingTop: spacing.xs,
+      paddingBottom: spacing.md,
+    },
+    title: {
+      color: colors.text,
+      paddingBottom: spacing.xs,
+    },
+    action: {
+      minHeight: spacing.xxl,
+      justifyContent: "center",
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.separator,
+      paddingVertical: spacing.sm,
+    },
+    cancelAction: {
+      borderBottomWidth: 0,
+      marginTop: spacing.xs,
+    },
+    actionPressed: {
+      opacity: isDark ? 0.7 : 0.6,
+    },
+    actionText: {
+      color: colors.text,
+    },
+    cancelText: {
+      color: colors.textDim,
+      fontFamily: typography.primary.medium,
+    },
+  }) as const

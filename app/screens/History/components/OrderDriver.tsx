@@ -2,25 +2,26 @@ import { Pressable, View } from "react-native"
 
 import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
-import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/orderListRowStyles"
+import { createStyles } from "../styles/orderListRowStyles"
 import type { DriverAssignment } from "../types/order"
 import { callDriver, getDriverPhoneUrl } from "../utils/driverCall"
 
 export function OrderDriver({ driver }: { driver?: DriverAssignment }) {
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
+
   const disabled = !getDriverPhoneUrl(driver)
   const hint = driver?.isDemoContact ? "history:demoCallUnavailable" : "history:phoneUnavailable"
   return (
-    <View style={themed(styles.$driver)}>
-      <View style={styles.$driverInfo}>
-        {!driver && <Text tx="history:driverUnavailable" style={themed(styles.$meta)} />}
+    <View style={styles.driver}>
+      <View style={styles.driverInfo}>
+        {!driver && <Text tx="history:driverUnavailable" style={styles.meta} />}
         {!!driver?.name && <Text preset="bold" text={driver.name} />}
         {!!driver?.vehiclePlate && (
-          <Text preset="formHelper" text={driver.vehiclePlate} style={themed(styles.$meta)} />
+          <Text preset="formHelper" text={driver.vehiclePlate} style={styles.meta} />
         )}
-        {disabled && driver && <Text preset="formHelper" tx={hint} style={themed(styles.$meta)} />}
+        {disabled && driver && <Text preset="formHelper" tx={hint} style={styles.meta} />}
       </View>
       {driver && (
         <Pressable
@@ -32,9 +33,9 @@ export function OrderDriver({ driver }: { driver?: DriverAssignment }) {
           })}
           accessibilityHint={disabled ? translate(hint) : undefined}
           onPress={() => void callDriver(driver)}
-          style={({ pressed }) => [themed(styles.$call), pressed && themed(styles.$pressed)]}
+          style={({ pressed }) => [styles.call, pressed && styles.pressed]}
         >
-          <Text tx="history:call" style={disabled ? themed(styles.$meta) : undefined} />
+          <Text tx="history:call" style={disabled ? styles.meta : undefined} />
         </Pressable>
       )}
     </View>

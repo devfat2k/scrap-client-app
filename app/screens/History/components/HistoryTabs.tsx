@@ -5,9 +5,10 @@ import { TabBar, TabView } from "react-native-tab-view"
 import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
 import { HistoryOrderList } from "./HistoryOrderList"
-import { styles } from "../styles/historyTabsStyles"
+import { createStyles } from "../styles/historyTabsStyles"
 import type { RequestOrder } from "../types/order"
 import { groupHistoryOrders, HISTORY_TABS, type HistoryTabKey } from "../utils/historyTabs"
 
@@ -19,9 +20,11 @@ interface Props {
 }
 
 export function HistoryTabs({ orders, onOpenOrder }: Props) {
+  const styles = useStyles(createStyles)
+
   const [index, setIndex] = useState(0)
   const { width, fontScale } = useWindowDimensions()
-  const { theme, themed } = useAppTheme()
+  const { theme } = useAppTheme()
   const groups = useMemo(() => groupHistoryOrders(orders), [orders])
   // Allow full labels to grow rather than truncate when the available measure shrinks.
   const scrollEnabled = width / fontScale < 360
@@ -36,7 +39,7 @@ export function HistoryTabs({ orders, onOpenOrder }: Props) {
         label: ({ route, color }) => (
           <Text
             text={translate(`history:${route.key as HistoryTabKey}`)}
-            style={[themed(styles.$label), { color }]}
+            style={[styles.label, { color }]}
           />
         ),
       }}
@@ -54,9 +57,9 @@ export function HistoryTabs({ orders, onOpenOrder }: Props) {
           scrollEnabled={scrollEnabled}
           activeColor={theme.colors.text}
           inactiveColor={theme.colors.textDim}
-          style={themed(styles.$bar)}
-          indicatorStyle={themed(styles.$indicator)}
-          tabStyle={[themed(styles.$tab), scrollEnabled && styles.$scrollTab]}
+          style={styles.bar}
+          indicatorStyle={styles.indicator}
+          tabStyle={[styles.tab, scrollEnabled && styles.scrollTab]}
         />
       )}
       renderScene={({ route }) => (

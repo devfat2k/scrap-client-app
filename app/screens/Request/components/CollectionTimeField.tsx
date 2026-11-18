@@ -7,10 +7,11 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { formatDateTime } from "@/utils/formatDate"
 
 import { CollectionTimeSheet } from "./CollectionTimeSheet"
-import { styles } from "../styles/createRequestStyles"
+import { createStyles } from "../styles/createRequestStyles"
 
 export interface CollectionTimeFieldProps {
   /**
@@ -47,6 +48,8 @@ export interface CollectionTimeFieldProps {
  * Pressable field that opens the collection date/time picker.
  */
 export function CollectionTimeField(props: CollectionTimeFieldProps) {
+  const styles = useStyles(createStyles)
+
   const {
     value,
     onChange,
@@ -56,7 +59,7 @@ export function CollectionTimeField(props: CollectionTimeFieldProps) {
     errorTx,
     disabled = false,
   } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const [isSheetVisible, setIsSheetVisible] = useState(false)
 
   const placeholderText = translate(placeholderTx)
@@ -82,22 +85,19 @@ export function CollectionTimeField(props: CollectionTimeFieldProps) {
         accessibilityLabel={`${translate(labelTx)}${value ? ` ${displayText}` : ""}`}
         accessibilityState={{ disabled, expanded: isSheetVisible }}
         style={({ pressed }) => [
-          themed(styles.$fieldSurface),
-          !!errorTx && themed(styles.$fieldSurfaceError),
-          disabled && themed(styles.$fieldSurfaceDisabled),
-          pressed && !disabled && themed(styles.$fieldSurfacePressed),
+          styles.fieldSurface,
+          !!errorTx && styles.fieldSurfaceError,
+          disabled && styles.fieldSurfaceDisabled,
+          pressed && !disabled && styles.fieldSurfacePressed,
         ]}
       >
-        <View style={themed(styles.$fieldRow)}>
-          <Text
-            text={displayText}
-            style={value ? themed(styles.$fieldValue) : themed(styles.$fieldPlaceholder)}
-          />
+        <View style={styles.fieldRow}>
+          <Text text={displayText} style={value ? styles.fieldValue : styles.fieldPlaceholder} />
           <SvgIcon
             icon="Clock"
             size={20}
             fill={disabled ? theme.colors.textDim : theme.colors.text}
-            style={themed(styles.$fieldIcon)}
+            style={styles.fieldIcon}
           />
         </View>
       </Pressable>

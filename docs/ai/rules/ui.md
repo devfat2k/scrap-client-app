@@ -1,6 +1,7 @@
 # UI Rules
 
 - Use `useAppTheme()` tokens for colors, spacing, typography and timing; preserve light/dark behavior and existing component patterns. No arbitrary replacement palette or magic dimensions.
+- Avoid adding `StatusBar` to individual screen `.tsx` files; rely on the existing shared configuration. Most screens do not need their own `StatusBar`. Add a screen-level override only when that screen explicitly requires different status bar behavior.
 - English-only product UI at present; use `tx` or `translate()` and keys under `app/i18n/`. Explain work to the user in their language.
 - Use custom UI wrappers. Lists that may grow use FlatList with stable keys; do not refactor a small static layout into a list without need.
 - At the data-owning screen/flow, cover relevant loading, empty, error and offline states. Static decorative components do not need four fabricated states. Mock flows must still expose meaningful validation and failure behavior where specified.

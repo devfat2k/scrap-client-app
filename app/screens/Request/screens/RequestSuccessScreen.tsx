@@ -10,9 +10,10 @@ import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import type { AppStackParamList, RequestStackParamList } from "@/navigators/navigationTypes"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
-import { styles } from "../styles/requestSuccessStyles"
+import { createStyles } from "../styles/requestSuccessStyles"
 
 type RequestSuccessScreenProps = NativeStackScreenProps<
   RequestStackParamList,
@@ -24,8 +25,10 @@ type MainTabName = "HomeTab" | "HistoryTab"
  * Confirmation shown after a pickup request is sent.
  */
 export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
+  const styles = useStyles(createStyles)
+
   const { requestId } = route.params
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const containerInsets = useSafeAreaInsetsStyle(["top", "bottom"])
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>()
 
@@ -38,42 +41,35 @@ export function RequestSuccessScreen({ route }: RequestSuccessScreenProps) {
   }
 
   return (
-    <View style={[themed(styles.$container), containerInsets]}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={themed(styles.$content)}
-      >
-        <View style={themed(styles.$hero)}>
-          <View style={themed(styles.$successCircle)} accessibilityElementsHidden>
+    <View style={[styles.container, containerInsets]}>
+      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.content}>
+        <View style={styles.hero}>
+          <View style={styles.successCircle} accessibilityElementsHidden>
             <SvgIcon icon="Check" size={44} fill={theme.colors.background} />
           </View>
 
-          <Text preset="heading" tx="requestSuccess:title" style={themed(styles.$title)} />
-          <Text preset="formHelper" tx="requestSuccess:message" style={themed(styles.$message)} />
+          <Text preset="heading" tx="requestSuccess:title" style={styles.title} />
+          <Text preset="formHelper" tx="requestSuccess:message" style={styles.message} />
 
-          <View style={themed(styles.$requestIdPill)}>
+          <View style={styles.requestIdPill}>
             <Text
               preset="bold"
               tx="requestSuccess:requestId"
               txOptions={{ id: requestId }}
-              style={themed(styles.$requestIdText)}
+              style={styles.requestIdText}
             />
           </View>
         </View>
 
-        <View style={themed(styles.$ecoCard)}>
-          <View style={themed(styles.$ecoHeader)}>
+        <View style={styles.ecoCard}>
+          <View style={styles.ecoHeader}>
             <SvgIcon icon="Earth" size={18} fill={theme.colors.palette.primary600} />
-            <Text preset="bold" tx="requestSuccess:ecoTitle" style={themed(styles.$ecoTitle)} />
+            <Text preset="bold" tx="requestSuccess:ecoTitle" style={styles.ecoTitle} />
           </View>
-          <Text
-            preset="formHelper"
-            tx="requestSuccess:ecoMessage"
-            style={themed(styles.$ecoText)}
-          />
+          <Text preset="formHelper" tx="requestSuccess:ecoMessage" style={styles.ecoText} />
         </View>
 
-        <View style={themed(styles.$actions)}>
+        <View style={styles.actions}>
           <Button
             preset="primary"
             tx="requestSuccess:viewRequests"

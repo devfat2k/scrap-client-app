@@ -7,10 +7,11 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
 import { SelectSheet } from "./SelectSheet"
 import type { SelectOption } from "../form/requestFormOptions"
-import { styles } from "../styles/createRequestStyles"
+import { createStyles } from "../styles/createRequestStyles"
 
 export interface SelectFieldProps<T extends string> {
   /**
@@ -75,6 +76,8 @@ export interface SelectFieldProps<T extends string> {
  * A pressable form field that opens a single-choice bottom sheet.
  */
 export function SelectField<T extends string>(props: SelectFieldProps<T>) {
+  const styles = useStyles(createStyles)
+
   const {
     options,
     value,
@@ -91,7 +94,7 @@ export function SelectField<T extends string>(props: SelectFieldProps<T>) {
     containerStyle,
     testID,
   } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const [isSheetVisible, setIsSheetVisible] = useState(false)
 
   const selectedOption = options.find((option) => option.value === value)
@@ -126,22 +129,22 @@ export function SelectField<T extends string>(props: SelectFieldProps<T>) {
         accessibilityLabel={accessibilityLabel}
         accessibilityState={{ disabled, expanded: isSheetVisible }}
         style={({ pressed }) => [
-          themed(styles.$fieldSurface),
-          !!errorTx && themed(styles.$fieldSurfaceError),
-          disabled && themed(styles.$fieldSurfaceDisabled),
-          pressed && !disabled && themed(styles.$fieldSurfacePressed),
+          styles.fieldSurface,
+          !!errorTx && styles.fieldSurfaceError,
+          disabled && styles.fieldSurfaceDisabled,
+          pressed && !disabled && styles.fieldSurfacePressed,
         ]}
       >
-        <View style={themed(styles.$fieldRow)}>
+        <View style={styles.fieldRow}>
           <Text
             text={displayText ?? placeholderText}
-            style={displayText ? themed(styles.$fieldValue) : themed(styles.$fieldPlaceholder)}
+            style={displayText ? styles.fieldValue : styles.fieldPlaceholder}
           />
           <SvgIcon
             icon="ChevronDown"
             size={20}
             fill={disabled ? theme.colors.textDim : theme.colors.text}
-            style={themed(styles.$fieldIcon)}
+            style={styles.fieldIcon}
           />
         </View>
       </Pressable>

@@ -7,8 +7,9 @@ import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/homeCardsStyles"
+import { createStyles } from "../styles/homeCardsStyles"
 
 export interface QuickActionsProps {
   /**
@@ -30,8 +31,10 @@ interface QuickActionCardProps {
 }
 
 function QuickActionCard(props: QuickActionCardProps) {
+  const styles = useStyles(createStyles)
+
   const { icon, titleTx, hintTx, tone, onPress } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const iconFill =
     tone === "primary" ? theme.colors.palette.primary600 : theme.colors.palette.secondary500
 
@@ -40,24 +43,19 @@ function QuickActionCard(props: QuickActionCardProps) {
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={translate(titleTx)}
-      style={({ pressed }) => [
-        themed(styles.$quickAction),
-        pressed && themed(styles.$quickActionPressed),
-      ]}
+      style={({ pressed }) => [styles.quickAction, pressed && styles.quickActionPressed]}
     >
       <View
         style={[
-          themed(styles.$quickActionIcon),
-          tone === "primary"
-            ? themed(styles.$quickActionIconPrimary)
-            : themed(styles.$quickActionIconSecondary),
+          styles.quickActionIcon,
+          tone === "primary" ? styles.quickActionIconPrimary : styles.quickActionIconSecondary,
         ]}
       >
         <SvgIcon icon={icon} size={20} fill={iconFill} />
       </View>
 
-      <Text preset="bold" tx={titleTx} style={themed(styles.$quickActionTitle)} />
-      <Text preset="formHelper" tx={hintTx} style={themed(styles.$quickActionHint)} />
+      <Text preset="bold" tx={titleTx} style={styles.quickActionTitle} />
+      <Text preset="formHelper" tx={hintTx} style={styles.quickActionHint} />
     </Pressable>
   )
 }
@@ -66,11 +64,11 @@ function QuickActionCard(props: QuickActionCardProps) {
  * Two shortcuts under the hero: request history and a short process explainer.
  */
 export function QuickActions(props: QuickActionsProps) {
-  const { onPressMyRequests, onPressHowItWorks } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
+  const { onPressMyRequests, onPressHowItWorks } = props
   return (
-    <View style={themed(styles.$quickActions)}>
+    <View style={styles.quickActions}>
       <QuickActionCard
         icon="History"
         titleTx="home:quickActions.myRequests"

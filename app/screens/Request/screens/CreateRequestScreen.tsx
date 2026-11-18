@@ -9,6 +9,7 @@ import { translate } from "@/i18n/translate"
 import type { RequestStackParamList } from "@/navigators/navigationTypes"
 import { useNetworkStatus } from "@/services/network"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { showToast } from "@/utils/toastService"
 
 import { AddressFields } from "../components/AddressFields"
@@ -18,7 +19,7 @@ import { FormSection } from "../components/FormSection"
 import { ScrapItemsSection } from "../components/ScrapItemsSection"
 import { SubmitBar } from "../components/SubmitBar"
 import { useCreateRequestForm } from "../form/useCreateRequestForm"
-import { styles } from "../styles/createRequestScreenStyles"
+import { createStyles } from "../styles/createRequestScreenStyles"
 
 type CreateRequestScreenProps = NativeStackScreenProps<RequestStackParamList, "CreateRequestScreen">
 
@@ -26,7 +27,9 @@ type CreateRequestScreenProps = NativeStackScreenProps<RequestStackParamList, "C
  * Pickup request form: scrap items, collection address, and preferred time.
  */
 export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
-  const { themed, theme } = useAppTheme()
+  const styles = useStyles(createStyles)
+
+  const { theme } = useAppTheme()
   const { isOnline } = useNetworkStatus()
   const [isContactSheetVisible, setContactSheetVisible] = useState(false)
   const {
@@ -70,29 +73,25 @@ export function CreateRequestScreen({ navigation }: CreateRequestScreenProps) {
   }
 
   return (
-    <View style={themed(styles.$formScreen)}>
+    <View style={styles.formScreen}>
       <Header
         titleTx="request:title"
         leftIcon="Back"
         leftIconColor={theme.colors.text}
         leftIconAccessibilityLabel={translate("common:back")}
         onLeftPress={() => navigation.goBack()}
-        containerStyle={themed(styles.$header)}
+        containerStyle={styles.header}
       />
 
       <KeyboardAwareScrollView
         bottomOffset={50}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={themed(styles.$formContent)}
+        contentContainerStyle={styles.formContent}
       >
         {!isOnline && (
-          <View style={themed(styles.$offlineBanner)}>
-            <Text preset="bold" tx="request:offlineTitle" style={themed(styles.$offlineTitle)} />
-            <Text
-              preset="formHelper"
-              tx="request:offlineMessage"
-              style={themed(styles.$offlineText)}
-            />
+          <View style={styles.offlineBanner}>
+            <Text preset="bold" tx="request:offlineTitle" style={styles.offlineTitle} />
+            <Text preset="formHelper" tx="request:offlineMessage" style={styles.offlineText} />
           </View>
         )}
 

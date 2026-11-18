@@ -6,12 +6,13 @@ import { Text } from "@/components/Text"
 import { TextField } from "@/components/TextField"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
 import { PhotoAttachmentField } from "./PhotoAttachmentField"
 import { SelectField } from "./SelectField"
 import { CATEGORY_OPTIONS, UNIT_OPTIONS, VOLUME_SELECT_OPTIONS } from "../form/requestFormOptions"
 import type { ScrapItemDraft, ScrapItemErrors } from "../form/requestFormTypes"
-import { styles } from "../styles/createRequestStyles"
+import { createStyles } from "../styles/createRequestStyles"
 
 export interface ScrapItemCardProps {
   /**
@@ -44,17 +45,19 @@ export interface ScrapItemCardProps {
  * One scrap item row inside the create request form.
  */
 export function ScrapItemCard(props: ScrapItemCardProps) {
+  const styles = useStyles(createStyles)
+
   const { item, index, errors, canRemove, onChange, onRemove } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
 
   return (
-    <View style={themed(styles.$scrapCard)}>
-      <View style={themed(styles.$scrapCardHeader)}>
+    <View style={styles.scrapCard}>
+      <View style={styles.scrapCardHeader}>
         <Text
           preset="subheading"
           tx="request:itemLabel"
           txOptions={{ index: index + 1 }}
-          style={themed(styles.$scrapCardTitle)}
+          style={styles.scrapCardTitle}
         />
 
         {canRemove && (
@@ -63,7 +66,7 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
             hitSlop={theme.spacing.xs}
             accessibilityRole="button"
             accessibilityLabel={translate("request:removeItem")}
-            style={themed(styles.$scrapRemoveButton)}
+            style={styles.scrapRemoveButton}
           >
             <SvgIcon icon="Close" size={18} fill={theme.colors.textDim} />
           </Pressable>
@@ -82,8 +85,8 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
         errorTx={errors?.category}
       />
 
-      <View style={themed(styles.$scrapFieldRow)}>
-        <View style={styles.$scrapFieldItem}>
+      <View style={styles.scrapFieldRow}>
+        <View style={styles.scrapFieldItem}>
           <TextField
             labelTx="request:quantityLabel"
             required
@@ -96,7 +99,7 @@ export function ScrapItemCard(props: ScrapItemCardProps) {
           <FieldError messageTx={errors?.quantity} />
         </View>
 
-        <View style={styles.$scrapFieldItem}>
+        <View style={styles.scrapFieldItem}>
           <SelectField
             options={UNIT_OPTIONS}
             value={item.unit}

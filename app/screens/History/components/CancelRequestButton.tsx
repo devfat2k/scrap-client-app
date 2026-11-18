@@ -1,8 +1,9 @@
 import { Button } from "@/components/Button"
 import SvgIcon from "@/components/SvgIcon"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/cancelRequestStyles"
+import { createStyles } from "../styles/cancelRequestStyles"
 
 export interface CancelRequestButtonProps {
   /**
@@ -25,9 +26,9 @@ function CancelIcon() {
  * Danger outline button that starts the cancellation flow for a pending request.
  */
 export function CancelRequestButton(props: CancelRequestButtonProps) {
-  const { disabled = false, onPress } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
+  const { disabled = false, onPress } = props
   return (
     <Button
       preset="default"
@@ -35,10 +36,10 @@ export function CancelRequestButton(props: CancelRequestButtonProps) {
       LeftAccessory={CancelIcon}
       onPress={onPress}
       disabled={disabled}
-      style={themed(styles.$cancelButton)}
-      pressedStyle={themed(styles.$cancelButtonPressed)}
-      disabledStyle={themed(styles.$cancelButtonDisabled)}
-      textStyle={themed(styles.$cancelText)}
+      style={styles.cancelButton}
+      pressedStyle={styles.cancelButtonPressed}
+      disabledStyle={styles.cancelButtonDisabled}
+      textStyle={styles.cancelText}
     />
   )
 }

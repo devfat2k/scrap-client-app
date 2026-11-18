@@ -13,9 +13,10 @@ import { FieldLabel } from "@/components/FormField"
 import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
-import { contactDetailsStyles as styles } from "../styles/contactDetailsStyles"
+import { createContactDetailsStyles as createStyles } from "../styles/contactDetailsStyles"
 
 export interface ContactDetailsSheetProps {
   visible: boolean
@@ -30,7 +31,9 @@ export function ContactDetailsSheet({
   onConfirm,
   onClose,
 }: ContactDetailsSheetProps) {
-  const { themed, theme } = useAppTheme()
+  const styles = useStyles(createStyles)
+
+  const { theme } = useAppTheme()
   const { height } = useWindowDimensions()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
   const [fullName, setFullName] = useState("")
@@ -76,15 +79,15 @@ export function ContactDetailsSheet({
       android_keyboardInputMode="adjustResize"
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
       <BottomSheetScrollView
-        contentContainerStyle={themed(styles.$content)}
+        contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={themed(styles.$form)}>
-          <Text preset="subheading" tx="request:contactTitle" style={themed(styles.$title)} />
+        <View style={styles.form}>
+          <Text preset="subheading" tx="request:contactTitle" style={styles.title} />
           <FieldLabel labelTx="request:contactName" required />
           <BottomSheetTextInput
             accessibilityLabel={translate("request:contactName")}
@@ -93,17 +96,10 @@ export function ContactDetailsSheet({
             value={fullName}
             onChangeText={setFullName}
             editable={!isSubmitting}
-            style={[
-              themed(styles.$input),
-              showErrors && !fullName.trim() && themed(styles.$inputError),
-            ]}
+            style={[styles.input, showErrors && !fullName.trim() && styles.inputError]}
           />
           {showErrors && !fullName.trim() && (
-            <Text
-              preset="formHelper"
-              tx="request:contactNameRequired"
-              style={themed(styles.$error)}
-            />
+            <Text preset="formHelper" tx="request:contactNameRequired" style={styles.error} />
           )}
           <FieldLabel labelTx="request:contactPhone" required />
           <BottomSheetTextInput
@@ -114,27 +110,20 @@ export function ContactDetailsSheet({
             onChangeText={setPhone}
             keyboardType="phone-pad"
             editable={!isSubmitting}
-            style={[
-              themed(styles.$input),
-              showErrors && !phone.trim() && themed(styles.$inputError),
-            ]}
+            style={[styles.input, showErrors && !phone.trim() && styles.inputError]}
           />
           {showErrors && !phone.trim() && (
-            <Text
-              preset="formHelper"
-              tx="request:contactPhoneRequired"
-              style={themed(styles.$error)}
-            />
+            <Text preset="formHelper" tx="request:contactPhoneRequired" style={styles.error} />
           )}
         </View>
 
-        <View style={themed(styles.$actions)}>
+        <View style={styles.actions}>
           <Button
             preset="default"
             tx="common:cancel"
             onPress={() => sheetRef.current?.dismiss()}
             disabled={isSubmitting}
-            style={themed(styles.$action)}
+            style={styles.action}
           />
           <Button
             preset="primary"
@@ -142,7 +131,7 @@ export function ContactDetailsSheet({
             onPress={confirm}
             loading={isSubmitting}
             loadingText={translate("request:submitting")}
-            style={themed(styles.$action)}
+            style={styles.action}
           />
         </View>
       </BottomSheetScrollView>

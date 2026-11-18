@@ -1,12 +1,12 @@
 import { Pressable, StyleSheet } from "react-native"
-import type { TextStyle, ViewStyle } from "react-native"
 import { useTranslation } from "react-i18next"
 
 import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
 import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import type { Theme } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 
 import { HomeSheet } from "./HomeSheet"
 
@@ -17,7 +17,8 @@ const OPTIONS: { value: string; labelTx: TxKeyPath }[] = [
 
 export function LanguageSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const { i18n } = useTranslation()
-  const { themed, theme } = useAppTheme()
+  const styles = useStyles(createStyles)
+  const { theme } = useAppTheme()
   const language = (i18n.resolvedLanguage ?? i18n.language).split("-")[0]
 
   async function selectLanguage(value: string) {
@@ -33,9 +34,9 @@ export function LanguageSheet({ visible, onClose }: { visible: boolean; onClose:
           accessibilityRole="button"
           accessibilityState={{ selected: language === option.value }}
           onPress={() => void selectLanguage(option.value)}
-          style={({ pressed }) => [themed($option), pressed && $pressed]}
+          style={({ pressed }) => [styles.option, pressed && styles.pressed]}
         >
-          <Text tx={option.labelTx} style={themed($label)} />
+          <Text tx={option.labelTx} style={styles.label} />
           {language === option.value && <SvgIcon icon="Check" size={20} fill={theme.colors.tint} />}
         </Pressable>
       ))}
@@ -43,14 +44,17 @@ export function LanguageSheet({ visible, onClose }: { visible: boolean; onClose:
   )
 }
 
-const $option: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
-  minHeight: spacing.xxl,
-  flexDirection: "row",
-  alignItems: "center",
-  gap: spacing.sm,
-  paddingVertical: spacing.xs,
-  borderBottomWidth: StyleSheet.hairlineWidth,
-  borderBottomColor: colors.separator,
-})
-const $label: ThemedStyle<TextStyle> = ({ colors }) => ({ flex: 1, color: colors.text })
-const $pressed: ViewStyle = { opacity: 0.6 }
+const createStyles = ({ colors, spacing }: Theme) =>
+  ({
+    option: {
+      minHeight: spacing.xxl,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: spacing.sm,
+      paddingVertical: spacing.xs,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: colors.separator,
+    },
+    label: { flex: 1, color: colors.text },
+    pressed: { opacity: 0.6 },
+  }) as const

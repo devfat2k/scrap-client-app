@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { BackHandler, Platform, View, ViewStyle } from "react-native"
+import { BackHandler, Platform, View } from "react-native"
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -10,9 +10,10 @@ import DateTimePicker, { type DateTimePickerEvent } from "@react-native-communit
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { Button } from "@/components/Button"
-import { useAppTheme } from "@/theme/context"
-import type { ThemedStyle } from "@/theme/types"
+import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
+
+import { createStyles } from "../styles/collectionTimeSheetStyles"
 
 type AndroidStep = "date" | "time"
 
@@ -51,8 +52,9 @@ export interface CollectionTimeSheetProps {
  * sequential native dialogs on Android.
  */
 export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
+  const styles = useStyles(createStyles)
+
   const { visible, value, onChange, onClose } = props
-  const { themed } = useAppTheme()
   const insets = useSafeAreaInsets()
   const { sheetRef, handleDismiss } = useBottomSheetModal({
     visible,
@@ -129,10 +131,10 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
       bottomInset={insets.bottom}
       onDismiss={handleDismiss}
       backdropComponent={renderBackdrop}
-      handleIndicatorStyle={themed(styles.$handle)}
-      backgroundStyle={themed(styles.$sheet)}
+      handleIndicatorStyle={styles.handle}
+      backgroundStyle={styles.sheet}
     >
-      <BottomSheetView style={themed(styles.$content)}>
+      <BottomSheetView style={styles.content}>
         <DateTimePicker
           value={draft}
           mode="datetime"
@@ -142,52 +144,21 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
           }}
         />
 
-        <View style={themed(styles.$actions)}>
+        <View style={styles.actions}>
           <Button
             preset="default"
             tx="common:cancel"
             onPress={() => close()}
-            style={themed(styles.$actionSurface)}
+            style={styles.actionSurface}
           />
           <Button
             preset="primary"
             tx="common:done"
             onPress={() => close(draft)}
-            style={themed(styles.$actionSurface)}
+            style={styles.actionSurface}
           />
         </View>
       </BottomSheetView>
     </BottomSheetModal>
   )
-}
-
-const styles = {
-  $sheet: (({ colors, spacing }) => ({
-    backgroundColor: colors.card,
-    borderTopStartRadius: spacing.md,
-    borderTopEndRadius: spacing.md,
-  })) as ThemedStyle<ViewStyle>,
-
-  $handle: (({ colors, spacing }) => ({
-    width: spacing.xxl,
-    height: spacing.xxs,
-    borderRadius: spacing.xxs,
-    backgroundColor: colors.palette.neutral400,
-  })) as ThemedStyle<ViewStyle>,
-
-  $content: (({ spacing }) => ({
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.xs,
-    paddingBottom: spacing.md,
-    gap: spacing.xs,
-  })) as ThemedStyle<ViewStyle>,
-
-  $actions: (({ spacing }) => ({
-    flexDirection: "row",
-    gap: spacing.sm,
-  })) as ThemedStyle<ViewStyle>,
-
-  $actionSurface: {
-    flex: 1,
-  } as ViewStyle,
 }

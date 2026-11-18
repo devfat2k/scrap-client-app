@@ -2,9 +2,9 @@ import { View } from "react-native"
 
 import { Text } from "@/components/Text"
 import type { TxKeyPath } from "@/i18n"
-import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/orderDetailScreenStyles"
+import { createStyles } from "../styles/orderDetailScreenStyles"
 
 export interface OfflineNoticeProps {
   /**
@@ -21,13 +21,13 @@ export interface OfflineNoticeProps {
  * Amber offline banner shared by History and request detail.
  */
 export function OfflineNotice(props: OfflineNoticeProps) {
-  const { titleTx, messageTx } = props
-  const { themed } = useAppTheme()
+  const styles = useStyles(createStyles)
 
+  const { titleTx, messageTx } = props
   return (
-    <View style={themed(styles.$offlineBanner)}>
-      <Text preset="bold" tx={titleTx} style={themed(styles.$offlineTitle)} />
-      <Text preset="formHelper" tx={messageTx} style={themed(styles.$offlineText)} />
+    <View style={styles.offlineBanner}>
+      <Text preset="bold" tx={titleTx} style={styles.offlineTitle} />
+      <Text preset="formHelper" tx={messageTx} style={styles.offlineText} />
     </View>
   )
 }

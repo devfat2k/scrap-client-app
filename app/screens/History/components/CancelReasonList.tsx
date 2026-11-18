@@ -4,8 +4,9 @@ import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
 import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 
-import { styles } from "../styles/cancelRequestStyles"
+import { createStyles } from "../styles/cancelRequestStyles"
 import { CANCEL_REASON_OPTIONS, type CancelReason } from "../utils/cancelReasons"
 
 export interface CancelReasonListProps {
@@ -23,8 +24,10 @@ export interface CancelReasonListProps {
  * Radio-style reason rows for the cancellation sheet.
  */
 export function CancelReasonList(props: CancelReasonListProps) {
+  const styles = useStyles(createStyles)
+
   const { selected, onSelect } = props
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
 
   return (
     <>
@@ -38,14 +41,11 @@ export function CancelReasonList(props: CancelReasonListProps) {
             accessibilityRole="radio"
             accessibilityState={{ selected: isSelected }}
             accessibilityLabel={translate(option.labelTx)}
-            style={({ pressed }) => [
-              themed(styles.$reasonRow),
-              pressed && themed(styles.$reasonPressed),
-            ]}
+            style={({ pressed }) => [styles.reasonRow, pressed && styles.reasonPressed]}
           >
             <Text
               text={translate(option.labelTx)}
-              style={[themed(styles.$reasonText), isSelected && themed(styles.$reasonTextSelected)]}
+              style={[styles.reasonText, isSelected && styles.reasonTextSelected]}
             />
             {isSelected && <SvgIcon icon="Check" size={18} fill={theme.colors.tint} />}
           </Pressable>

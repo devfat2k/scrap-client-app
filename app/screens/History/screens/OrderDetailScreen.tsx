@@ -10,6 +10,7 @@ import { translate } from "@/i18n/translate"
 import type { HistoryStackParamList } from "@/navigators/navigationTypes"
 import { useNetworkStatus } from "@/services/network"
 import { useAppTheme } from "@/theme/context"
+import { useStyles } from "@/theme/useStyles"
 import { formatShortDate } from "@/utils/formatDate"
 import { showToast } from "@/utils/toastService"
 
@@ -20,7 +21,7 @@ import { OrderCollectionCard } from "../components/OrderCollectionCard"
 import { OrderItemsCard } from "../components/OrderItemsCard"
 import { OrderNotFoundState } from "../components/OrderNotFoundState"
 import { getMockOrder } from "../mocks/historyOrders"
-import { styles } from "../styles/orderDetailScreenStyles"
+import { createStyles } from "../styles/orderDetailScreenStyles"
 import { getHeaderBackground } from "../utils/orderDetail"
 
 type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "OrderDetailScreen">
@@ -29,11 +30,13 @@ type OrderDetailScreenProps = NativeStackScreenProps<HistoryStackParamList, "Ord
  * Request detail for both pending (1.4) and confirmed (1.5) requests.
  */
 export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps) {
+  const styles = useStyles(createStyles)
+
   const scrollRef = useRef<ScrollView>(null)
   useScrollToTop(scrollRef)
   const { orderId } = route.params
   const order = getMockOrder(orderId)
-  const { themed, theme } = useAppTheme()
+  const { theme } = useAppTheme()
   const { isOnline } = useNetworkStatus()
   const [status, setStatus] = useState(order?.status)
   const [cancelVisible, setCancelVisible] = useState(false)
@@ -54,7 +57,7 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
 
   if (!order) {
     return (
-      <View style={themed(styles.$screen)}>
+      <View style={styles.screen}>
         <Header backgroundColor={getHeaderBackground(theme, undefined)} title={`#${orderId}`} />
         <OrderNotFoundState onBack={handleBack} />
       </View>
@@ -65,13 +68,13 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
   const canCancel = currentStatus === ORDER_STATUS.NEW
 
   return (
-    <View style={themed(styles.$screen)}>
+    <View style={styles.screen}>
       <Header leftIcon="Back" title={`#${order.id}`} />
 
       <ScrollView
         ref={scrollRef}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={themed(styles.$content)}
+        contentContainerStyle={styles.content}
       >
         {!isOnline && (
           <OfflineNotice
@@ -83,7 +86,7 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
         <Text
           preset="formHelper"
           text={translate("history:submitted", { date: formatShortDate(order.createdAt) })}
-          style={themed(styles.$metaLine)}
+          style={styles.metaLine}
         />
 
         <OrderCollectionCard order={order} status={currentStatus} />
