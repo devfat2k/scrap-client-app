@@ -1,8 +1,8 @@
 import type { AustralianAddress } from "@/domain/address"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import type { ScrapCategory, ScrapUnit } from "@/domain/scrapCategory"
+import { CATEGORY_OPTIONS, UNIT_OPTIONS } from "@/domain/scrapOptions"
 import { translate } from "@/i18n/translate"
-import { CATEGORY_OPTIONS, UNIT_OPTIONS } from "@/screens/Request/form/requestFormOptions"
 import type { Theme } from "@/theme/types"
 
 import type { OrderItem } from "../types/order"

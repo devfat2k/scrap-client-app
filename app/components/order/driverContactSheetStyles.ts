@@ -5,8 +5,6 @@ export const createStyles = ({ colors, spacing }: Theme) =>
     sheet: { backgroundColor: colors.card },
     handle: { backgroundColor: colors.border },
     content: {
-      paddingHorizontal: spacing.md,
-      paddingTop: spacing.xs,
       paddingBottom: spacing.md,
       gap: spacing.md,
     },

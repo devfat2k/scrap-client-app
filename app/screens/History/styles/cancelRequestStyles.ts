@@ -20,20 +20,7 @@ export const createStyles = ({ colors, spacing, isDark }: Theme) =>
     cancelText: {
       color: colors.error,
     },
-    sheet: {
-      backgroundColor: colors.card,
-      borderTopStartRadius: spacing.md,
-      borderTopEndRadius: spacing.md,
-    },
-    handle: {
-      width: spacing.xxl,
-      height: spacing.xxs,
-      borderRadius: spacing.xxs,
-      backgroundColor: colors.palette.neutral400,
-    },
     sheetContent: {
-      paddingHorizontal: spacing.md,
-      paddingTop: spacing.xs,
       paddingBottom: spacing.md,
     },
     sheetTitle: {

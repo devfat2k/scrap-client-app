@@ -1,10 +1,10 @@
+import { DriverContact } from "@/components/order/DriverContact"
 import { OrderCard } from "@/components/order/OrderCard"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
 import { formatShortDate } from "@/utils/formatDate"
 
 import { OrderCardContent } from "./OrderCardContent"
-import { OrderDriver } from "./OrderDriver"
 import type { RequestOrder } from "../types/order"
 import { getOrderCardAccessibilityLabel } from "../utils/orderCardAccessibility"
 
@@ -37,7 +37,7 @@ export function OrderListRow({ order, onPress }: OrderListRowProps) {
       onPress={onPress}
       driverContact={
         order.status === ORDER_STATUS.DISPATCHED ? (
-          <OrderDriver driver={order.driverAssignment} />
+          <DriverContact driver={order.driverAssignment} />
         ) : undefined
       }
     >

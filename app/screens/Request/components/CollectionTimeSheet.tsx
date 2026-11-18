@@ -1,32 +1,15 @@
-import { useEffect, useMemo, useState } from "react"
-import { BackHandler, Platform } from "react-native"
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetView,
-  type BottomSheetBackdropProps,
-} from "@gorhom/bottom-sheet"
+import { useMemo, useRef, useState } from "react"
+import { Platform } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 
+import { AppSheet, type AppSheetHandle } from "@/components/AppSheet"
 import { useStyles } from "@/theme/useStyles"
-import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
 import { CollectionTimePicker } from "./CollectionTimePicker"
 import { createStyles } from "../styles/collectionTimeSheetStyles"
 
 type AndroidStep = "date" | "time"
-
-function renderBackdrop(backdropProps: BottomSheetBackdropProps) {
-  return (
-    <BottomSheetBackdrop
-      {...backdropProps}
-      appearsOnIndex={0}
-      disappearsOnIndex={-1}
-      pressBehavior="close"
-    />
-  )
-}
 
 export interface CollectionTimeSheetProps {
   /**
@@ -56,26 +39,11 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
   const bottomInset = useSafeAreaInsetsStyle(["bottom"], "margin")
 
   const { visible, value, onChange, onClose } = props
-  const { sheetRef, handleDismiss } = useBottomSheetModal({
-    visible,
-    onClose,
-    enabled: Platform.OS !== "android",
-  })
+  const sheetRef = useRef<AppSheetHandle>(null)
   const minimumDate = useMemo(() => new Date(), [])
 
   const [draft, setDraft] = useState<Date>(value ?? new Date())
   const [androidStep, setAndroidStep] = useState<AndroidStep>("date")
-
-  useEffect(() => {
-    if (!visible || Platform.OS === "android") return
-
-    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
-      sheetRef.current?.dismiss()
-      return true
-    })
-
-    return () => subscription.remove()
-  }, [visible, sheetRef])
 
   /**
    * Closes the picker, optionally committing a value first.
@@ -124,25 +92,22 @@ export function CollectionTimeSheet(props: CollectionTimeSheetProps) {
   }
 
   return (
-    <BottomSheetModal
+    <AppSheet
+      visible={visible}
+      onClose={onClose}
       ref={sheetRef}
-      enablePanDownToClose
-      enableContentPanningGesture={false}
       keyboardBlurBehavior="none"
-      onDismiss={handleDismiss}
-      backdropComponent={renderBackdrop}
-      handleIndicatorStyle={styles.handle}
-      backgroundStyle={styles.sheet}
+      enableContentPanningGesture={false}
+      contentMode="static"
+      contentContainerStyle={[styles.content, bottomInset]}
     >
-      <BottomSheetView style={[styles.content, bottomInset]}>
-        <CollectionTimePicker
-          value={draft}
-          minimumDate={minimumDate}
-          onChange={setDraft}
-          onCancel={() => close()}
-          onConfirm={() => close(draft)}
-        />
-      </BottomSheetView>
-    </BottomSheetModal>
+      <CollectionTimePicker
+        value={draft}
+        minimumDate={minimumDate}
+        onChange={setDraft}
+        onCancel={() => close()}
+        onConfirm={() => close(draft)}
+      />
+    </AppSheet>
   )
 }

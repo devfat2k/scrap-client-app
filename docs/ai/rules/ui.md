@@ -9,3 +9,10 @@
 - Interactive controls need accessible names, roles and states; informative images need descriptions, decorative images should be excluded from accessibility traversal. Avoid duplicate announcements.
 - Order status uses plain Text plus a standard Icon. No status Badge, blinking or status animation; do not communicate status by color alone.
 - Check keyboard avoidance, safe areas, text scaling and meaningful disabled/submitting states. Apply [design guidelines](../design-guidelines.md) before substantial UI changes.
+
+## Sheet ownership
+
+- Repeated Sheet lifecycle, backdrop, Back handling, shell styling and container mechanics belong in a shared component once established through an approved implementation. Business Sheets own their data, validation, content and actions. Reuse existing lifecycle machinery instead of introducing competing state machines.
+- Shared Sheet APIs should cover demonstrated consumer differences with useful defaults and narrowly typed overrides. Do not expose the entire third-party configuration bag or force callers to repeat technical setup.
+- Preserve fixed versus dynamic sizing, keyboard behavior, native platform pickers, safe-area ownership and completed-dismiss callback timing during consolidation. Apply insets once. Trigger dependent native UI, such as a camera picker, at the appropriate completed-dismiss boundary.
+- Use `app/components/AppSheet.tsx` for modal infrastructure when adding or modifying business Sheets. `onClose` notifies completed closure through the lifecycle hook; optional `onDismiss` performs cleanup before that hook processes a queued reopen. Use the narrow dismiss handle when parent visibility must stay true until animation completes. Keep native platform pickers outside the shell. Read the actual props and [History/Request design](../../superpowers/specs/2026-11-18-history-request-consolidation-design.md) before extending it. HomeSheet remains an unmigrated consumer; do not copy its direct modal wiring into new Sheets.

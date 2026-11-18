@@ -1,21 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { BackHandler, View, useWindowDimensions } from "react-native"
-import {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-  BottomSheetScrollView,
-  type BottomSheetBackdropProps,
-} from "@gorhom/bottom-sheet"
+import { useCallback, useMemo, useState } from "react"
+import { Pressable, View, useWindowDimensions } from "react-native"
 
+import { AppSheet } from "@/components/AppSheet"
 import { Button } from "@/components/Button"
+import SvgIcon from "@/components/SvgIcon"
 import { Text } from "@/components/Text"
+import { translate } from "@/i18n/translate"
 import { useAppTheme } from "@/theme/context"
 import { useStyles } from "@/theme/useStyles"
-import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
 
-import { CancelReasonList } from "./CancelReasonList"
 import { createStyles } from "../styles/cancelRequestStyles"
-import type { CancelReason } from "../utils/cancelReasons"
+import { CANCEL_REASON_OPTIONS, type CancelReason } from "../utils/cancelReasons"
 
 const SHEET_MAX_HEIGHT_RATIO = 0.8
 const SHEET_CONTENT_HEIGHT_UNITS = 8
@@ -44,7 +39,6 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
   const { visible, onClose, onConfirm } = props
   const { theme } = useAppTheme()
   const { height: windowHeight } = useWindowDimensions()
-  const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
   const [reason, setReason] = useState<CancelReason | null>(null)
 
   const snapPoints = useMemo(() => {
@@ -54,31 +48,7 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
 
   const handleSheetDismiss = useCallback(() => {
     setReason(null)
-    handleDismiss()
-  }, [handleDismiss])
-
-  useEffect(() => {
-    if (!visible) return
-
-    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
-      sheetRef.current?.dismiss()
-      return true
-    })
-
-    return () => subscription.remove()
-  }, [visible, sheetRef])
-
-  const renderBackdrop = useCallback(
-    (backdropProps: BottomSheetBackdropProps) => (
-      <BottomSheetBackdrop
-        {...backdropProps}
-        appearsOnIndex={0}
-        disappearsOnIndex={-1}
-        pressBehavior="close"
-      />
-    ),
-    [],
-  )
+  }, [])
 
   function handleConfirm() {
     if (!reason) return
@@ -86,39 +56,79 @@ export function CancelRequestSheet(props: CancelRequestSheetProps) {
   }
 
   return (
-    <BottomSheetModal
-      ref={sheetRef}
-      enablePanDownToClose
-      enableDynamicSizing={false}
-      snapPoints={snapPoints}
+    <AppSheet
+      visible={visible}
+      onClose={onClose}
       onDismiss={handleSheetDismiss}
-      backdropComponent={renderBackdrop}
-      handleIndicatorStyle={styles.handle}
-      backgroundStyle={styles.sheet}
+      sizing={{ mode: "fixed", snapPoints }}
+      contentContainerStyle={styles.sheetContent}
+      keyboardShouldPersistTaps="handled"
     >
-      <BottomSheetScrollView
-        contentContainerStyle={styles.sheetContent}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Text preset="subheading" tx="orderDetail:cancelSheetTitle" style={styles.sheetTitle} />
-        <Text preset="formHelper" tx="orderDetail:cancelSheetMessage" style={styles.sheetMessage} />
+      <Text preset="subheading" tx="orderDetail:cancelSheetTitle" style={styles.sheetTitle} />
+      <Text preset="formHelper" tx="orderDetail:cancelSheetMessage" style={styles.sheetMessage} />
 
-        <CancelReasonList selected={reason} onSelect={setReason} />
+      <CancelReasonList selected={reason} onSelect={setReason} />
 
-        <View style={styles.sheetActions}>
-          <Button
-            preset="primary"
-            tx="orderDetail:confirmCancel"
-            onPress={handleConfirm}
-            disabled={!reason}
-            style={styles.confirmButton}
-            pressedStyle={styles.confirmButtonPressed}
-            disabledStyle={styles.confirmButtonDisabled}
-            textStyle={styles.confirmText}
-          />
-          <Button preset="default" tx="orderDetail:keepRequest" onPress={onClose} />
-        </View>
-      </BottomSheetScrollView>
-    </BottomSheetModal>
+      <View style={styles.sheetActions}>
+        <Button
+          preset="primary"
+          tx="orderDetail:confirmCancel"
+          onPress={handleConfirm}
+          disabled={!reason}
+          style={styles.confirmButton}
+          pressedStyle={styles.confirmButtonPressed}
+          disabledStyle={styles.confirmButtonDisabled}
+          textStyle={styles.confirmText}
+        />
+        <Button preset="default" tx="orderDetail:keepRequest" onPress={onClose} />
+      </View>
+    </AppSheet>
+  )
+}
+
+interface CancelReasonListProps {
+  /**
+   * Currently selected reason, or null.
+   */
+  selected: CancelReason | null
+  /**
+   * Called when a reason row is pressed.
+   */
+  onSelect: (reason: CancelReason) => void
+}
+
+/**
+ * Radio-style reason rows for the cancellation sheet.
+ */
+function CancelReasonList(props: CancelReasonListProps) {
+  const styles = useStyles(createStyles)
+
+  const { selected, onSelect } = props
+  const { theme } = useAppTheme()
+
+  return (
+    <>
+      {CANCEL_REASON_OPTIONS.map((option) => {
+        const isSelected = option.value === selected
+
+        return (
+          <Pressable
+            key={option.value}
+            onPress={() => onSelect(option.value)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: isSelected }}
+            accessibilityLabel={translate(option.labelTx)}
+            style={({ pressed }) => [styles.reasonRow, pressed && styles.reasonPressed]}
+          >
+            <Text
+              weight={isSelected ? "semiBold" : undefined}
+              text={translate(option.labelTx)}
+              style={[styles.reasonText, isSelected && styles.reasonTextSelected]}
+            />
+            {isSelected && <SvgIcon icon="Check" size={18} fill={theme.colors.tint} />}
+          </Pressable>
+        )
+      })}
+    </>
   )
 }

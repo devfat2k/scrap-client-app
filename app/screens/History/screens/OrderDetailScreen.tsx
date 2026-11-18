@@ -4,10 +4,12 @@ import { useScrollToTop } from "@react-navigation/native"
 import type { NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import { Header } from "@/components/Header"
+import { DriverContact } from "@/components/order/DriverContact"
 import { Text } from "@/components/Text"
 import { ORDER_STATUS } from "@/domain/orderStatus"
 import { translate } from "@/i18n/translate"
 import type { HistoryStackParamList } from "@/navigators/navigationTypes"
+import { goBack } from "@/navigators/navigationUtilities"
 import { useNetworkStatus } from "@/services/network"
 import { useAppTheme } from "@/theme/context"
 import { useStyles } from "@/theme/useStyles"
@@ -18,7 +20,6 @@ import { CancelRequestButton } from "../components/CancelRequestButton"
 import { CancelRequestSheet } from "../components/CancelRequestSheet"
 import { OfflineNotice } from "../components/OfflineNotice"
 import { OrderCollectionCard } from "../components/OrderCollectionCard"
-import { OrderDriver } from "../components/OrderDriver"
 import { OrderItemsCard } from "../components/OrderItemsCard"
 import { OrderNotFoundState } from "../components/OrderNotFoundState"
 import { OrderStatusLabel } from "../components/OrderStatusLabel"
@@ -71,7 +72,7 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
 
   return (
     <View style={styles.screen}>
-      <Header leftIcon="Back" title={`#${order.id}`} />
+      <Header leftIcon="Back" title={`#${order.id}`} onLeftPress={() => goBack()} />
 
       <ScrollView
         ref={scrollRef}
@@ -98,7 +99,7 @@ export function OrderDetailScreen({ navigation, route }: OrderDetailScreenProps)
         <OrderCollectionCard order={order} status={currentStatus} />
         {currentStatus === ORDER_STATUS.DISPATCHED && (
           <View style={styles.driverCard}>
-            <OrderDriver driver={order.driverAssignment} />
+            <DriverContact driver={order.driverAssignment} />
           </View>
         )}
         <OrderItemsCard order={order} />
