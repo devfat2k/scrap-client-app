@@ -21,6 +21,7 @@ import Home from "./Home"
 import Moon from "./Moon"
 import Phone from "./Phone"
 import Profile from "./Profile"
+import Search from "./Search"
 import Send from "./Send"
 import Setting from "./Setting"
 import Share from "./Share"
@@ -51,6 +52,7 @@ export const SvgType = {
   Moon: Moon,
   Phone: Phone,
   Profile: Profile,
+  Search: Search,
   Send: Send,
   Setting: Setting,
   Share: Share,
