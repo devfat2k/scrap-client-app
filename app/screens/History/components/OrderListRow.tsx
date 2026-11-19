@@ -35,6 +35,7 @@ export function OrderListRow({ order, onPress }: OrderListRowProps) {
       dateLabel={getCardDate(order)}
       accessibilityLabel={getOrderCardAccessibilityLabel(order)}
       onPress={onPress}
+      density="compact"
       driverContact={
         order.status === ORDER_STATUS.DISPATCHED ? (
           <DriverContact driver={order.driverAssignment} />

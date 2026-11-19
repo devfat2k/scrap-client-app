@@ -17,9 +17,11 @@ const routes = HISTORY_TABS.map((key) => ({ key }))
 interface Props {
   orders: RequestOrder[]
   onOpenOrder: (id: string) => void
+  isLoading?: boolean
+  onClearCriteria?: () => void
 }
 
-export function HistoryTabs({ orders, onOpenOrder }: Props) {
+export function HistoryTabs({ orders, onOpenOrder, isLoading, onClearCriteria }: Props) {
   const styles = useStyles(createStyles)
 
   const [index, setIndex] = useState(0)
@@ -64,7 +66,13 @@ export function HistoryTabs({ orders, onOpenOrder }: Props) {
         />
       )}
       renderScene={({ route }) => (
-        <HistoryOrderList orders={groups[route.key]} tabKey={route.key} onOpenOrder={onOpenOrder} />
+        <HistoryOrderList
+          orders={groups[route.key]}
+          tabKey={route.key}
+          onOpenOrder={onOpenOrder}
+          isLoading={isLoading}
+          onClearCriteria={onClearCriteria}
+        />
       )}
     />
   )

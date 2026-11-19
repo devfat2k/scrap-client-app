@@ -6,11 +6,12 @@ export const createStyles = ({ colors, spacing, typography, isDark }: Theme) =>
     card: {
       backgroundColor: colors.card,
       borderRadius: spacing.md,
-      borderWidth: 1.5,
+      borderWidth: 2,
       borderColor: colors.border,
       overflow: "hidden",
     },
     body: { padding: spacing.md, gap: spacing.sm },
+    compactBody: { padding: spacing.sm, gap: spacing.xs },
     header: {
       flexDirection: "row",
       flexWrap: "wrap",
@@ -37,6 +38,7 @@ export const createStyles = ({ colors, spacing, typography, isDark }: Theme) =>
       borderTopColor: colors.separator,
       paddingTop: spacing.xs,
     },
+    compactFooter: { paddingTop: spacing.xxs },
     footerDate: { color: colors.textDim, flexShrink: 1 },
     detailsLink: {
       flexDirection: "row",

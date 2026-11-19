@@ -92,7 +92,7 @@ const requestEn = {
     backHome: "Back to home",
   },
   category: {
-    mixed: "Mixed (unsorted)",
+    mixed: "Mixed",
     plastic: "Plastic",
     glass: "Glass",
     aluminium: "Aluminium",

@@ -252,7 +252,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
 const $inputWrapperStyle: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
   alignItems: "flex-start",
   borderWidth: 1,
-  borderRadius: spacing.xs,
+  borderRadius: spacing.sm,
   backgroundColor: colors.palette.neutral200,
   borderColor: colors.palette.neutral400,
   overflow: "hidden",

@@ -8,6 +8,7 @@ import {
   type BottomSheetBackdropProps,
   type BottomSheetModalProps,
 } from "@gorhom/bottom-sheet"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useStyles } from "@/theme/useStyles"
 import { useBottomSheetModal } from "@/utils/useBottomSheetModal"
@@ -72,6 +73,7 @@ export const AppSheet = forwardRef<AppSheetHandle, AppSheetProps>(function AppSh
   } = props
   const styles = useStyles(createStyles)
   const { height } = useWindowDimensions()
+  const insets = useSafeAreaInsets()
   const { sheetRef, handleDismiss } = useBottomSheetModal({ visible, onClose })
 
   useImperativeHandle(ref, () => ({ dismiss: () => sheetRef.current?.dismiss() }), [sheetRef])
@@ -101,10 +103,16 @@ export const AppSheet = forwardRef<AppSheetHandle, AppSheetProps>(function AppSh
       enableDynamicSizing={sizing?.mode !== "fixed"}
       snapPoints={sizing?.mode === "fixed" ? sizing.snapPoints : undefined}
       maxDynamicContentSize={
-        sizing?.mode === "dynamic" && sizing.maxHeightRatio !== undefined
-          ? height * sizing.maxHeightRatio
-          : undefined
+        sizing?.mode === "fixed"
+          ? undefined
+          : Math.min(
+              height - insets.top,
+              sizing?.mode === "dynamic" && sizing.maxHeightRatio !== undefined
+                ? height * sizing.maxHeightRatio
+                : Number.POSITIVE_INFINITY,
+            )
       }
+      topInset={insets.top}
       onDismiss={handleModalDismiss}
       backdropComponent={renderBackdrop}
       backgroundStyle={[appearance === "standard" && styles.sheet, backgroundStyle]}

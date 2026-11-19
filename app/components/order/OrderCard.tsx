@@ -17,11 +17,21 @@ interface OrderCardProps {
   onPress: () => void
   children: ReactNode
   driverContact?: ReactNode
+  density?: "default" | "compact"
 }
 
 /** Details and driver contact are sibling actions, never nested press targets. */
 export function OrderCard(props: OrderCardProps) {
-  const { id, status, dateLabel, accessibilityLabel, onPress, children, driverContact } = props
+  const {
+    id,
+    status,
+    dateLabel,
+    accessibilityLabel,
+    onPress,
+    children,
+    driverContact,
+    density = "default",
+  } = props
   const styles = useStyles(createStyles)
   const { theme } = useAppTheme()
   const statusColor = getStatusColor(theme, status)
@@ -35,7 +45,7 @@ export function OrderCard(props: OrderCardProps) {
         style={({ pressed }) => [pressed && styles.pressed]}
       >
         <View
-          style={styles.body}
+          style={[styles.body, density === "compact" && styles.compactBody]}
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
         >
@@ -51,7 +61,7 @@ export function OrderCard(props: OrderCardProps) {
             </View>
           </View>
           {children}
-          <View style={styles.footer}>
+          <View style={[styles.footer, density === "compact" && styles.compactFooter]}>
             <Text size="xxs" text={dateLabel} style={styles.footerDate} />
             <View style={styles.detailsLink}>
               <Text preset="formHelper" tx="history:viewDetails" style={styles.action} />
